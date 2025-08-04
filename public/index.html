@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HEIC to JPG</title>
+</head>
+<body>
+<h2>Convert .heic to .jpg (Multiple)</h2>
+<form id="uploadForm" enctype="multipart/form-data">
+  <input type="file" name="heicFiles" accept=".heic" multiple required />
+  <button type="submit">Convert All</button>
+</form>
+
+<script>
+  document.getElementById('uploadForm').onsubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+
+    const response = await fetch('/convert', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (response.ok) {
+      const blob = await response.blob();
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'converted_images.zip';
+      link.click();
+    } else {
+      alert('Conversion failed.');
+    }
+  };
+</script>
+</body>
+</html>
