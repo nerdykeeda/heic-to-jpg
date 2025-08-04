@@ -20,6 +20,9 @@
       method: 'POST',
       body: formData
     });
+    <div id="loader" style="display:none; text-align: center; margin-top: 20px;">
+  <p>Converting... Please wait.</p>
+</div>
 
     if (response.ok) {
       const blob = await response.blob();
