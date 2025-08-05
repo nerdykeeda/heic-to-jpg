@@ -3,22 +3,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HEIC to JPG Converter</title>
+  <title>imgtojpg.org</title>
+  
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-blue-50 min-h-screen flex flex-col items-center justify-center px-4 py-8">
 
   <div class="bg-white rounded-2xl shadow-xl max-w-xl w-full p-6 space-y-6">
-    <h1 class="text-2xl font-bold text-blue-700 text-center">HEIC to JPG Converter</h1>
+   <div style="text-align: center; margin-bottom: 2rem;">
+  <h1 style="font-size: 2.5rem; color: #1e3a8a; margin-bottom: 0.5rem;">imgtojpg.org</h1>
+  <p style="font-size: 1.2rem; color: #4b5563;">Convert HEIC, PNG, WEBP, AVIF to JPG – Free & Easy</p>
+</div>
 
     <form id="uploadForm" class="space-y-4">
-      <input type="file" name="heicFiles" id="fileInput" accept=".heic" multiple
-        class="w-full border border-blue-200 rounded-lg p-2"/>
-      <button type="submit"
-        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition duration-200">
-        Convert Files
-      </button>
-    </form>
+      
+  <input 
+    type="file" 
+    name="inputFiles" 
+    id="fileInput" 
+    accept="image/*"
+    multiple 
+    class="w-full border border-blue-200 rounded-lg p-2"/>
+
+  <select 
+  name="outputFormat" 
+  id="outputFormat"
+  class="w-full border border-blue-200 rounded-lg p-2">
+  <option value="jpg">JPG</option>
+  <option value="png">PNG</option>
+  <option value="webp">WebP</option>
+  <option value="tiff">TIFF</option>
+  <option value="bmp">BMP</option>
+  <option value="gif">GIF</option>
+  <option value="heic">HEIC</option>
+</select>
+
+  <button type="submit"
+    class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition duration-200">
+    Convert Files
+  </button>
+</form>
 
     <div id="statusBox" class="hidden space-y-2">
       <p id="statusText" class="text-blue-700 font-medium"></p>
@@ -70,13 +94,26 @@
           statusBox.classList.add('hidden');
 
           imagePreview.innerHTML = '';
-          data.images.forEach(img => {
-            const imgElem = document.createElement('img');
-            imgElem.src = 'data:image/jpeg;base64,' + img.buffer;
-            imgElem.alt = img.name;
-            imgElem.className = 'w-full object-cover rounded-lg';
-            imagePreview.appendChild(imgElem);
-          });
+         data.images.forEach(img => {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'space-y-2';
+
+  const imgElem = document.createElement('img');
+  imgElem.src = 'data:image/jpeg;base64,' + img.buffer;
+  imgElem.alt = img.name;
+  imgElem.className = 'w-full object-cover rounded-lg';
+
+  const downloadBtn = document.createElement('a');
+  downloadBtn.href = imgElem.src;
+  downloadBtn.download = img.name;
+  downloadBtn.textContent = '⬇️ Download';
+  downloadBtn.className = 'block w-full text-center bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-md';
+
+  wrapper.appendChild(imgElem);
+  wrapper.appendChild(downloadBtn);
+  imagePreview.appendChild(wrapper);
+});
+
 
           downloadAll.href = data.downloadLink;
           results.classList.remove('hidden');

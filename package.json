@@ -6,10 +6,11 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "archiver": "^5.3.1",
-    "express": "^4.18.2",
+    "archiver": "^5.3.2",
+    "express": "^4.21.2",
     "fs": "0.0.1-security",
     "heic-convert": "^1.0.6",
-    "multer": "^2.0.2"
+    "multer": "^2.0.2",
+    "sharp": "^0.34.3"
   }
 }
