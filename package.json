@@ -11,6 +11,7 @@
     "fs": "0.0.1-security",
     "heic-convert": "^1.0.6",
     "multer": "^2.0.2",
-    "sharp": "^0.34.3"
+    "sharp": "^0.34.3",
+    "uuid": "^11.1.0"
   }
 }
