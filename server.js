@@ -24,6 +24,8 @@ app.post('/convert', upload.array('heicFiles'), async (req, res) => {
 
   archive.pipe(output);
 
+  const imageBuffers = [];
+
   try {
     for (const file of req.files) {
       try {
@@ -37,11 +39,16 @@ app.post('/convert', upload.array('heicFiles'), async (req, res) => {
         const jpgName = file.originalname.replace(/\.[^/.]+$/, '') + '.jpg';
         archive.append(jpgBuffer, { name: jpgName });
 
+        imageBuffers.push({
+          name: jpgName,
+          buffer: jpgBuffer.toString('base64')
+        });
+
         console.log(`✅ Converted: ${file.originalname}`);
       } catch (err) {
         console.error(`❌ Skipping ${file.originalname}: ${err.message}`);
       } finally {
-        fs.unlinkSync(file.path); // cleanup uploaded HEIC
+        fs.unlinkSync(file.path);
       }
     }
 
@@ -50,15 +57,16 @@ app.post('/convert', upload.array('heicFiles'), async (req, res) => {
     output.on('close', () => {
       res.json({
         success: true,
+        images: imageBuffers,
         downloadLink: `/${zipFilename}`
       });
     });
   } catch (err) {
-    console.error('Batch conversion error:', err);
+    console.error('Conversion error:', err);
     res.status(500).json({ success: false, message: 'Conversion failed' });
   }
 });
 
 app.listen(port, () => {
-  console.log(`🚀 HEIC to JPG server running at http://localhost:${port}`);
+  console.log(`🚀 Server running: http://localhost:${port}`);
 });

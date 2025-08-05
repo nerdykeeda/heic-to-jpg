@@ -1,66 +1,116 @@
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  padding: 40px;
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-h1 {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f2f8ff;
   color: #333;
 }
 
+.container {
+  max-width: 600px;
+  margin: 2rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.05);
+}
+
+h1, h2 {
+  text-align: center;
+  color: #0055aa;
+}
+
 form {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 90%;
-  max-width: 400px;
+  align-items: center;
+  gap: 1rem;
 }
 
-input[type="file"],
-button {
-  padding: 10px;
-  font-size: 1rem;
+.upload-label {
+  font-weight: bold;
+  color: #0055aa;
+  cursor: pointer;
+}
+
+input[type="file"] {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  width: 100%;
 }
 
 button {
-  background-color: #4CAF50;
+  background: #007bff;
   color: white;
+  padding: 0.6rem 1.5rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #45a049;
+  background: #005ecb;
 }
 
-#result {
-  margin-top: 20px;
-  word-wrap: break-word;
+.progress {
+  margin: 1rem 0;
+  background: #e3edff;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 25px;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: #007bff;
+  transition: width 0.3s ease;
+}
+
+#uploadStatus, #convertStatus {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+#imageContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+#imageContainer img {
+  max-width: 100px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.download-link {
+  display: block;
+  margin-top: 0.3rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #0055aa;
+}
+
+.hidden {
+  display: none;
 }
 
 @media (max-width: 600px) {
-  body {
-    padding: 20px;
+  .container {
+    margin: 1rem;
+    padding: 1rem;
   }
 
-  form {
-    width: 100%;
+  #imageContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #imageContainer img {
+    max-width: 80%;
   }
 }
-input[type="file"] {
-  width: 100%;
-}
-
-button {
-  width: 100%;
-}
-
