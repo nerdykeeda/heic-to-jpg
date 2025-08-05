@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-app.post('/convert', upload.array('image'), async (req, res) => {
+app.post('/convert', upload.array('heicFiles'), async (req, res) => {
   const zipFilename = 'converted_images.zip';
   const zipPath = path.join(__dirname, 'public', zipFilename);
   const output = fs.createWriteStream(zipPath);
