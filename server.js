@@ -1,11 +1,11 @@
+// server.js
 const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
-const sharp = require('sharp');
-const heicConvert = require('heic-convert');
 const archiver = require('archiver');
 const { v4: uuidv4 } = require('uuid');
+const Bree = require('bree');
 
 const app = express();
 const port = 3000;
@@ -14,71 +14,46 @@ app.use(express.static('public'));
 
 const upload = multer({ dest: 'uploads/' });
 
+const bree = new Bree({
+  root: path.join(__dirname, 'jobs'),
+  defaultExtension: 'js'
+});
+
 // POST /convert
 app.post('/convert', upload.array('inputFiles'), async (req, res) => {
   const outputFormat = req.body.outputFormat || 'jpg';
-
-  // Create unique session folder
   const sessionId = uuidv4();
   const sessionPath = path.join(__dirname, 'public', 'converted', sessionId);
   fs.mkdirSync(sessionPath, { recursive: true });
 
-  const zipFilename = 'converted_images.zip';
-  const zipPath = path.join(sessionPath, zipFilename);
-  const output = fs.createWriteStream(zipPath);
-  const archive = archiver('zip');
-  archive.pipe(output);
+  const jobData = {
+    files: req.files.map(f => ({
+      path: f.path,
+      originalname: f.originalname
+    })),
+    outputFormat,
+    sessionPath,
+    sessionId
+  };
 
-  const imageBuffers = [];
+  // Store job data temporarily
+  fs.writeFileSync(path.join(sessionPath, 'jobData.json'), JSON.stringify(jobData));
 
-  try {
-    for (const file of req.files) {
-      const ext = path.extname(file.originalname).toLowerCase();
-      const nameWithoutExt = path.parse(file.originalname).name;
-      const newFileName = `${nameWithoutExt}.${outputFormat}`;
-      const inputBuffer = fs.readFileSync(file.path);
-      let convertedBuffer;
-
-      if (ext === '.heic') {
-        if (outputFormat !== 'jpg') {
-          throw new Error('HEIC files can only be converted to JPG');
-        }
-
-        convertedBuffer = await heicConvert({
-          buffer: inputBuffer,
-          format: 'JPEG',
-          quality: 1
-        });
-      } else {
-        convertedBuffer = await sharp(inputBuffer)
-          .toFormat(outputFormat)
-          .toBuffer();
-      }
-
-      archive.append(convertedBuffer, { name: newFileName });
-
-      imageBuffers.push({
-        name: newFileName,
-        buffer: convertedBuffer.toString('base64')
-      });
-
-      console.log(`✅ Converted: ${file.originalname} → ${newFileName}`);
-      fs.unlinkSync(file.path); // cleanup temp upload
+  await bree.add({
+    name: `convert-${sessionId}`,
+    path: path.join(__dirname, 'jobs', 'convert.js'),
+    worker: {
+      workerData: jobData
     }
+  });
 
-    await archive.finalize();
+  await bree.run(`convert-${sessionId}`);
 
-    output.on('close', () => {
-      res.json({
-        success: true,
-        images: imageBuffers,
-        downloadLink: `/download/${sessionId}`
-      });
-    });
-  } catch (err) {
-    console.error('Conversion error:', err);
-    res.status(500).json({ success: false, message: 'Conversion failed' });
-  }
+  res.json({
+    success: true,
+    message: 'Conversion in progress',
+    downloadLink: `/download/${sessionId}`
+  });
 });
 
 // Serve the ZIP download

@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "archiver": "^5.3.2",
+    "bree": "^9.2.4",
     "express": "^4.21.2",
     "fs": "0.0.1-security",
     "heic-convert": "^1.0.6",
