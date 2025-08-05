@@ -56,3 +56,11 @@ button:hover {
     width: 100%;
   }
 }
+input[type="file"] {
+  width: 100%;
+}
+
+button {
+  width: 100%;
+}
+
