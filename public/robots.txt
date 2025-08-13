@@ -1,0 +1,31 @@
+User-agent: *
+Allow: /
+
+# Allow crawling of all pages
+Allow: /index.html
+Allow: /heic-to-jpg.html
+Allow: /png-to-jpg.html
+Allow: /webp-to-jpg.html
+Allow: /tiff-to-jpg.html
+Allow: /camera-raw-converter.html
+Allow: /blog.html
+Allow: /contact.html
+Allow: /help-center.html
+Allow: /privacy-policy.html
+Allow: /terms-of-use.html
+
+# Disallow crawling of admin and system files
+Disallow: /admin-login.html
+Disallow: /admin/
+Disallow: /uploads/
+Disallow: /converted/
+Disallow: /jobs/
+Disallow: /server.js
+Disallow: /package.json
+Disallow: /package-lock.json
+
+# Sitemap location
+Sitemap: https://imgtojpg.org/sitemap.xml
+
+# Crawl delay (optional - helps prevent overwhelming your server)
+Crawl-delay: 1

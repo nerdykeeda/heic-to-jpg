@@ -76,11 +76,25 @@
         </ul>
         
         <!-- Mobile menu button -->
-        <button class="sm:hidden p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition-all duration-200">
+        <button class="sm:hidden p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 transition-all duration-200" id="mobileMenuButton">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </button>
+        
+        <!-- Mobile menu -->
+        <div class="sm:hidden absolute top-16 left-0 w-full bg-white border-b border-gray-200 hidden" id="mobileMenu">
+          <ul class="py-4 space-y-2">
+            <li><a href="/" class="block px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100">Home</a></li>
+            <li><a href="/heic-to-jpg.html" class="block px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100">HEIC to JPG</a></li>
+            <li><a href="/png-to-jpg.html" class="block px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100">PNG to JPG</a></li>
+            <li><a href="/webp-to-jpg.html" class="block px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100">WebP to JPG</a></li>
+            <li><a href="/tiff-to-jpg.html" class="block px-4 py-2 text-blue-600 font-semibold bg-blue-50">TIFF to JPG</a></li>
+            <li><a href="/camera-raw-converter.html" class="block px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100">Camera Raw</a></li>
+            <li><a href="blog.html" class="block px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100">Blog</a></li>
+            <li><a href="/admin-login.html" class="block px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100">Admin</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
@@ -324,6 +338,7 @@
             <li><a href="/png-to-jpg.html" class="hover:text-white transition-colors duration-200">PNG to JPG</a></li>
             <li><a href="/webp-to-jpg.html" class="hover:text-white transition-colors duration-200">WebP to JPG</a></li>
             <li><a href="/tiff-to-jpg.html" class="hover:text-white transition-colors duration-200">TIFF to JPG</a></li>
+            <li><a href="/camera-raw-converter.html" class="hover:text-white transition-colors duration-200">Camera Raw</a></li>
           </ul>
         </div>
         
@@ -683,22 +698,12 @@
     });
 
     // Mobile menu toggle
-    const mobileMenuButton = document.querySelector('button.sm\\:hidden');
-    const mobileMenu = document.querySelector('ul.sm\\:flex');
+    const mobileMenuButton = document.getElementById('mobileMenuButton');
+    const mobileMenu = document.getElementById('mobileMenu');
     
     if (mobileMenuButton && mobileMenu) {
       mobileMenuButton.addEventListener('click', () => {
         mobileMenu.classList.toggle('hidden');
-        mobileMenu.classList.toggle('flex');
-        mobileMenu.classList.toggle('flex-col');
-        mobileMenu.classList.toggle('absolute');
-        mobileMenu.classList.toggle('top-16');
-        mobileMenu.classList.toggle('left-0');
-        mobileMenu.classList.toggle('w-full');
-        mobileMenu.classList.toggle('bg-white');
-        mobileMenu.classList.toggle('border-b');
-        mobileMenu.classList.toggle('border-gray-200');
-        mobileMenu.classList.toggle('p-4');
       });
     }
 
@@ -745,6 +750,7 @@
             <li><a href="/png-to-jpg.html" class="hover:text-white transition-colors">PNG to JPG</a></li>
             <li><a href="/webp-to-jpg.html" class="hover:text-white transition-colors">WebP to JPG</a></li>
             <li><a href="/tiff-to-jpg.html" class="hover:text-white transition-colors">TIFF to JPG</a></li>
+            <li><a href="/camera-raw-converter.html" class="hover:text-white transition-colors">Camera Raw</a></li>
           </ul>
         </div>
         <div>
