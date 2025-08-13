@@ -1,0 +1,24 @@
+<!-- contact.html -->
+<div style="padding: 24px; max-width: 480px; width: 100%;">
+    <div style="display: flex; justify-content: flex-end;">
+  <button onclick="document.getElementById('contactModal').style.display='none'"
+    style="background: none; border: none; font-size: 1.2rem; cursor: pointer;">✕</button>
+</div>
+
+  <h2 style="font-size: 1.5rem; margin-bottom: 16px; color: #1e40af;">Contact Us</h2>
+  <form id="contactForm" style="display: flex; flex-direction: column; gap: 12px;">
+    <input type="text" id="name" name="name" placeholder="Your name" required
+      style="padding: 10px; border: 1px solid #ccc; border-radius: 8px;" />
+
+    <input type="email" id="email" name="email" placeholder="Your email" required
+      style="padding: 10px; border: 1px solid #ccc; border-radius: 8px;" />
+
+    <textarea id="message" name="message" rows="4" placeholder="Your message" required
+      style="padding: 10px; border: 1px solid #ccc; border-radius: 8px;"></textarea>
+
+    <button type="submit"
+      style="background-color: #2563eb; color: white; padding: 10px; border: none; border-radius: 8px; cursor: pointer;">
+      Send Message
+    </button>
+  </form>
+</div>
