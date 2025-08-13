@@ -21,6 +21,8 @@ This guide explains how to deploy your image converter application to Netlify.
 - ❌ HEIC/PNG/WebP/TIFF/SVG conversion
 - ❌ ZIP file downloads
 - ❌ Backend processing
+- ❌ Image conversion - Won't work (needs backend)
+- ❌ File uploads - Won't work (needs backend)
 
 ## 📋 Deployment Steps
 
