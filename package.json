@@ -8,8 +8,7 @@
     "watch:css": "tailwindcss -i ./src/input.css -o ./public/style.css --watch",
     "build:css": "tailwindcss -i ./src/input.css -o ./public/style.css",
     "build:css:prod": "tailwindcss -i ./src/input.css -o ./public/style.css --minify",
-    "build": "npm run build:css:prod",
-    "deploy": "npm run build && echo 'Ready for Netlify deployment!'"
+    "build": "npm run build:css:prod"
   },
   "dependencies": {
     "archiver": "^5.3.2",
