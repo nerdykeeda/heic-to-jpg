@@ -11,7 +11,6 @@ const app = express();
 const port = 3000;
 
 app.use(express.static('public'));
-app.use('/converted', express.static(path.join(__dirname, 'public', 'converted')));
 app.use(express.json()); // Add this line for parsing JSON requests
 
 // Admin authentication middleware

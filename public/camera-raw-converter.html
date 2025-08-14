@@ -679,6 +679,11 @@
           progressBar.style.width = '100%';
           statusText.textContent = 'Conversion complete!';
           
+          // Debug: Log the conversion response
+          console.log('Conversion response:', data);
+          console.log('Converted files:', data.convertedFiles);
+          console.log('Download link:', data.downloadLink);
+          
           // Store conversion data globally for download functionality
           window.lastConversionData = data;
           
@@ -706,15 +711,24 @@
       // Clear previous results
       imagePreview.innerHTML = '';
       
+      // Use actual converted filenames from server response if available
+      const convertedFiles = conversionData.convertedFiles || [];
+      
       // Create preview for each file with individual download buttons
       fileList.forEach((file, index) => {
         const previewDiv = document.createElement('div');
         previewDiv.className = 'text-center';
         
-        // Get file extension and create new filename
-        const originalExt = file.name.split('.').pop().toLowerCase();
-        const newExt = outputFormat.toLowerCase();
-        const newFilename = file.name.replace(`.${originalExt}`, `.${newExt}`);
+        // Use actual converted filename from server, or create one if not available
+        let newFilename;
+        if (convertedFiles[index]) {
+          newFilename = convertedFiles[index];
+        } else {
+          // Fallback: create filename based on input
+          const originalExt = file.name.split('.').pop().toLowerCase();
+          const newExt = outputFormat.toLowerCase();
+          newFilename = file.name.replace(`.${originalExt}`, `.${newExt}`);
+        }
         
         previewDiv.innerHTML = `
           <div class="bg-gray-100 rounded-lg p-4 mb-2">
@@ -744,8 +758,13 @@
           const format = this.getAttribute('data-format');
           const sessionId = this.getAttribute('data-session-id');
           
+          // Debug: Log download attempt
+          console.log('Download attempt:', { filename, format, sessionId });
+          
           // Create download link to the actual converted file
           const downloadUrl = `/converted/${sessionId}/${filename}`;
+          console.log('Download URL:', downloadUrl);
+          
           const a = document.createElement('a');
           a.href = downloadUrl;
           a.download = filename;
