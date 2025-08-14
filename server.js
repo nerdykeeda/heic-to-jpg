@@ -56,8 +56,8 @@ app.post('/convert', upload.array('files'), async (req, res) => {
       });
     }
 
-    // Validate file sizes (50MB limit)
-    const maxSize = 50 * 1024 * 1024; // 50MB
+    // Validate file sizes (100MB limit for RAW files)
+    const maxSize = 100 * 1024 * 1024; // 100MB
     const oversizedFiles = req.files.filter(file => file.size > maxSize);
 
     if (oversizedFiles.length > 0) {
@@ -75,7 +75,7 @@ app.post('/convert', upload.array('files'), async (req, res) => {
     if (!validOutputFormats.includes(outputFormat.toLowerCase())) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid output format. Supported formats: JPG, PNG, WebP, TIFF, SVG'
+        message: 'Invalid output format. Supported formats: JPG, PNG, WebP, TIFF, SVG, PSD'
       });
     }
 

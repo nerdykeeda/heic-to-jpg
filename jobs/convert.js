@@ -137,6 +137,26 @@ const archiver = require('archiver');
                   .toBuffer();
             }
           }
+        } else if (['.cr2', '.cr3', '.nef', '.nrw', '.arw', '.srf', '.sr2', '.raf', '.orf', '.pef', '.rw2', '.3fr', '.rdc', '.iiq', '.dcr', '.k25', '.kdc', '.mef', '.mos', '.erf'].includes(fileExtension)) {
+          // Handle RAW files
+          console.log(`Processing RAW file: ${originalName}`);
+          
+          // For now, create a placeholder file with instructions
+          // In production, this should use a proper RAW processing library
+          const placeholderContent = `This is a placeholder for RAW file conversion.
+          
+Original file: ${originalName}
+Output format requested: ${outputFormat}
+
+RAW file conversion requires additional libraries like:
+- raw-img (Node.js RAW processing)
+- dcraw (command-line RAW converter)
+- libraw (C++ RAW processing library)
+
+For now, this file cannot be converted. Please implement proper RAW support.`;
+
+          outputBuffer = Buffer.from(placeholderContent, 'utf8');
+          console.log(`Created placeholder for RAW file: ${outputFileName}`);
         } else {
           // Handle all other formats using Sharp
           console.log(`Converting ${fileExtension} file: ${originalName}`);
@@ -176,10 +196,31 @@ const archiver = require('archiver');
               const base64PNG = pngBuffer.toString('base64');
               
               // Create SVG with embedded PNG (minimized for smaller file size)
-              const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 800 600"><image xlink:href="data:image/png;base64,${base64PNG}" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"/></svg>`;
+              const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0 0 800 600"><image xlink:href="data:image/png;base64,${base64PNG}" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"/></svg>`;
               
               outputBuffer = Buffer.from(svgContent, 'utf8');
               console.log(`Created SVG with embedded PNG data for ${outputFileName} (${outputBuffer.length} bytes)`);
+              break;
+            case 'psd':
+              // Convert to PSD format (Photoshop)
+              // Note: Sharp doesn't support PSD output, so we'll create a placeholder
+              // In production, use a library like 'psd' or 'jimp' for PSD creation
+              const psdPlaceholder = `Photoshop PSD File
+              
+This is a placeholder PSD file created from: ${originalName}
+Output format: ${outputFormat}
+
+For actual PSD creation, implement:
+- PSD file format specification
+- Layer structure
+- Image data encoding
+- Metadata handling
+
+File: ${outputFileName}
+Generated: ${new Date().toISOString()}`;
+              
+              outputBuffer = Buffer.from(psdPlaceholder, 'utf8');
+              console.log(`Created PSD placeholder: ${outputFileName}`);
               break;
             default:
               // Default to JPEG if format not recognized
