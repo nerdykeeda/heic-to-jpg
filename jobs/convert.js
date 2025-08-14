@@ -2,6 +2,7 @@
 const { parentPort, workerData } = require('worker_threads');
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 const sharp = require('sharp');
 const heicConvert = require('heic-convert');
 const archiver = require('archiver');
@@ -138,234 +139,76 @@ const archiver = require('archiver');
             }
           }
         } else if (['.cr2', '.cr3', '.nef', '.nrw', '.arw', '.srf', '.sr2', '.raf', '.orf', '.pef', '.rw2', '.3fr', '.rdc', '.iiq', '.dcr', '.k25', '.kdc', '.mef', '.mos', '.erf'].includes(fileExtension)) {
-          // Handle RAW files with intelligent fallback and clear user guidance
-          console.log(`Processing RAW file: ${originalName} with smart conversion system`);
+          // Handle RAW files with ImageMagick + LibRaw for all formats
+          console.log(`Processing RAW file: ${originalName} with ImageMagick + LibRaw`);
           
-          let conversionSuccess = false;
-          let errorDetails = [];
-          let formatSupport = '';
-          
-          // Determine format support level
-          if (fileExtension === '.cr3') {
-            formatSupport = 'CR3 (Canon newest format) - Limited support in web tools';
-          } else if (fileExtension === '.cr2') {
-            formatSupport = 'CR2 (Canon older format) - Better support';
-          } else if (fileExtension === '.nef') {
-            formatSupport = 'NEF (Nikon) - Good support';
-          } else if (fileExtension === '.arw') {
-            formatSupport = 'ARW (Sony) - Variable support';
-          } else if (fileExtension === '.raf') {
-            formatSupport = 'RAF (Fujifilm) - Limited support';
-          } else {
-            formatSupport = `${fileExtension.toUpperCase()} - Variable support`;
-          }
-          
-          // Approach 1: Try Sharp with failOnError: false and metadata check
           try {
-            console.log(`Attempting Sharp conversion for ${originalName} (${formatSupport})`);
+            // Use ImageMagick + LibRaw for all RAW conversions
+            console.log(`Using ImageMagick + LibRaw for ${outputFormat} conversion: ${originalName}`);
             
-            // First, try to read metadata without failing
-            const metadataSharp = sharp(inputPath, { failOnError: false });
-            const metadata = await metadataSharp.metadata();
+            const outputPath = path.join(sessionPath, outputFileName);
             
-            console.log(`Image metadata: ${JSON.stringify(metadata)}`);
-            
-            if (metadata.width && metadata.height && metadata.width > 0 && metadata.height > 0) {
-              console.log(`Image readable with valid dimensions: ${metadata.width}x${metadata.height}`);
-              
-              // Now try actual conversion
-              const sharpInstance = sharp(inputPath, { failOnError: false });
-              
-              switch (outputFormat.toLowerCase()) {
-                case 'jpg':
-                case 'jpeg':
-                  outputBuffer = await sharpInstance
-                    .jpeg({ quality: 90, progressive: true })
-                    .toBuffer();
-                  console.log(`Sharp successfully converted RAW to JPEG: ${outputBuffer.length} bytes`);
-                  conversionSuccess = true;
-                  break;
-                case 'png':
-                  outputBuffer = await sharpInstance
-                    .png({ compressionLevel: 9, progressive: true })
-                    .toBuffer();
-                  console.log(`Sharp successfully converted RAW to PNG: ${outputBuffer.length} bytes`);
-                  conversionSuccess = true;
-                  break;
-                case 'webp':
-                  outputBuffer = await sharpInstance
-                    .webp({ quality: 90, effort: 6 })
-                    .toBuffer();
-                  console.log(`Sharp successfully converted RAW to WebP: ${outputBuffer.length} bytes`);
-                  conversionSuccess = true;
-                  break;
-                case 'tiff':
-                  outputBuffer = await sharpInstance
-                    .tiff({ compression: 'lzw', quality: 90 })
-                    .toBuffer();
-                  console.log(`Sharp successfully converted RAW to TIFF: ${outputBuffer.length} bytes`);
-                  conversionSuccess = true;
-                  break;
-                case 'psd':
-                  // For PSD, we'll create a placeholder since Sharp doesn't support PSD output
-                  const psdPlaceholder = `Adobe Photoshop Document (PSD) - Placeholder
-                  
-This is a placeholder file for PSD format conversion.
-The original RAW file was: ${originalName}
-
-PSD files require specialized processing that cannot be done in the browser.
-For professional PSD conversion, please use desktop software like Adobe Photoshop.
-
-File: ${outputFileName}
-Generated: ${new Date().toISOString()}`;
-                  
-                  outputBuffer = Buffer.from(psdPlaceholder, 'utf8');
-                  console.log(`Created PSD placeholder: ${outputFileName}`);
-                  conversionSuccess = true;
-                  break;
-                default:
-                  // Default to JPEG for RAW conversions
-                  console.log(`Unknown format ${outputFormat}, defaulting to JPEG for RAW`);
-                  outputBuffer = await sharpInstance
-                    .jpeg({ quality: 90, progressive: true })
-                    .toBuffer();
-                  console.log(`Sharp defaulted to JPEG: ${outputBuffer.length} bytes`);
-                  conversionSuccess = true;
-              }
+            // Configure ImageMagick command based on output format
+            let magickCommand;
+            if (outputFormat.toLowerCase() === 'jpg' || outputFormat.toLowerCase() === 'jpeg') {
+              // For JPG: Convert to JPEG with quality and auto-orient
+              magickCommand = `magick "${inputPath}" -auto-orient -quality 90 "${outputPath}"`;
+            } else if (outputFormat.toLowerCase() === 'tiff') {
+              // For TIFF: Convert to TIFF with quality
+              magickCommand = `magick "${inputPath}" -quality 100 "${outputPath}"`;
+            } else if (outputFormat.toLowerCase() === 'psd') {
+              // For PSD: Convert to PSD with auto-orient and quality
+              magickCommand = `magick "${inputPath}" -auto-orient -quality 100 "${outputPath}"`;
+            } else if (outputFormat.toLowerCase() === 'png') {
+              // For PNG: Convert to PNG with compression
+              magickCommand = `magick "${inputPath}" -auto-orient "${outputPath}"`;
+            } else if (outputFormat.toLowerCase() === 'webp') {
+              // For WebP: Convert to WebP with quality
+              magickCommand = `magick "${inputPath}" -auto-orient -quality 90 "${outputPath}"`;
             } else {
-              throw new Error(`Invalid metadata: width=${metadata.width}, height=${metadata.height}`);
+              // Default: Convert to JPEG
+              magickCommand = `magick "${inputPath}" -auto-orient -quality 90 "${outputPath}"`;
             }
             
-          } catch (sharpError) {
-            console.log(`Sharp conversion failed: ${sharpError.message}`);
-            errorDetails.push(`Sharp conversion: ${sharpError.message}`);
+            console.log(`Executing ImageMagick command: ${magickCommand}`);
             
-            // Approach 2: Try to create a thumbnail/preview version
+            execSync(magickCommand, { cwd: sessionPath, stdio: 'pipe' });
+            
+            // Check if ImageMagick created the output file
+            if (!fs.existsSync(outputPath)) {
+              throw new Error(`ImageMagick failed to create output file at ${outputPath}`);
+            }
+            
+            // Read the converted file
+            outputBuffer = fs.readFileSync(outputPath);
+            console.log(`ImageMagick successfully converted RAW file: ${outputFileName} (${outputBuffer.length} bytes)`);
+            
+            // Clean up the temporary ImageMagick output file
             try {
-              console.log(`Attempting thumbnail creation for ${originalName}`);
-              
-              // Try to create a smaller version which might work better
-              const thumbnailSharp = sharp(inputPath, { failOnError: false });
-              
-              // Resize to a smaller dimension to see if that helps
-              const resizedSharp = thumbnailSharp.resize(800, 600, { 
-                fit: 'inside',
-                withoutEnlargement: true 
-              });
-              
-              switch (outputFormat.toLowerCase()) {
-                case 'jpg':
-                case 'jpeg':
-                  outputBuffer = await resizedSharp
-                    .jpeg({ quality: 85, progressive: true })
-                    .toBuffer();
-                  console.log(`Thumbnail conversion to JPEG successful: ${outputBuffer.length} bytes`);
-                  conversionSuccess = true;
-                  break;
-                case 'png':
-                  outputBuffer = await resizedSharp
-                    .png({ compressionLevel: 6, progressive: true })
-                    .toBuffer();
-                  console.log(`Thumbnail conversion to PNG successful: ${outputBuffer.length} bytes`);
-                  conversionSuccess = true;
-                  break;
-                case 'webp':
-                  outputBuffer = await resizedSharp
-                    .webp({ quality: 80, effort: 4 })
-                    .toBuffer();
-                  console.log(`Thumbnail conversion to WebP successful: ${outputBuffer.length} bytes`);
-                  conversionSuccess = true;
-                  break;
-                case 'tiff':
-                  outputBuffer = await resizedSharp
-                    .tiff({ compression: 'lzw', quality: 80 })
-                    .toBuffer();
-                  console.log(`Thumbnail conversion to TIFF successful: ${outputBuffer.length} bytes`);
-                  conversionSuccess = true;
-                  break;
-                default:
-                  outputBuffer = await resizedSharp
-                    .jpeg({ quality: 85, progressive: true })
-                    .toBuffer();
-                  console.log(`Thumbnail conversion to JPEG successful: ${outputBuffer.length} bytes`);
-                  conversionSuccess = true;
-              }
-              
-            } catch (thumbnailError) {
-              console.log(`Thumbnail conversion also failed: ${thumbnailError.message}`);
-              errorDetails.push(`Thumbnail conversion: ${thumbnailError.message}`);
-              
-              // Approach 3: Create a comprehensive error file with solutions
-              const errorContent = `RAW Conversion Failed - ${originalName}
-
-Format Information:
-- File: ${originalName}
-- Format: ${formatSupport}
-- Output Requested: ${outputFormat.toUpperCase()}
-
-Error Details:
-${errorDetails.map((detail, index) => `${index + 1}. ${detail}`).join('\n')}
-
-Why This Happened:
-RAW files require specialized processing that web-based tools cannot always handle reliably.
-${fileExtension.toUpperCase()} files, especially newer formats like CR3, have limited support in web environments.
-
-Solutions to Try:
-
-1. Use a Different RAW File:
-   - CR2 (Canon older format) - Better web support
-   - NEF (Nikon) - Good web support
-   - ARW (Sony) - Variable web support
-   - RAF (Fujifilm) - Limited web support
-
-2. Try Different Output Formats:
-   - JPG/JPEG usually works best
-   - PNG has good compatibility
-   - Avoid PSD/SVG for RAW files
-
-3. Professional Desktop Software (Recommended for RAW):
-   - Adobe Lightroom (best overall)
-   - Capture One (excellent for RAW)
-   - Darktable (free, powerful)
-   - RawTherapee (free, advanced)
-   - Canon Digital Photo Professional (free for Canon users)
-
-4. Alternative Online Tools:
-   - Try converting to JPG first, then to your desired format
-   - Use specialized RAW conversion services
-
-5. Check Your File:
-   - Ensure the RAW file isn't corrupted
-   - Try a different RAW file from the same camera
-   - Verify the file extension matches the actual format
-
-What Works Well on This Service:
-✅ HEIC/HEIF (iPhone photos)
-✅ PNG, JPG, WebP, TIFF
-✅ Some older RAW formats (CR2, NEF)
-✅ SVG to other formats
-
-What Has Limitations:
-⚠️ Modern RAW formats (CR3, newer ARW)
-⚠️ Some camera-specific RAW formats
-⚠️ PSD output (creates placeholders)
-
-File: ${outputFileName}
-Generated: ${new Date().toISOString()}
-Service: imgtojpg.org - Free Online Image Converter
-
-Need Help? For professional RAW conversion, consider using specialized desktop software that can handle all RAW formats reliably.`;
-              
-              outputBuffer = Buffer.from(errorContent, 'utf8');
-              console.log(`Created comprehensive error file for failed RAW conversion: ${outputFileName}`);
-              conversionSuccess = false;
+              fs.unlinkSync(outputPath);
+            } catch (cleanupError) {
+              console.log(`Warning: Could not clean up ImageMagick output file ${outputPath}:`, cleanupError.message);
             }
-          }
-          
-          if (conversionSuccess) {
+            
             console.log(`Successfully converted RAW file to ${outputFormat}: ${outputFileName} (${outputBuffer.length} bytes)`);
-          } else {
-            console.log(`RAW conversion failed for ${originalName} - created comprehensive error file with solutions`);
+            
+          } catch (conversionError) {
+            console.error(`RAW conversion failed for ${originalName}:`, conversionError.message);
+            
+            // Fallback: create informative error file
+            const errorContent = `RAW conversion failed for: ${originalName}
+            
+Error: ${conversionError.message}
+
+This could be due to:
+- Corrupted RAW file
+- Unsupported RAW format
+- Processing issue
+
+Please check your RAW file and try again.`;
+            
+            outputBuffer = Buffer.from(errorContent, 'utf8');
+            console.log(`Created error file for failed RAW conversion: ${outputFileName}`);
           }
         } else {
           // Handle all other formats using Sharp
@@ -396,30 +239,35 @@ Need Help? For professional RAW conversion, consider using specialized desktop s
                 .toBuffer();
               break;
             case 'svg':
-              // For SVG output, we'll create a placeholder since Sharp doesn't support SVG output
-              const svgPlaceholder = `SVG Placeholder - ${originalName}
+              // Create a simple SVG wrapper around the PNG data
+              // Since Sharp doesn't support direct SVG output, we'll create a basic SVG
+              const pngBuffer = await sharpInstance
+                .png({ compressionLevel: 9 })
+                .toBuffer();
               
-This is a placeholder file for SVG format conversion.
-The original file was: ${originalName}
-
-SVG files require specialized processing that cannot be done in the browser.
-For SVG conversion, please use desktop software or online SVG converters.
-
-File: ${outputFileName}
-Generated: ${new Date().toISOString()}`;
+              // Convert PNG to base64 for embedding in SVG
+              const base64PNG = pngBuffer.toString('base64');
               
-              outputBuffer = Buffer.from(svgPlaceholder, 'utf8');
-              console.log(`Created SVG placeholder: ${outputFileName}`);
+              // Create SVG with embedded PNG (minimized for smaller file size)
+              const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0 0 800 600"><image xlink:href="data:image/png;base64,${base64PNG}" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"/></svg>`;
+              
+              outputBuffer = Buffer.from(svgContent, 'utf8');
+              console.log(`Created SVG with embedded PNG data for ${outputFileName} (${outputBuffer.length} bytes)`);
               break;
             case 'psd':
-              // For PSD output, we'll create a placeholder since Sharp doesn't support PSD output
-              const psdPlaceholder = `Adobe Photoshop Document (PSD) - Placeholder
+              // Convert to PSD format (Photoshop)
+              // Note: Sharp doesn't support PSD output, so we'll create a placeholder
+              // In production, use a library like 'psd' or 'jimp' for PSD creation
+              const psdPlaceholder = `Photoshop PSD File
               
-This is a placeholder file for PSD format conversion.
-The original file was: ${originalName}
+This is a placeholder PSD file created from: ${originalName}
+Output format: ${outputFormat}
 
-PSD files require specialized processing that cannot be done in the browser.
-For professional PSD conversion, please use desktop software like Adobe Photoshop.
+For actual PSD creation, implement:
+- PSD file format specification
+- Layer structure
+- Image data encoding
+- Metadata handling
 
 File: ${outputFileName}
 Generated: ${new Date().toISOString()}`;
