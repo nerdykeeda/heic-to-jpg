@@ -11,6 +11,7 @@ const app = express();
 const port = 3000;
 
 app.use(express.static('public'));
+app.use('/converted', express.static(path.join(__dirname, 'public', 'converted')));
 app.use(express.json()); // Add this line for parsing JSON requests
 
 // Admin authentication middleware
@@ -94,14 +95,42 @@ app.post('/convert', upload.array('files'), async (req, res) => {
       });
     }
 
+    // Copy uploaded files to session directory
+    const copiedFiles = [];
+    for (const file of req.files) {
+      const fileName = file.originalname;
+      const sessionFilePath = path.join(sessionPath, fileName);
+      
+      try {
+        // Copy file to session directory
+        fs.copyFileSync(file.path, sessionFilePath);
+        
+        // Clean up temporary upload file
+        fs.unlinkSync(file.path);
+        
+        copiedFiles.push({
+          path: sessionFilePath,
+          originalname: fileName,
+          size: file.size
+        });
+        
+        console.log(`Copied ${fileName} to session directory`);
+      } catch (copyError) {
+        console.error(`Failed to copy ${fileName}:`, copyError);
+        // Clean up temporary file even if copy fails
+        try {
+          fs.unlinkSync(file.path);
+        } catch (cleanupError) {
+          console.log(`Warning: Could not clean up temp file ${file.path}`);
+        }
+        throw new Error(`Failed to copy file ${fileName}: ${copyError.message}`);
+      }
+    }
+
     const jobData = {
       sessionId,
       sessionPath,
-      files: req.files.map(f => ({
-        path: f.path,
-        originalname: f.originalname,
-        size: f.size
-      })),
+      files: copiedFiles,
       outputFormat: outputFormat
     };
 
