@@ -571,27 +571,80 @@
       const outputFormat = document.getElementById('outputFormat').value;
       const files = fileInput.files;
       
-      // Show status
-      statusBox.classList.remove('hidden');
-      statusText.textContent = 'Converting RAW files...';
-      progressBar.style.width = '0%';
+      // Validate file types
+      const allowedTypes = ['image/tiff', 'image/x-tiff', 'image/cr2', 'image/x-cr2', 'image/nef', 'image/x-nef', 'image/arw', 'image/x-arw'];
+      const invalidFiles = Array.from(files).filter(file => {
+        return !allowedTypes.includes(file.type) && !file.name.toLowerCase().match(/\.(cr2|cr3|nef|nrw|arw|srf|sr2|raf|orf|pef|rw2|3fr|rdc|iiq|dcr|k25|kdc|mef|mos|erf)$/);
+      });
       
-      // Simulate conversion progress
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 10;
-        progressBar.style.width = progress + '%';
+      if (invalidFiles.length > 0) {
+        alert(`Invalid file type(s): ${invalidFiles.map(f => f.name).join(', ')}\n\nSupported formats: CR2, CR3, NEF, NRW, ARW, SRF, SR2, RAF, ORF, PEF, RW2, 3FR, RDC, IIQ, DCR, K25, KDC, MEF, MOS, ERF`);
+        return;
+      }
+      
+      // Check file sizes (100MB limit for RAW files)
+      const maxSize = 100 * 1024 * 1024; // 100MB
+      const oversizedFiles = Array.from(files).filter(file => file.size > maxSize);
+      
+      if (oversizedFiles.length > 0) {
+        alert(`File(s) too large: ${oversizedFiles.map(f => f.name).join(', ')}\n\nMaximum file size: 100MB`);
+        return;
+      }
+      
+      // Show status
+      results.classList.add('hidden');
+      statusBox.classList.remove('hidden');
+      statusText.textContent = 'Uploading RAW files...';
+      progressBar.style.width = '20%';
+      
+      // Create FormData with files and output format
+      const formData = new FormData();
+      Array.from(files).forEach(file => {
+        formData.append('files', file);
+      });
+      formData.append('outputFormat', outputFormat);
+      
+      try {
+        statusText.textContent = 'Converting RAW files...';
+        progressBar.style.width = '50%';
         
-        if (progress >= 100) {
-          clearInterval(interval);
-          statusText.textContent = 'Conversion complete!';
-          showResults(files, outputFormat);
+        const response = await fetch('/convert', {
+          method: 'POST',
+          body: formData
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
-      }, 200);
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          progressBar.style.width = '100%';
+          statusText.textContent = 'Conversion complete!';
+          
+          // Store conversion data globally for download functionality
+          window.lastConversionData = data;
+          
+          // Wait a moment to show completion
+          setTimeout(() => {
+            statusBox.classList.add('hidden');
+          }, 1000);
+          
+          // Show results with actual converted files
+          showResults(files, outputFormat, data);
+        } else {
+          throw new Error(data.message || 'Conversion failed');
+        }
+      } catch (error) {
+        console.error('Conversion error:', error);
+        statusText.textContent = `Error: ${error.message || 'Something went wrong'}`;
+        progressBar.style.width = '0%';
+      }
     });
     
     // Show conversion results
-    function showResults(files, outputFormat) {
+    function showResults(files, outputFormat, conversionData) {
       const fileList = Array.from(files);
       
       // Clear previous results
@@ -615,7 +668,8 @@
             <p class="text-xs text-blue-600">Converted to ${outputFormat.toUpperCase()}</p>
             <button class="download-single mt-2 px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors" 
                     data-filename="${newFilename}" 
-                    data-format="${outputFormat}">
+                    data-format="${outputFormat}"
+                    data-session-id="${conversionData.downloadLink.split('/').pop()}">
               Download ${outputFormat.toUpperCase()}
             </button>
           </div>
@@ -632,25 +686,17 @@
         button.addEventListener('click', function() {
           const filename = this.getAttribute('data-filename');
           const format = this.getAttribute('data-format');
+          const sessionId = this.getAttribute('data-session-id');
           
-          // Create a blob with sample data (in real implementation, this would be the converted file)
-          let mimeType = 'application/octet-stream';
-          if (format === 'jpg' || format === 'jpeg') mimeType = 'image/jpeg';
-          else if (format === 'tiff') mimeType = 'image/tiff';
-          else if (format === 'psd') mimeType = 'application/x-photoshop';
-          
-          const sampleData = `This is a sample ${format.toUpperCase()} file converted from RAW.`;
-          const blob = new Blob([sampleData], { type: mimeType });
-          
-          // Create download link
-          const url = window.URL.createObjectURL(blob);
+          // Create download link to the actual converted file
+          const downloadUrl = `/converted/${sessionId}/${filename}`;
           const a = document.createElement('a');
-          a.href = url;
+          a.href = downloadUrl;
           a.download = filename;
+          a.target = '_blank';
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-          window.URL.revokeObjectURL(url);
         });
       });
     }
@@ -678,43 +724,18 @@
       if (e.target.id === 'downloadAll') {
         e.preventDefault();
         
-        // Get all converted files
-        const convertedFiles = Array.from(fileInput.files);
-        if (convertedFiles.length === 0) {
-          alert('No files to download');
-          return;
-        }
-        
-        // Create a ZIP file with sample data (in real implementation, this would be the actual converted files)
-        const JSZip = window.JSZip || (typeof require !== 'undefined' ? require('jszip') : null);
-        
-        if (JSZip) {
-          const zip = new JSZip();
-          const outputFormat = document.getElementById('outputFormat').value;
-          
-          convertedFiles.forEach((file, index) => {
-            const originalExt = file.name.split('.').pop().toLowerCase();
-            const newExt = outputFormat.toLowerCase();
-            const newFilename = file.name.replace(`.${originalExt}`, `.${newExt}`);
-            
-            // Add sample data (in real implementation, this would be the converted file)
-            const sampleData = `This is a sample ${outputFormat.toUpperCase()} file converted from RAW: ${file.name}`;
-            zip.file(newFilename, sampleData);
-          });
-          
-          zip.generateAsync({type: 'blob'}).then(function(content) {
-            const url = window.URL.createObjectURL(content);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'converted_images.zip';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-          });
+        // Use the server's ZIP download functionality
+        if (window.lastConversionData && window.lastConversionData.downloadLink) {
+          const downloadUrl = window.lastConversionData.downloadLink;
+          const a = document.createElement('a');
+          a.href = downloadUrl;
+          a.download = 'converted_images.zip';
+          a.target = '_blank';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
         } else {
-          // Fallback: download individual files
-          alert('ZIP functionality not available. Please use individual download buttons.');
+          alert('No conversion data available. Please convert files first.');
         }
       }
       

@@ -43,7 +43,7 @@ app.post('/convert', upload.array('files'), async (req, res) => {
     }
 
     // Validate file types
-    const allowedExtensions = ['.heic', '.heif', '.jpg', '.jpeg', '.png', '.webp', '.tiff', '.svg'];
+    const allowedExtensions = ['.heic', '.heif', '.jpg', '.jpeg', '.png', '.webp', '.tiff', '.svg', '.cr2', '.cr3', '.nef', '.nrw', '.arw', '.srf', '.sr2', '.raf', '.orf', '.pef', '.rw2', '.3fr', '.rdc', '.iiq', '.dcr', '.k25', '.kdc', '.mef', '.mos', '.erf'];
     const invalidFiles = req.files.filter(file => {
       const ext = path.extname(file.originalname).toLowerCase();
       return !allowedExtensions.includes(ext);
@@ -71,7 +71,7 @@ app.post('/convert', upload.array('files'), async (req, res) => {
     const outputFormat = req.body.outputFormat || 'jpg';
     
     // Validate output format
-    const validOutputFormats = ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'svg'];
+    const validOutputFormats = ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'svg', 'psd'];
     if (!validOutputFormats.includes(outputFormat.toLowerCase())) {
       return res.status(400).json({
         success: false,
