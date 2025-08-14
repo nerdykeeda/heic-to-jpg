@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - imgtojpg.org | Professional Image Conversion Service by Vinod Kumar</title>
+    <meta name="description" content="Learn about imgtojpg.org, founded by Vinod Kumar. Our mission to provide fast, secure, and reliable image conversion services for photographers, designers, and professionals worldwide.">
+    <meta name="keywords" content="about us, image conversion, imgtojpg.org, Vinod Kumar, founder, team, mission, vision, Linqrius.com">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://imgtojpg.org/about.html">
+    <meta property="og:title" content="About Us - imgtojpg.org">
+    <meta property="og:description" content="Learn about imgtojpg.org, our mission to provide fast, secure, and reliable image conversion services.">
+    <meta property="og:image" content="https://imgtojpg.org/favicon.ico">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://imgtojpg.org/about.html">
+    <meta property="twitter:title" content="About Us - imgtojpg.org">
+    <meta property="twitter:description" content="Learn about imgtojpg.org, our mission to provide fast, secure, and reliable image conversion services.">
+    <meta property="twitter:image" content="https://imgtojpg.org/favicon.ico">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/style.css">
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'adobe-blue': '#0066CC',
+                        'adobe-red': '#FF0000',
+                        'adobe-orange': '#FF6600',
+                        'adobe-green': '#00CC00',
+                        'adobe-purple': '#9900CC'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="/" class="text-2xl font-bold text-adobe-blue hover:text-blue-700 transition-colors">
+                        imgtojpg.org
+                    </a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="/" class="text-gray-700 hover:text-adobe-blue px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                        <a href="/heic-to-jpg.html" class="text-gray-700 hover:text-adobe-blue px-3 py-2 rounded-md text-sm font-medium transition-colors">HEIC to JPG</a>
+                        <a href="/png-to-jpg.html" class="text-gray-700 hover:text-adobe-blue px-3 py-2 rounded-md text-sm font-medium transition-colors">PNG to JPG</a>
+                        <a href="/webp-to-jpg.html" class="text-gray-700 hover:text-adobe-blue px-3 py-2 rounded-md text-sm font-medium transition-colors">WebP to JPG</a>
+                        <a href="/tiff-to-jpg.html" class="text-gray-700 hover:text-adobe-blue px-3 py-2 rounded-md text-sm font-medium transition-colors">TIFF to JPG</a>
+                        <a href="/camera-raw-converter.html" class="text-gray-700 hover:text-adobe-blue px-3 py-2 rounded-md text-sm font-medium transition-colors">Camera Raw</a>
+                        <a href="/blog.html" class="text-gray-700 hover:text-adobe-blue px-3 py-2 rounded-md text-sm font-medium transition-colors">Blog</a>
+                        <a href="/help-center.html" class="text-gray-700 hover:text-adobe-blue px-3 py-2 rounded-md text-sm font-medium transition-colors">Help</a>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobileMenuButton" class="text-gray-700 hover:text-adobe-blue focus:outline-none focus:text-adobe-blue">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Navigation -->
+            <div id="mobileMenu" class="hidden md:hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="/" class="text-gray-700 hover:text-adobe-blue block px-3 py-2 rounded-md text-base font-medium transition-colors">Home</a>
+                    <a href="/heic-to-jpg.html" class="text-gray-700 hover:text-adobe-blue block px-3 py-2 rounded-md text-base font-medium transition-colors">HEIC to JPG</a>
+                    <a href="/png-to-jpg.html" class="text-gray-700 hover:text-adobe-blue block px-3 py-2 rounded-md text-base font-medium transition-colors">PNG to JPG</a>
+                    <a href="/webp-to-jpg.html" class="text-gray-700 hover:text-adobe-blue block px-3 py-2 rounded-md text-base font-medium transition-colors">WebP to JPG</a>
+                    <a href="/tiff-to-jpg.html" class="text-gray-700 hover:text-adobe-blue block px-3 py-2 rounded-md text-base font-medium transition-colors">TIFF to JPG</a>
+                    <a href="/camera-raw-converter.html" class="text-gray-700 hover:text-adobe-blue block px-3 py-2 rounded-md text-base font-medium transition-colors">Camera Raw</a>
+                    <a href="/blog.html" class="text-gray-700 hover:text-adobe-blue block px-3 py-2 rounded-md text-base font-medium transition-colors">Blog</a>
+                    <a href="/help-center.html" class="text-gray-700 hover:text-adobe-blue block px-3 py-2 rounded-md text-base font-medium transition-colors">Help</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1">
+        <!-- Hero Section -->
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-100 py-16 sm:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+                    About <span class="text-adobe-blue">imgtojpg.org</span>
+                </h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    We're on a mission to make image conversion simple, fast, and accessible to everyone.
+                </p>
+            </div>
+        </div>
+
+        <!-- Our Story Section -->
+        <div class="py-16 sm:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
+                        <p class="text-lg text-gray-600 mb-6">
+                            Founded with a simple vision, imgtojpg.org was born from the frustration of dealing with incompatible image formats. 
+                            We recognized that photographers, designers, and everyday users needed a reliable, fast, and secure way to convert 
+                            their images without compromising quality or privacy.
+                        </p>
+                        <p class="text-lg text-gray-600 mb-6">
+                            What started as a personal project has grown into a trusted service used by thousands of users worldwide. 
+                            We believe that technology should work for you, not against you, and that's exactly what we've built.
+                        </p>
+                        <p class="text-lg text-gray-600">
+                            Today, we're proud to offer one of the most comprehensive image conversion services on the web, 
+                            supporting everything from modern HEIC files to professional RAW camera formats.
+                        </p>
+                    </div>
+                    <div class="relative">
+                        <div class="bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl p-8 text-white">
+                            <div class="text-6xl mb-4">📸</div>
+                            <h3 class="text-2xl font-bold mb-4">Trusted by Thousands</h3>
+                            <p class="text-blue-100">Every day, photographers, designers, and professionals rely on our service to convert their images quickly and securely.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mission & Values Section -->
+        <div class="bg-white py-16 sm:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">Our Mission & Values</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        We're driven by core principles that guide everything we do
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="text-center p-6">
+                        <div class="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">🚀</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Speed & Efficiency</h3>
+                        <p class="text-gray-600">We believe that waiting is not an option. Our optimized conversion engine ensures your images are processed in seconds, not minutes.</p>
+                    </div>
+                    
+                    <div class="text-center p-6">
+                        <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">🔒</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Privacy First</h3>
+                        <p class="text-gray-600">Your images are your property. We process everything locally and automatically delete files after conversion to ensure complete privacy.</p>
+                    </div>
+                    
+                    <div class="text-center p-6">
+                        <div class="bg-purple-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">✨</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Quality Matters</h3>
+                        <p class="text-gray-600">We understand that image quality is crucial. Our conversion algorithms preserve the best possible quality while optimizing file sizes.</p>
+                    </div>
+                    
+                    <div class="text-center p-6">
+                        <div class="bg-orange-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">🌍</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Accessibility</h3>
+                        <p class="text-gray-600">Great tools should be available to everyone. That's why we offer our service completely free, with no hidden costs or limitations.</p>
+                    </div>
+                    
+                    <div class="text-center p-6">
+                        <div class="bg-red-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">💡</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Innovation</h3>
+                        <p class="text-gray-600">We're constantly improving our service, adding new formats and features to meet the evolving needs of our users.</p>
+                    </div>
+                    
+                    <div class="text-center p-6">
+                        <div class="bg-teal-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">🤝</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Community</h3>
+                        <p class="text-gray-600">We value our users and their feedback. Your suggestions help us build a better service for everyone.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- What We Offer Section -->
+        <div class="py-16 sm:py-24 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">What We Offer</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Comprehensive image conversion solutions for every need
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+                        <div class="text-4xl mb-4">📱</div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Mobile Formats</h3>
+                        <p class="text-gray-600">Convert HEIC files from iPhones and other mobile devices to widely-compatible JPG format.</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+                        <div class="text-4xl mb-4">🖼️</div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Web Formats</h3>
+                        <p class="text-gray-600">Transform PNG, WebP, and SVG files into JPG format for universal compatibility.</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+                        <div class="text-4xl mb-4">📷</div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Professional RAW</h3>
+                        <p class="text-gray-600">Convert professional camera RAW formats to JPG, TIFF, and PSD for editing and sharing.</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+                        <div class="text-4xl mb-4">⚡</div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Batch Processing</h3>
+                        <p class="text-gray-600">Convert multiple images simultaneously with our efficient batch processing system.</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+                        <div class="text-4xl mb-4">🔒</div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Secure Processing</h3>
+                        <p class="text-gray-600">Your files are processed securely and automatically deleted after conversion.</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
+                        <div class="text-4xl mb-4">💻</div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-3">Cross-Platform</h3>
+                        <p class="text-gray-600">Access our service from any device, anywhere, with our responsive web interface.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="py-16 sm:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">Meet Our Team</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        We're a small but dedicated team passionate about making image conversion simple and accessible
+                    </p>
+                </div>
+                
+                <div class="max-w-2xl mx-auto">
+                    <div class="text-center">
+                        <div class="w-24 h-24 mx-auto mb-4">
+                            <img src="Vinod Kumar.png" alt="Vinod Kumar - Founder & Developer" class="w-full h-full rounded-full object-cover border-4 border-blue-400 shadow-lg" onerror="this.style.display='none'; console.log('Image failed to load:', this.src);">
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Founder & Developer</h3>
+                        <div class="text-left text-gray-600 space-y-4">
+                            <p>
+                                I'm Vinod — a tech geek with a creative streak. I love turning ideas into tools that people actually use. 
+                                I built imgtojpg.org, a fast, secure way to convert images without the fuss.
+                            </p>
+                            <p>
+                                I also run <a href="https://linqrius.com" target="_blank" class="text-adobe-blue hover:underline font-medium">Linqrius.com</a>, 
+                                a powerful digital toolkit where anyone can create a custom link hub, online store, vCard, or corporate digital card — 
+                                perfect for retailers, eCommerce brands, influencers, and businesses that want to stand out.
+                            </p>
+                            <p>
+                                I'm also a published author, writing books that explore love, loss, and the human side of life. 
+                                Whether it's code, design, or words, my focus is on building things that are simple, useful, and leave a lasting impact.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="bg-gradient-to-r from-adobe-blue to-blue-700 py-16 sm:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-6">Ready to Get Started?</h2>
+                <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+                    Join thousands of users who trust imgtojpg.org for their image conversion needs
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/" class="bg-white text-adobe-blue px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                        Start Converting
+                    </a>
+                    <a href="/help-center.html" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-adobe-blue transition-colors">
+                        Get Help
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">imgtojpg.org</h4>
+                    <p class="text-gray-400 text-sm">Free, fast, and secure image conversion for everyone.</p>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-3">Features</h5>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="/heic-to-jpg.html" class="hover:text-white transition-colors duration-200">HEIC to JPG</a></li>
+                        <li><a href="/png-to-jpg.html" class="hover:text-white transition-colors duration-200">PNG to JPG</a></li>
+                        <li><a href="/webp-to-jpg.html" class="hover:text-white transition-colors duration-200">WebP to JPG</a></li>
+                        <li><a href="/tiff-to-jpg.html" class="hover:text-white transition-colors duration-200">TIFF to JPG</a></li>
+                        <li><a href="/camera-raw-converter.html" class="hover:text-white transition-colors duration-200">Camera Raw</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-3">Reverse Converters</h5>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="/" class="hover:text-white transition-colors duration-200">JPG to HEIC</a></li>
+                        <li><a href="/" class="hover:text-white transition-colors duration-200">JPG to PNG</a></li>
+                        <li><a href="/" class="hover:text-white transition-colors duration-200">JPG to WebP</a></li>
+                        <li><a href="/" class="hover:text-white transition-colors duration-200">JPG to TIFF</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-3">Support</h5>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="help-center.html" class="hover:text-white transition-colors duration-200">Help Center</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition-colors duration-200">Contact Us</a></li>
+                        <li><a href="privacy-policy.html" class="hover:text-white transition-colors duration-200">Privacy Policy</a></li>
+                        <li><a href="terms-of-use.html" class="hover:text-white transition-colors duration-200">Terms of Use</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-3">Connect</h5>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="/blog.html" class="hover:text-white transition-colors duration-200">Blog</a></li>
+                        <li><a href="/about.html" class="hover:text-white transition-colors duration-200">About Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-8 text-center">
+                <p class="text-gray-400 text-sm">© 2025 imgtojpg.org. Powered by <span class="font-semibold text-gray-300">nerdykeeda</span></p>
+                <div class="mt-4">
+                    <button class="coffee-button text-sm px-6 py-2">
+                        ☕ Buy me a coffee
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById("mobileMenuButton");
+        const mobileMenu = document.getElementById("mobileMenu");
+        if (mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener("click", () => {
+                mobileMenu.classList.toggle("hidden");
+            });
+        }
+        
+        // Coffee button functionality
+        document.querySelectorAll(".coffee-button").forEach(button => {
+            button.addEventListener("click", () => {
+                window.open("https://buymeacoffee.com/spvinodmanb", "_blank");
+            });
+        });
+    </script>
+</body>
+</html>

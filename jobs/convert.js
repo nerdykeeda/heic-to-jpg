@@ -144,29 +144,36 @@ const archiver = require('archiver');
           
           try {
             if (outputFormat.toLowerCase() === 'jpg' || outputFormat.toLowerCase() === 'jpeg') {
-              // Use VIPS for JPG (we know this works perfectly)
-              console.log(`Using VIPS for JPG conversion: ${originalName}`);
+              // Use VIPS + Sharp for JPG (we know this works perfectly)
+              console.log(`Using VIPS + Sharp for JPG conversion: ${originalName}`);
               
-              const vipsCommand = `vips copy "${inputPath}" "${path.join(sessionPath, outputFileName)}"`;
+              const tempPngPath = path.join(sessionPath, `temp_${fileNameWithoutExt}.png`);
+              const vipsCommand = `vips copy "${inputPath}" "${tempPngPath}" --rotate auto`;
               console.log(`Executing VIPS command: ${vipsCommand}`);
               
               execSync(vipsCommand, { cwd: sessionPath, stdio: 'pipe' });
               
-              // Check if VIPS created the output file
-              const outputPath = path.join(sessionPath, outputFileName);
-              if (!fs.existsSync(outputPath)) {
-                throw new Error(`VIPS failed to create output file at ${outputPath}`);
+              // Check if VIPS created the temporary PNG file
+              if (!fs.existsSync(tempPngPath)) {
+                throw new Error(`VIPS failed to create temporary PNG file at ${tempPngPath}`);
               }
               
-              // Read the converted file
-              outputBuffer = fs.readFileSync(outputPath);
-              console.log(`VIPS successfully converted RAW file: ${outputFileName} (${outputBuffer.length} bytes)`);
+              console.log(`VIPS successfully converted RAW to temporary PNG: ${tempPngPath}`);
               
-              // Clean up the temporary VIPS output file
+              // Use Sharp to convert PNG to JPEG
+              const sharpInstance = sharp(tempPngPath);
+              outputBuffer = await sharpInstance
+                .jpeg({ quality: 90, progressive: true })
+                .toBuffer();
+              
+              console.log(`Sharp converted PNG to JPEG: ${outputBuffer.length} bytes`);
+              
+              // Clean up the temporary PNG file
               try {
-                fs.unlinkSync(outputPath);
+                fs.unlinkSync(tempPngPath);
+                console.log(`Cleaned up temporary PNG file: ${tempPngPath}`);
               } catch (cleanupError) {
-                console.log(`Warning: Could not clean up VIPS output file ${outputPath}:`, cleanupError.message);
+                console.log(`Warning: Could not clean up temp PNG file ${tempPngPath}:`, cleanupError.message);
               }
               
             } else if (outputFormat.toLowerCase() === 'tiff') {
