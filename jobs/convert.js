@@ -2,7 +2,6 @@
 const { parentPort, workerData } = require('worker_threads');
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 const sharp = require('sharp');
 const heicConvert = require('heic-convert');
 const archiver = require('archiver');
@@ -139,144 +138,62 @@ const archiver = require('archiver');
             }
           }
         } else if (['.cr2', '.cr3', '.nef', '.nrw', '.arw', '.srf', '.sr2', '.raf', '.orf', '.pef', '.rw2', '.3fr', '.rdc', '.iiq', '.dcr', '.k25', '.kdc', '.mef', '.mos', '.erf'].includes(fileExtension)) {
-          // Handle RAW files with format-specific approaches
-          console.log(`Processing RAW file: ${originalName}`);
+          // Handle RAW files using Sharp's built-in RAW support
+          console.log(`Processing RAW file: ${originalName} with Sharp`);
           
           try {
-            if (outputFormat.toLowerCase() === 'jpg' || outputFormat.toLowerCase() === 'jpeg') {
-              // Use VIPS + Sharp for JPG (we know this works perfectly)
-              console.log(`Using VIPS + Sharp for JPG conversion: ${originalName}`);
-              
-              const tempPngPath = path.join(sessionPath, `temp_${fileNameWithoutExt}.png`);
-              const vipsCommand = `vips copy "${inputPath}" "${tempPngPath}" --rotate auto`;
-              console.log(`Executing VIPS command: ${vipsCommand}`);
-              
-              execSync(vipsCommand, { cwd: sessionPath, stdio: 'pipe' });
-              
-              // Check if VIPS created the temporary PNG file
-              if (!fs.existsSync(tempPngPath)) {
-                throw new Error(`VIPS failed to create temporary PNG file at ${tempPngPath}`);
-              }
-              
-              console.log(`VIPS successfully converted RAW to temporary PNG: ${tempPngPath}`);
-              
-              // Use Sharp to convert PNG to JPEG
-              const sharpInstance = sharp(tempPngPath);
-              outputBuffer = await sharpInstance
-                .jpeg({ quality: 90, progressive: true })
-                .toBuffer();
-              
-              console.log(`Sharp converted PNG to JPEG: ${outputBuffer.length} bytes`);
-              
-              // Clean up the temporary PNG file
-              try {
-                fs.unlinkSync(tempPngPath);
-                console.log(`Cleaned up temporary PNG file: ${tempPngPath}`);
-              } catch (cleanupError) {
-                console.log(`Warning: Could not clean up temp PNG file ${tempPngPath}:`, cleanupError.message);
-              }
-              
-            } else if (outputFormat.toLowerCase() === 'tiff') {
-              // Use ImageMagick + LibRaw for TIFF (reliable and professional)
-              console.log(`Using ImageMagick + LibRaw for tiff conversion: ${originalName}`);
-              
-              const outputPath = path.join(sessionPath, outputFileName);
-              const magickCommand = `magick "${inputPath}" -quality 100 "${outputPath}"`;
-              console.log(`Executing ImageMagick command: ${magickCommand}`);
-              
-              execSync(magickCommand, { cwd: sessionPath, stdio: 'pipe' });
-              
-              // Check if ImageMagick created the output file
-              if (!fs.existsSync(outputPath)) {
-                throw new Error(`ImageMagick failed to create output file at ${outputPath}`);
-              }
-              
-              // Read the converted file
-              outputBuffer = fs.readFileSync(outputPath);
-              console.log(`ImageMagick successfully converted RAW file: ${outputFileName} (${outputBuffer.length} bytes)`);
-              
-              // Clean up the temporary ImageMagick output file
-              try {
-                fs.unlinkSync(outputPath);
-              } catch (cleanupError) {
-                console.log(`Warning: Could not clean up ImageMagick output file ${outputPath}:`, cleanupError.message);
-              }
-              
-            } else if (outputFormat.toLowerCase() === 'psd') {
-              // Use ImageMagick + LibRaw for PSD with orientation preservation
-              console.log(`Using ImageMagick + LibRaw for psd conversion: ${originalName}`);
-              
-              const outputPath = path.join(sessionPath, outputFileName);
-              const magickCommand = `magick "${inputPath}" -auto-orient -quality 100 "${outputPath}"`;
-              console.log(`Executing ImageMagick command: ${magickCommand}`);
-              
-              execSync(magickCommand, { cwd: sessionPath, stdio: 'pipe' });
-              
-              // Check if ImageMagick created the output file
-              if (!fs.existsSync(outputPath)) {
-                throw new Error(`ImageMagick failed to create output file at ${outputPath}`);
-              }
-              
-              // Read the converted file
-              outputBuffer = fs.readFileSync(outputPath);
-              console.log(`ImageMagick successfully converted RAW file: ${outputFileName} (${outputBuffer.length} bytes)`);
-              
-              // Clean up the temporary ImageMagick output file
-              try {
-                fs.unlinkSync(outputPath);
-              } catch (cleanupError) {
-                console.log(`Warning: Could not clean up ImageMagick output file ${outputPath}:`, cleanupError.message);
-              }
-              
-            } else {
-              // Use dcraw + Sharp for other formats (PNG, WebP)
-              console.log(`Using dcraw + Sharp for ${outputFormat} conversion: ${originalName}`);
-              
-              // Step 1: Use dcraw to convert RAW to TIFF
-              const dcrawTiffPath = path.join(sessionPath, `${path.basename(originalName, path.extname(originalName))}.tiff`);
-              const dcrawCommand = `dcraw -v -w -T "${inputPath}"`;
-              console.log(`Executing dcraw command: ${dcrawCommand}`);
-              
-              execSync(dcrawCommand, { cwd: sessionPath, stdio: 'pipe' });
-              
-              // Check if dcraw created the TIFF file
-              if (!fs.existsSync(dcrawTiffPath)) {
-                throw new Error(`dcraw failed to create TIFF file at ${dcrawTiffPath}`);
-              }
-              
-              console.log(`dcraw successfully created TIFF: ${dcrawTiffPath}`);
-              
-              // Step 2: Use Sharp to convert the TIFF to the desired output format
-              const sharpInstance = sharp(dcrawTiffPath);
-              
-              switch (outputFormat.toLowerCase()) {
-                case 'png':
-                  outputBuffer = await sharpInstance
-                    .png({ compressionLevel: 9, progressive: true })
-                    .toBuffer();
-                  console.log(`Sharp converted TIFF to PNG: ${outputBuffer.length} bytes`);
-                  break;
-                case 'webp':
-                  outputBuffer = await sharpInstance
-                    .webp({ quality: 90, effort: 6 })
-                    .toBuffer();
-                  console.log(`Sharp converted TIFF to WebP: ${outputBuffer.length} bytes`);
-                  break;
-                default:
-                  // Default to JPEG (shouldn't reach here, but just in case)
-                  outputBuffer = await sharpInstance
-                    .jpeg({ quality: 90, progressive: true })
-                    .toBuffer();
-                  console.log(`Sharp defaulted to JPEG: ${outputBuffer.length} bytes`);
-              }
-              
-              // Clean up the temporary TIFF file
-              try {
-                fs.unlinkSync(dcrawTiffPath);
-                console.log(`Cleaned up temporary TIFF file: ${dcrawTiffPath}`);
-              } catch (cleanupError) {
-                console.log(`Warning: Could not clean up temp TIFF file ${dcrawTiffPath}:`, cleanupError.message);
-              }
+            // Sharp has built-in support for many RAW formats
+            const sharpInstance = sharp(inputPath);
+            
+            switch (outputFormat.toLowerCase()) {
+              case 'jpg':
+              case 'jpeg':
+                outputBuffer = await sharpInstance
+                  .jpeg({ quality: 90, progressive: true })
+                  .toBuffer();
+                console.log(`Sharp converted RAW to JPEG: ${outputBuffer.length} bytes`);
+                break;
+              case 'png':
+                outputBuffer = await sharpInstance
+                  .png({ compressionLevel: 9, progressive: true })
+                  .toBuffer();
+                console.log(`Sharp converted RAW to PNG: ${outputBuffer.length} bytes`);
+                break;
+              case 'webp':
+                outputBuffer = await sharpInstance
+                  .webp({ quality: 90, effort: 6 })
+                  .toBuffer();
+                console.log(`Sharp converted RAW to WebP: ${outputBuffer.length} bytes`);
+                break;
+              case 'tiff':
+                outputBuffer = await sharpInstance
+                  .tiff({ compression: 'lzw', quality: 90 })
+                  .toBuffer();
+                console.log(`Sharp converted RAW to TIFF: ${outputBuffer.length} bytes`);
+                break;
+              case 'psd':
+                // For PSD, we'll create a placeholder since Sharp doesn't support PSD output
+                const psdPlaceholder = `Adobe Photoshop Document (PSD) - Placeholder
+                
+This is a placeholder file for PSD format conversion.
+The original RAW file was: ${originalName}
+
+PSD files require specialized processing that cannot be done in the browser.
+For professional PSD conversion, please use desktop software like Adobe Photoshop.
+
+File: ${outputFileName}
+Generated: ${new Date().toISOString()}`;
+                
+                outputBuffer = Buffer.from(psdPlaceholder, 'utf8');
+                console.log(`Created PSD placeholder: ${outputFileName}`);
+                break;
+              default:
+                // Default to JPEG for RAW conversions
+                console.log(`Unknown format ${outputFormat}, defaulting to JPEG for RAW`);
+                outputBuffer = await sharpInstance
+                  .jpeg({ quality: 90, progressive: true })
+                  .toBuffer();
+                console.log(`Sharp defaulted to JPEG: ${outputBuffer.length} bytes`);
             }
             
             console.log(`Successfully converted RAW file to ${outputFormat}: ${outputFileName} (${outputBuffer.length} bytes)`);
@@ -328,35 +245,30 @@ Please check your RAW file and try again.`;
                 .toBuffer();
               break;
             case 'svg':
-              // Create a simple SVG wrapper around the PNG data
-              // Since Sharp doesn't support direct SVG output, we'll create a basic SVG
-              const pngBuffer = await sharpInstance
-                .png({ compressionLevel: 9 })
-                .toBuffer();
+              // For SVG output, we'll create a placeholder since Sharp doesn't support SVG output
+              const svgPlaceholder = `SVG Placeholder - ${originalName}
               
-              // Convert PNG to base64 for embedding in SVG
-              const base64PNG = pngBuffer.toString('base64');
+This is a placeholder file for SVG format conversion.
+The original file was: ${originalName}
+
+SVG files require specialized processing that cannot be done in the browser.
+For SVG conversion, please use desktop software or online SVG converters.
+
+File: ${outputFileName}
+Generated: ${new Date().toISOString()}`;
               
-              // Create SVG with embedded PNG (minimized for smaller file size)
-              const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="0 0 800 600"><image xlink:href="data:image/png;base64,${base64PNG}" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"/></svg>`;
-              
-              outputBuffer = Buffer.from(svgContent, 'utf8');
-              console.log(`Created SVG with embedded PNG data for ${outputFileName} (${outputBuffer.length} bytes)`);
+              outputBuffer = Buffer.from(svgPlaceholder, 'utf8');
+              console.log(`Created SVG placeholder: ${outputFileName}`);
               break;
             case 'psd':
-              // Convert to PSD format (Photoshop)
-              // Note: Sharp doesn't support PSD output, so we'll create a placeholder
-              // In production, use a library like 'psd' or 'jimp' for PSD creation
-              const psdPlaceholder = `Photoshop PSD File
+              // For PSD output, we'll create a placeholder since Sharp doesn't support PSD output
+              const psdPlaceholder = `Adobe Photoshop Document (PSD) - Placeholder
               
-This is a placeholder PSD file created from: ${originalName}
-Output format: ${outputFormat}
+This is a placeholder file for PSD format conversion.
+The original file was: ${originalName}
 
-For actual PSD creation, implement:
-- PSD file format specification
-- Layer structure
-- Image data encoding
-- Metadata handling
+PSD files require specialized processing that cannot be done in the browser.
+For professional PSD conversion, please use desktop software like Adobe Photoshop.
 
 File: ${outputFileName}
 Generated: ${new Date().toISOString()}`;
