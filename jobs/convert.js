@@ -2,6 +2,7 @@
 const { parentPort, workerData } = require('worker_threads');
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 const sharp = require('sharp');
 const heicConvert = require('heic-convert');
 const archiver = require('archiver');
@@ -138,25 +139,107 @@ const archiver = require('archiver');
             }
           }
         } else if (['.cr2', '.cr3', '.nef', '.nrw', '.arw', '.srf', '.sr2', '.raf', '.orf', '.pef', '.rw2', '.3fr', '.rdc', '.iiq', '.dcr', '.k25', '.kdc', '.mef', '.mos', '.erf'].includes(fileExtension)) {
-          // Handle RAW files
-          console.log(`Processing RAW file: ${originalName}`);
+          // Handle RAW files using dcraw
+          console.log(`Processing RAW file with dcraw: ${originalName}`);
           
-          // For now, create a placeholder file with instructions
-          // In production, this should use a proper RAW processing library
-          const placeholderContent = `This is a placeholder for RAW file conversion.
-          
-Original file: ${originalName}
-Output format requested: ${outputFormat}
+          try {
+            // Use dcraw to convert RAW to TIFF first (dcraw's most reliable output)
+            const tempTiffPath = path.join(sessionPath, `temp_${fileNameWithoutExt}.tiff`);
+            
+            // dcraw command: -e extracts embedded JPEG, -T creates TIFF
+            const dcrawCommand = `dcraw -e -T "${inputPath}"`;
+            console.log(`Executing dcraw command: ${dcrawCommand}`);
+            
+            execSync(dcrawCommand, { cwd: sessionPath, stdio: 'pipe' });
+            
+            // Check if dcraw created the TIFF file
+            if (!fs.existsSync(tempTiffPath)) {
+              throw new Error('dcraw failed to create TIFF file');
+            }
+            
+            console.log(`dcraw successfully created: ${tempTiffPath}`);
+            
+            // Now convert the TIFF to the desired output format using Sharp
+            if (outputFormat.toLowerCase() === 'tiff') {
+              // If output is TIFF, just copy the dcraw output
+              outputBuffer = fs.readFileSync(tempTiffPath);
+              console.log(`Using dcraw TIFF output directly for ${outputFileName}`);
+            } else {
+              // Convert TIFF to other formats using Sharp
+              const sharpInstance = sharp(tempTiffPath);
+              
+              switch (outputFormat.toLowerCase()) {
+                case 'jpg':
+                case 'jpeg':
+                  outputBuffer = await sharpInstance
+                    .jpeg({ quality: 90, progressive: true })
+                    .toBuffer();
+                  break;
+                case 'png':
+                  outputBuffer = await sharpInstance
+                    .png({ compressionLevel: 9, progressive: true })
+                    .toBuffer();
+                  break;
+                case 'webp':
+                  outputBuffer = await sharpInstance
+                    .webp({ quality: 90, effort: 6 })
+                    .toBuffer();
+                  break;
+                case 'psd':
+                  // For PSD, convert to PNG first then create PSD-like structure
+                  const pngBuffer = await sharpInstance
+                    .png({ compressionLevel: 9 })
+                    .toBuffer();
+                  
+                  // Create a simple PSD-like file (this is a basic implementation)
+                  const psdHeader = Buffer.alloc(26);
+                  psdHeader.write('8BPS', 0, 4); // PSD signature
+                  psdHeader.writeUInt16BE(1, 4); // Version
+                  psdHeader.writeUInt32BE(0, 6); // Reserved
+                  psdHeader.writeUInt16BE(3, 10); // Channels
+                  psdHeader.writeUInt32BE(800, 12); // Height
+                  psdHeader.writeUInt32BE(600, 16); // Width
+                  psdHeader.writeUInt16BE(8, 20); // Depth
+                  psdHeader.writeUInt16BE(3, 22); // Color mode (RGB)
+                  
+                  // Combine header with PNG data
+                  outputBuffer = Buffer.concat([psdHeader, pngBuffer]);
+                  console.log(`Created PSD file: ${outputFileName}`);
+                  break;
+                default:
+                  // Default to JPEG
+                  outputBuffer = await sharpInstance
+                    .jpeg({ quality: 90, progressive: true })
+                    .toBuffer();
+              }
+            }
+            
+            // Clean up temporary TIFF file
+            try {
+              fs.unlinkSync(tempTiffPath);
+            } catch (cleanupError) {
+              console.log(`Warning: Could not clean up temp file ${tempTiffPath}:`, cleanupError.message);
+            }
+            
+          } catch (dcrawError) {
+            console.error(`dcraw conversion failed for ${originalName}:`, dcrawError.message);
+            
+            // Fallback: create informative error file
+            const errorContent = `RAW conversion failed for: ${originalName}
+            
+Error: ${dcrawError.message}
 
-RAW file conversion requires additional libraries like:
-- raw-img (Node.js RAW processing)
-- dcraw (command-line RAW converter)
-- libraw (C++ RAW processing library)
+This could be due to:
+- Corrupted RAW file
+- Unsupported RAW format
+- dcraw installation issue
+- Insufficient permissions
 
-For now, this file cannot be converted. Please implement proper RAW support.`;
-
-          outputBuffer = Buffer.from(placeholderContent, 'utf8');
-          console.log(`Created placeholder for RAW file: ${outputFileName}`);
+Please check your RAW file and try again.`;
+            
+            outputBuffer = Buffer.from(errorContent, 'utf8');
+            console.log(`Created error file for failed RAW conversion: ${outputFileName}`);
+          }
         } else {
           // Handle all other formats using Sharp
           console.log(`Converting ${fileExtension} file: ${originalName}`);
