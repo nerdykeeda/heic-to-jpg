@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Camera Raw Converter - Convert RAW Photos to JPG, TIFF, PSD Online</title>
   <link href="/style.css?v=1.0.7" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <style>
     .loading-dots::after {
       content: '';
@@ -154,9 +155,14 @@
         <div class="adobe-card p-6">
           <p class="text-green-600 font-medium text-center mb-4">✅ Conversion complete. Preview images below:</p>
           <div id="imagePreview" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6"></div>
-          <a id="downloadAll" href="#" download="converted_images.zip" class="block w-full text-center adobe-button py-3">
-            Download All Converted Images
-          </a>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a id="downloadAll" href="#" download="converted_images.zip" class="block w-full text-center adobe-button py-3">
+              Download All as ZIP
+            </a>
+            <button id="downloadIndividual" class="block w-full text-center adobe-button py-3">
+              Download Individual Files
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -591,16 +597,27 @@
       // Clear previous results
       imagePreview.innerHTML = '';
       
-      // Create preview for each file
+      // Create preview for each file with individual download buttons
       fileList.forEach((file, index) => {
         const previewDiv = document.createElement('div');
         previewDiv.className = 'text-center';
+        
+        // Get file extension and create new filename
+        const originalExt = file.name.split('.').pop().toLowerCase();
+        const newExt = outputFormat.toLowerCase();
+        const newFilename = file.name.replace(`.${originalExt}`, `.${newExt}`);
+        
         previewDiv.innerHTML = `
           <div class="bg-gray-100 rounded-lg p-4 mb-2">
             <div class="text-2xl mb-2">📷</div>
             <p class="text-sm font-medium text-gray-900">${file.name}</p>
             <p class="text-xs text-gray-500">${(file.size / 1024 / 1024).toFixed(2)} MB</p>
             <p class="text-xs text-blue-600">Converted to ${outputFormat.toUpperCase()}</p>
+            <button class="download-single mt-2 px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors" 
+                    data-filename="${newFilename}" 
+                    data-format="${outputFormat}">
+              Download ${outputFormat.toUpperCase()}
+            </button>
           </div>
         `;
         imagePreview.appendChild(previewDiv);
@@ -609,6 +626,33 @@
       // Show results
       results.classList.remove('hidden');
       statusBox.classList.add('hidden');
+      
+      // Add event listeners to individual download buttons
+      document.querySelectorAll('.download-single').forEach(button => {
+        button.addEventListener('click', function() {
+          const filename = this.getAttribute('data-filename');
+          const format = this.getAttribute('data-format');
+          
+          // Create a blob with sample data (in real implementation, this would be the converted file)
+          let mimeType = 'application/octet-stream';
+          if (format === 'jpg' || format === 'jpeg') mimeType = 'image/jpeg';
+          else if (format === 'tiff') mimeType = 'image/tiff';
+          else if (format === 'psd') mimeType = 'application/x-photoshop';
+          
+          const sampleData = `This is a sample ${format.toUpperCase()} file converted from RAW.`;
+          const blob = new Blob([sampleData], { type: mimeType });
+          
+          // Create download link
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        });
+      });
     }
     
     // Make CTA buttons functional
@@ -625,6 +669,59 @@
           setTimeout(() => {
             uploadArea.classList.remove('border-blue-500', 'bg-blue-50');
           }, 2000);
+        });
+      }
+    });
+    
+    // Download functionality
+    document.addEventListener('click', function(e) {
+      if (e.target.id === 'downloadAll') {
+        e.preventDefault();
+        
+        // Get all converted files
+        const convertedFiles = Array.from(fileInput.files);
+        if (convertedFiles.length === 0) {
+          alert('No files to download');
+          return;
+        }
+        
+        // Create a ZIP file with sample data (in real implementation, this would be the actual converted files)
+        const JSZip = window.JSZip || (typeof require !== 'undefined' ? require('jszip') : null);
+        
+        if (JSZip) {
+          const zip = new JSZip();
+          const outputFormat = document.getElementById('outputFormat').value;
+          
+          convertedFiles.forEach((file, index) => {
+            const originalExt = file.name.split('.').pop().toLowerCase();
+            const newExt = outputFormat.toLowerCase();
+            const newFilename = file.name.replace(`.${originalExt}`, `.${newExt}`);
+            
+            // Add sample data (in real implementation, this would be the converted file)
+            const sampleData = `This is a sample ${outputFormat.toUpperCase()} file converted from RAW: ${file.name}`;
+            zip.file(newFilename, sampleData);
+          });
+          
+          zip.generateAsync({type: 'blob'}).then(function(content) {
+            const url = window.URL.createObjectURL(content);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'converted_images.zip';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+          });
+        } else {
+          // Fallback: download individual files
+          alert('ZIP functionality not available. Please use individual download buttons.');
+        }
+      }
+      
+      if (e.target.id === 'downloadIndividual') {
+        // Trigger all individual download buttons
+        document.querySelectorAll('.download-single').forEach(button => {
+          button.click();
         });
       }
     });
