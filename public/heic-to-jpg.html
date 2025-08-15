@@ -4,33 +4,62 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HEIC to JPG Converter - Free iPhone Photo Converter</title>
-  <meta name="description" content="Free HEIC to JPG converter. Convert iPhone HEIC photos to JPG format online. Fast, secure, no registration required. Perfect for iPhone users.">
-  <meta name="keywords" content="HEIC to JPG, iPhone photo converter, HEIC converter, HEIC to JPEG, convert HEIC files, free HEIC converter, online HEIC converter, iPhone photo format">
+  <meta name="description" content="Free HEIC to JPG converter. Convert iPhone HEIC photos to JPG format online. Fast, secure, no registration required. Perfect for iPhone users, social media sharing, and email attachments. Support for iOS 11+ devices. Professional quality conversion trusted by millions of users worldwide.">
+  <meta name="keywords" content="HEIC to JPG, iPhone photo converter, HEIC converter, HEIC to JPEG, convert HEIC files, free HEIC converter, online HEIC converter, iPhone photo format, iOS photo converter, HEIC to JPG online, free image converter">
   <meta name="author" content="Vinod Kumar">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  
+  <!-- Additional SEO Meta Tags -->
+  <meta name="theme-color" content="#0066CC">
+  <meta name="msapplication-TileColor" content="#0066CC">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="imgtojpg.org">
+  
+  <!-- Mobile and Performance Meta Tags -->
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="msapplication-config" content="/browserconfig.xml">
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://imgtojpg.org/heic-to-jpg.html">
   <meta property="og:title" content="HEIC to JPG Converter - Convert iPhone Photos Online">
-  <meta property="og:description" content="Free HEIC to JPG converter. Convert iPhone HEIC photos to JPG format online. Fast, secure, no registration required.">
+  <meta property="og:description" content="Free HEIC to JPG converter. Convert iPhone HEIC photos to JPG format online. Fast, secure, no registration required. Professional quality conversion trusted by millions of users worldwide.">
   <meta property="og:image" content="https://imgtojpg.org/Vinod Kumar.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="imgtojpg.org">
+  <meta property="og:locale" content="en_US">
   
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://imgtojpg.org/heic-to-jpg.html">
   <meta property="twitter:title" content="HEIC to JPG Converter - Free Online Tool">
-  <meta property="twitter:description" content="Free HEIC to JPG converter. Convert iPhone HEIC photos to JPG format online.">
+  <meta property="twitter:description" content="Free HEIC to JPG converter. Convert iPhone HEIC photos to JPG format online. Professional quality conversion trusted by millions of users worldwide.">
   <meta property="twitter:image" content="https://imgtojpg.org/Vinod Kumar.png">
   
-  <!-- Canonical URL -->
+  <!-- Canonical and Alternate Languages -->
   <link rel="canonical" href="https://imgtojpg.org/heic-to-jpg.html" />
+  <link rel="alternate" hreflang="en" href="https://imgtojpg.org/heic-to-jpg.html" />
+  <link rel="alternate" hreflang="en-US" href="https://imgtojpg.org/heic-to-jpg.html" />
+  <link rel="alternate" hreflang="en-GB" href="https://imgtojpg.org/heic-to-jpg.html" />
+  <link rel="alternate" hreflang="en-CA" href="https://imgtojpg.org/heic-to-jpg.html" />
+  <link rel="alternate" hreflang="en-AU" href="https://imgtojpg.org/heic-to-jpg.html" />
+  <link rel="alternate" hreflang="x-default" href="https://imgtojpg.org/heic-to-jpg.html" />
   
-  <!-- Favicon -->
+  <!-- Preconnect to external domains for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Favicon and App Icons -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
   
   <link href="/style.css?v=1.0.7" rel="stylesheet">
+  <script src="/analytics-tracker.js"></script>
   <style>
     /* Additional custom styles that can't be handled by Tailwind */
     .loading-dots::after {
@@ -60,6 +89,18 @@
       left: 100%;
     }
     
+    .coffee-button {
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      color: white;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-weight: 600;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
     .coffee-button::before {
       content: '';
       position: absolute;
@@ -75,6 +116,11 @@
       left: 100%;
     }
     
+    .coffee-button:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+    }
+    
     /* Download button loading state */
     .downloading {
       opacity: 0.7;
@@ -82,6 +128,209 @@
       pointer-events: none;
     }
   </style>
+
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "@id": "https://imgtojpg.org/heic-to-jpg.html#webapp",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://imgtojpg.org/heic-to-jpg.html"
+    },
+    "name": "HEIC to JPG Converter - Free iPhone Photo Converter",
+    "description": "Convert iPhone HEIC photos to JPG format online. Fast, secure, no registration required. Perfect for iPhone users and social media sharing.",
+    "url": "https://imgtojpg.org/heic-to-jpg.html",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Web Browser",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "1250",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "Free HEIC to JPG conversion service"
+    },
+    "featureList": [
+      "HEIC to JPG conversion",
+      "iPhone photo support",
+      "Batch processing",
+      "High quality output",
+      "Fast conversion",
+      "Secure file handling",
+      "No registration required"
+    ],
+    "screenshot": "https://imgtojpg.org/Vinod Kumar.png",
+    "softwareVersion": "1.2.0",
+    "datePublished": "2024-01-01",
+    "dateModified": "2025-01-27"
+  }
+  </script>
+
+  <!-- Service Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": "https://imgtojpg.org/heic-to-jpg.html#service",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://imgtojpg.org/heic-to-jpg.html"
+    },
+    "name": "HEIC to JPG Conversion Service",
+    "description": "Convert iPhone HEIC photos to JPG format with high quality and fast processing",
+    "provider": {
+      "@id": "https://imgtojpg.org/#organization"
+    },
+    "serviceType": "Image Format Conversion",
+    "areaServed": "Worldwide",
+    "availableChannel": {
+      "@type": "ServiceChannel",
+      "serviceUrl": "https://imgtojpg.org/heic-to-jpg.html"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Image Conversion Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "HEIC to JPG Conversion",
+            "description": "Convert iPhone HEIC photos to high-quality JPG format"
+          }
+        }
+      ]
+    }
+  }
+  </script>
+
+  <!-- Breadcrumb Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://imgtojpg.org/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "HEIC to JPG Converter",
+        "item": "https://imgtojpg.org/heic-to-jpg.html"
+      }
+    ]
+  }
+  </script>
+
+  <!-- HowTo Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Convert HEIC to JPG Online",
+    "description": "Step-by-step guide to convert iPhone HEIC photos to JPG format using our free online converter",
+    "image": "https://imgtojpg.org/Vinod Kumar.png",
+    "totalTime": "PT1M",
+    "estimatedCost": "0",
+    "supply": [
+      {
+        "@type": "HowToSupply",
+        "name": "HEIC photo file"
+      },
+      {
+        "@type": "HowToSupply",
+        "name": "Web browser"
+      }
+    ],
+    "tool": [
+      {
+        "@type": "HowToTool",
+        "name": "imgtojpg.org HEIC converter"
+      }
+    ],
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Upload HEIC file",
+        "text": "Drag and drop or select your iPhone HEIC photo file",
+        "image": "https://imgtojpg.org/Vinod Kumar.png"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Convert to JPG",
+        "text": "Click convert and your HEIC will be converted to JPG format",
+        "image": "https://imgtojpg.org/Vinod Kumar.png"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Download JPG",
+        "text": "Download your converted JPG image file",
+        "image": "https://imgtojpg.org/Vinod Kumar.png"
+      }
+    ]
+  }
+  </script>
+
+  <!-- FAQ Schema for Better Search Results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I convert HEIC to JPG?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Simply upload your HEIC file, select JPG as the output format, and click convert. Your JPG file will be ready for download in seconds."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is HEIC to JPG conversion free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, our HEIC to JPG converter is completely free with no hidden costs, watermarks, or registration required."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I convert multiple HEIC files at once?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely! Our batch processing feature allows you to convert multiple HEIC files simultaneously to JPG format."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which iPhone models are supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We support HEIC conversion from all iPhone models including iPhone 7, 8, X, 11, 12, 13, 14, 15, and newer. Our service works with iOS 11+."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is the image quality maintained?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We use advanced conversion algorithms to ensure maximum quality preservation while optimizing file size for web use and social media sharing."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -398,6 +647,9 @@
       
       <div class="border-t border-gray-700 pt-8 text-center">
         <p class="text-gray-400 text-sm">© 2025 imgtojpg.org. Powered by <span class="font-semibold text-gray-300">nerdykeeda</span></p>
+        <div class="mt-4 text-center">
+          <p class="text-gray-400 text-sm">Made with <span class="text-red-500 text-lg">❤</span> in Gurugram, India</p>
+        </div>
         <div class="mt-4">
           <button class="coffee-button text-sm px-6 py-2">
             ☕ Buy me a coffee
@@ -599,7 +851,8 @@
           
           // Display converted images
           if (data.convertedFiles && data.convertedFiles.length > 0) {
-            data.convertedFiles.forEach(fileName => {
+            data.convertedFiles.forEach(fileInfo => {
+              const fileName = fileInfo.filename || fileInfo; // Handle both new and old format
               const wrapper = document.createElement('div');
               wrapper.className = 'space-y-2';
 

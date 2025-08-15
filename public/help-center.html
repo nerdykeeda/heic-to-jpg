@@ -4,10 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Help Center - imgtojpg.org | Image Conversion Support & FAQ</title>
-    <meta name="description" content="Get help with imgtojpg.org image converter by Vinod Kumar. Find answers to common questions, troubleshooting guides, and learn how to use our free online image conversion service.">
-    <meta name="keywords" content="help, support, image converter, imgtojpg.org, FAQ, troubleshooting, Vinod Kumar, image conversion guide">
+    <meta name="description" content="Get help with imgtojpg.org image converter by Vinod Kumar. Find answers to common questions, troubleshooting guides, and learn how to use our free online image conversion service. Comprehensive tutorials and support.">
+    <meta name="keywords" content="help, support, image converter, imgtojpg.org, FAQ, troubleshooting, Vinod Kumar, image conversion guide, image converter help, photo conversion support, digital imaging tutorials">
     <meta name="author" content="Vinod Kumar">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#0066CC">
+    <meta name="msapplication-TileColor" content="#0066CC">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="imgtojpg.org">
+    
+    <!-- Mobile and Performance Meta Tags -->
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="msapplication-config" content="/browserconfig.xml">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -15,7 +27,10 @@
     <meta property="og:title" content="Help Center - Image Conversion Support & FAQ">
     <meta property="og:description" content="Get help with imgtojpg.org image converter by Vinod Kumar. Find answers to common questions and troubleshooting guides.">
     <meta property="og:image" content="https://imgtojpg.org/Vinod Kumar.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="imgtojpg.org">
+    <meta property="og:locale" content="en_US">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
@@ -24,11 +39,24 @@
     <meta property="twitter:description" content="Get help with imgtojpg.org image converter by Vinod Kumar. Find answers to common questions and troubleshooting guides.">
     <meta property="twitter:image" content="https://imgtojpg.org/Vinod Kumar.png">
     
-      <!-- Canonical URL -->
-  <link rel="canonical" href="https://imgtojpg.org/help-center.html" />
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+      <!-- Canonical and Alternate Languages -->
+      <link rel="canonical" href="https://imgtojpg.org/help-center.html" />
+      <link rel="alternate" hreflang="en" href="https://imgtojpg.org/help-center.html" />
+      <link rel="alternate" hreflang="en-US" href="https://imgtojpg.org/help-center.html" />
+      <link rel="alternate" hreflang="en-GB" href="https://imgtojpg.org/help-center.html" />
+      <link rel="alternate" hreflang="en-CA" href="https://imgtojpg.org/help-center.html" />
+      <link rel="alternate" hreflang="en-AU" href="https://imgtojpg.org/help-center.html" />
+      <link rel="alternate" hreflang="x-default" href="https://imgtojpg.org/help-center.html" />
+      
+      <!-- Preconnect to external domains for performance -->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      
+      <!-- Favicon and App Icons -->
+      <link rel="icon" type="image/x-icon" href="/favicon.ico">
+      <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+      <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+      <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
   
   <!-- Structured Data for SEO -->
   <script type="application/ld+json">
@@ -75,6 +103,7 @@
   </script>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="/analytics-tracker.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -88,6 +117,39 @@
             }
         }
     </script>
+    <style>
+        .coffee-button {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .coffee-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .coffee-button:hover::before {
+            left: 100%;
+        }
+        
+        .coffee-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+        }
+    </style>
 </head>
 <body class="bg-gray-50">
     <!-- Navigation Header -->
@@ -102,7 +164,7 @@
                 <ul class="hidden sm:flex items-center space-x-4 lg:space-x-6">
                     <li><a href="/" class="text-gray-700 hover:text-gray-900 font-medium transition-all duration-200 hover:scale-105">Home</a></li>
                     <li><a href="blog.html" class="text-gray-700 hover:text-gray-900 font-medium transition-all duration-200 hover:scale-105">Blog</a></li>
-                    <li><button class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">☕ Buy me a coffee</button></li>
+                    <li><button class="coffee-button">☕ Buy me a coffee</button></li>
                 </ul>
             </div>
         </div>
@@ -249,6 +311,9 @@
             
             <div class="border-t border-gray-700 pt-8 text-center">
                 <p class="text-gray-400 text-sm">© 2025 imgtojpg.org. Powered by <span class="font-semibold text-gray-300">nerdykeeda</span></p>
+                <div class="mt-4 text-center">
+                    <p class="text-gray-400 text-sm">Made with <span class="text-red-500 text-lg">❤</span> in Gurugram, India</p>
+                </div>
                 <div class="mt-4">
                     <button class="bg-orange-500 text-white text-sm px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors">
                         ☕ Buy me a coffee

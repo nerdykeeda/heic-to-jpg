@@ -159,3 +159,6 @@ uploads/
 public/converted/
 public/converted_images.zip
 .DS_Store
+
+# Email configuration (contains sensitive credentials)
+email-config.js

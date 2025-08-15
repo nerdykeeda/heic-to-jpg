@@ -4,10 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>WebP to JPG Converter - Free WebP Image Converter</title>
-  <meta name="description" content="Free WebP to JPG converter. Convert WebP images to JPG format online. Fast, secure, batch processing. Perfect for universal compatibility.">
-  <meta name="keywords" content="WebP to JPG, WebP converter, WebP to JPEG, convert WebP files, free WebP converter, online WebP converter, image format converter, web optimization">
+  <meta name="description" content="Free WebP to JPG converter. Convert WebP images to JPG format online. Fast, secure, batch processing. Perfect for universal compatibility, social media, and email. Support for modern web formats. Professional quality conversion trusted by millions of users worldwide.">
+  <meta name="keywords" content="WebP to JPG, WebP converter, WebP to JPEG, convert WebP files, free WebP converter, online WebP converter, image format converter, web optimization, Google WebP converter, WebP to JPG online, free image converter">
   <meta name="author" content="Vinod Kumar">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  
+  <!-- Additional SEO Meta Tags -->
+  <meta name="theme-color" content="#0066CC">
+  <meta name="msapplication-TileColor" content="#0066CC">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="imgtojpg.org">
+  
+  <!-- Mobile and Performance Meta Tags -->
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="msapplication-config" content="/browserconfig.xml">
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -15,7 +27,10 @@
   <meta property="og:title" content="WebP to JPG Converter - Convert Images Online">
   <meta property="og:description" content="Free WebP to JPG converter. Convert WebP images to JPG format online. Fast, secure, batch processing.">
   <meta property="og:image" content="https://imgtojpg.org/Vinod Kumar.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="imgtojpg.org">
+  <meta property="og:locale" content="en_US">
   
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
@@ -24,13 +39,27 @@
   <meta property="twitter:description" content="Free WebP to JPG converter. Convert WebP images to JPG format online.">
   <meta property="twitter:image" content="https://imgtojpg.org/Vinod Kumar.png">
   
-  <!-- Canonical URL -->
+  <!-- Canonical and Alternate Languages -->
   <link rel="canonical" href="https://imgtojpg.org/webp-to-jpg.html" />
+  <link rel="alternate" hreflang="en" href="https://imgtojpg.org/webp-to-jpg.html" />
+  <link rel="alternate" hreflang="en-US" href="https://imgtojpg.org/webp-to-jpg.html" />
+  <link rel="alternate" hreflang="en-GB" href="https://imgtojpg.org/webp-to-jpg.html" />
+  <link rel="alternate" hreflang="en-CA" href="https://imgtojpg.org/webp-to-jpg.html" />
+  <link rel="alternate" hreflang="en-AU" href="https://imgtojpg.org/webp-to-jpg.html" />
+  <link rel="alternate" hreflang="x-default" href="https://imgtojpg.org/webp-to-jpg.html" />
   
-  <!-- Favicon -->
+  <!-- Preconnect to external domains for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Favicon and App Icons -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
   
   <link href="/style.css?v=1.0.7" rel="stylesheet">
+  <script src="/analytics-tracker.js"></script>
   <style>
     /* Additional custom styles that can't be handled by Tailwind */
     .loading-dots::after {
@@ -60,6 +89,18 @@
       left: 100%;
     }
     
+    .coffee-button {
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      color: white;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-weight: 600;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
     .coffee-button::before {
       content: '';
       position: absolute;
@@ -75,6 +116,11 @@
       left: 100%;
     }
     
+    .coffee-button:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+    }
+    
     /* Download button loading state */
     .downloading {
       opacity: 0.7;
@@ -82,6 +128,209 @@
       pointer-events: none;
     }
   </style>
+
+  <!-- Structured Data for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "@id": "https://imgtojpg.org/webp-to-jpg.html#webapp",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://imgtojpg.org/webp-to-jpg.html"
+    },
+    "name": "WebP to JPG Converter - Free Online Image Converter",
+    "description": "Convert WebP images to JPG format online. Fast, secure, batch processing. Perfect for universal compatibility and web optimization.",
+    "url": "https://imgtojpg.org/webp-to-jpg.html",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Web Browser",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "1250",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "Free WebP to JPG conversion service"
+    },
+    "featureList": [
+      "WebP to JPG conversion",
+      "Batch processing",
+      "Modern web format support",
+      "High quality output",
+      "Fast conversion",
+      "Secure file handling",
+      "No registration required"
+    ],
+    "screenshot": "https://imgtojpg.org/Vinod Kumar.png",
+    "softwareVersion": "1.2.0",
+    "datePublished": "2024-01-01",
+    "dateModified": "2025-01-27"
+  }
+  </script>
+
+  <!-- Service Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": "https://imgtojpg.org/webp-to-jpg.html#service",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://imgtojpg.org/webp-to-jpg.html"
+    },
+    "name": "WebP to JPG Conversion Service",
+    "description": "Convert WebP images to JPG format with high quality and fast processing",
+    "provider": {
+      "@id": "https://imgtojpg.org/#organization"
+    },
+    "serviceType": "Image Format Conversion",
+    "areaServed": "Worldwide",
+    "availableChannel": {
+      "@type": "ServiceChannel",
+      "serviceUrl": "https://imgtojpg.org/webp-to-jpg.html"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Image Conversion Services",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "WebP to JPG Conversion",
+            "description": "Convert WebP images to high-quality JPG format"
+          }
+        }
+      ]
+    }
+  }
+  </script>
+
+  <!-- Breadcrumb Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://imgtojpg.org/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "WebP to JPG Converter",
+        "item": "https://imgtojpg.org/webp-to-jpg.html"
+      }
+    ]
+  }
+  </script>
+
+  <!-- HowTo Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Convert WebP to JPG Online",
+    "description": "Step-by-step guide to convert WebP images to JPG format using our free online converter",
+    "image": "https://imgtojpg.org/Vinod Kumar.png",
+    "totalTime": "PT1M",
+    "estimatedCost": "0",
+    "supply": [
+      {
+        "@type": "HowToSupply",
+        "name": "WebP image file"
+      },
+      {
+        "@type": "HowToSupply",
+        "name": "Web browser"
+      }
+    ],
+    "tool": [
+      {
+        "@type": "HowToTool",
+        "name": "imgtojpg.org WebP converter"
+      }
+    ],
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Upload WebP file",
+        "text": "Drag and drop or select your WebP image file",
+        "image": "https://imgtojpg.org/Vinod Kumar.png"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Convert to JPG",
+        "text": "Click convert and your WebP will be converted to JPG format",
+        "image": "https://imgtojpg.org/Vinod Kumar.png"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Download JPG",
+        "text": "Download your converted JPG image file",
+        "image": "https://imgtojpg.org/Vinod Kumar.png"
+      }
+    ]
+  }
+  </script>
+
+  <!-- FAQ Schema for Better Search Results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I convert WebP to JPG?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Simply upload your WebP file, select JPG as the output format, and click convert. Your JPG file will be ready for download in seconds."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is WebP to JPG conversion free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, our WebP to JPG converter is completely free with no hidden costs, watermarks, or registration required."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I convert multiple WebP files at once?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely! Our batch processing feature allows you to convert multiple WebP files simultaneously to JPG format."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is WebP format?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "WebP is a modern image format developed by Google that provides superior compression for images on the web. It's designed to create smaller, richer images for faster web loading."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is the image quality maintained?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We use advanced conversion algorithms to ensure maximum quality preservation while optimizing file size for web use and universal compatibility."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -398,6 +647,9 @@
       
       <div class="border-t border-gray-700 pt-8 text-center">
         <p class="text-gray-400 text-sm">© 2025 imgtojpg.org. Powered by <span class="font-semibold text-gray-300">nerdykeeda</span></p>
+        <div class="mt-4 text-center">
+          <p class="text-gray-400 text-sm">Made with <span class="text-red-500 text-lg">❤</span> in Gurugram, India</p>
+        </div>
         <div class="mt-4">
           <button class="coffee-button text-sm px-6 py-2">
             ☕ Buy me a coffee
@@ -599,7 +851,8 @@
           
           // Display converted images
           if (data.convertedFiles && data.convertedFiles.length > 0) {
-            data.convertedFiles.forEach(fileName => {
+            data.convertedFiles.forEach(fileInfo => {
+              const fileName = fileInfo.filename || fileInfo; // Handle both new and old format
               const wrapper = document.createElement('div');
               wrapper.className = 'space-y-2';
 

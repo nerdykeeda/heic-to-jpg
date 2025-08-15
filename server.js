@@ -6,9 +6,20 @@ const path = require('path');
 const archiver = require('archiver');
 const { v4: uuidv4 } = require('uuid');
 const { Worker } = require('worker_threads');
+const nodemailer = require('nodemailer');
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Email configuration
+const emailConfig = require('./email-config');
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: emailConfig.email.user,
+    pass: emailConfig.email.pass
+  }
+});
 
 app.use(express.static('public'));
 app.use(express.json()); // Add this line for parsing JSON requests
@@ -335,6 +346,77 @@ app.post('/api/update-blog', adminAuth, (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error updating blog: ' + error.message
+    });
+  }
+});
+
+// Contact form endpoint
+app.post('/api/contact', async (req, res) => {
+  try {
+    const { name, email, subject, message } = req.body;
+    
+    // Validate required fields
+    if (!name || !email || !subject || !message) {
+      return res.status(400).json({
+        success: false,
+        message: 'All fields are required'
+      });
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please enter a valid email address'
+      });
+    }
+    
+    // Email content
+    const mailOptions = {
+      from: emailConfig.email.user,
+      to: 'neerdykeeda@gmail.com',
+      subject: `Contact Form: ${subject}`,
+      html: `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message.replace(/\n/g, '<br>')}</p>
+        <hr>
+        <p><em>This message was sent from the contact form on imgtojpg.org</em></p>
+      `,
+      text: `
+        New Contact Form Submission
+        
+        Name: ${name}
+        Email: ${email}
+        Subject: ${subject}
+        Message:
+        ${message}
+        
+        ---
+        This message was sent from the contact form on imgtojpg.org
+      `
+    };
+    
+    // Send email
+    const info = await transporter.sendMail(mailOptions);
+    
+    console.log('Email sent successfully:', info.messageId);
+    
+    res.json({
+      success: true,
+      message: 'Your message has been sent successfully! We\'ll get back to you soon.',
+      messageId: info.messageId
+    });
+    
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to send email. Please try again later.'
     });
   }
 });

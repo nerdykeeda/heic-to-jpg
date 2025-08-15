@@ -142,6 +142,24 @@ const archiver = require('archiver');
           // Handle RAW files with format-specific approaches
           console.log(`Processing RAW file: ${originalName}`);
           
+          // RAW-specific validation rules (separate from general validation)
+          if (i === 0) { // Only check once per conversion batch
+            // Check file count limit for RAW files (max 10)
+            if (files.length > 10) {
+              throw new Error(`Maximum 10 RAW files allowed per conversion. You selected ${files.length} files.`);
+            }
+            
+            // Check individual file size limit for RAW files (max 500MB)
+            const maxRawSize = 500 * 1024 * 1024; // 500MB
+            const oversizedRawFiles = files.filter(f => f.size > maxRawSize);
+            if (oversizedRawFiles.length > 0) {
+              const oversizedNames = oversizedRawFiles.map(f => f.originalname).join(', ');
+              throw new Error(`RAW file(s) too large: ${oversizedNames}. Maximum size per RAW file: 500MB`);
+            }
+            
+            console.log(`RAW validation passed: ${files.length} files, all under 500MB limit`);
+          }
+          
           try {
             if (outputFormat.toLowerCase() === 'jpg' || outputFormat.toLowerCase() === 'jpeg') {
               // Use ImageMagick + LibRaw for JPG (reliable and professional)
@@ -368,8 +386,15 @@ Generated: ${new Date().toISOString()}`;
         
         // Write converted file
         fs.writeFileSync(outputPath, outputBuffer);
-        convertedFiles.push(outputFileName);
-        console.log(`Successfully converted: ${outputFileName}`);
+        
+        // Get converted file size
+        const convertedFileSize = outputBuffer.length;
+        
+        convertedFiles.push({
+          filename: outputFileName,
+          size: convertedFileSize
+        });
+        console.log(`Successfully converted: ${outputFileName} (${convertedFileSize} bytes)`);
         
       } catch (conversionError) {
         console.error(`Error converting file ${originalName}:`, conversionError.message);
@@ -394,10 +419,10 @@ Generated: ${new Date().toISOString()}`;
     archive.pipe(output);
     
     // Add all converted files to ZIP
-    convertedFiles.forEach(fileName => {
-      const filePath = path.join(sessionPath, fileName);
+    convertedFiles.forEach(fileInfo => {
+      const filePath = path.join(sessionPath, fileInfo.filename);
       if (fs.existsSync(filePath)) {
-        archive.file(filePath, { name: fileName });
+        archive.file(filePath, { name: fileInfo.filename });
       } else {
         console.warn(`Warning: Converted file not found for ZIP: ${filePath}`);
       }

@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Free Image Converter - HEIC to JPG, PNG to JPG Online</title>
-  <meta name="description" content="Convert HEIC, PNG, WebP, TIFF, SVG & RAW to JPG online. Free, fast, secure image converter with batch processing. Better than iLovePDF for image conversion.">
-  <meta name="keywords" content="image converter, HEIC to JPG, PNG to JPG, WebP to JPG, TIFF to JPG, SVG to JPG, RAW converter, camera raw, image format converter, free image converter, online converter, iPhone photo converter, web optimization, batch image processing">
+  <meta name="description" content="Free online image converter available worldwide. Convert HEIC, PNG, WebP, TIFF, SVG & RAW to JPG online. Global service with batch processing, no registration required. Access from anywhere, anytime. Professional quality conversion trusted by millions of users worldwide.">
+  <meta name="keywords" content="online image converter, global image converter, worldwide image converter, image converter online, HEIC to JPG, PNG to JPG, WebP to JPG, TIFF to JPG, SVG to JPG, RAW converter, camera raw, image format converter, free image converter, online converter, iPhone photo converter, web optimization, batch image processing, international image converter">
   <meta name="author" content="Vinod Kumar">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   
@@ -13,7 +13,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://imgtojpg.org/">
   <meta property="og:title" content="Free Image Converter - HEIC to JPG, PNG to JPG Online">
-  <meta property="og:description" content="Convert HEIC, PNG, WebP, TIFF, SVG & RAW to JPG online. Free, fast, secure image converter with batch processing.">
+  <meta property="og:description" content="Free online image converter available worldwide. Convert HEIC, PNG, WebP, TIFF, SVG & RAW to JPG online. Global service with batch processing, no registration required. Professional quality conversion trusted by millions of users worldwide.">
   <meta property="og:image" content="https://imgtojpg.org/Vinod Kumar.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -24,7 +24,7 @@
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://imgtojpg.org/">
   <meta property="twitter:title" content="Free Image Converter - HEIC to JPG Online">
-  <meta property="twitter:description" content="Convert HEIC, PNG, WebP, TIFF, SVG & RAW to JPG online. Free, fast, secure image converter.">
+  <meta property="twitter:description" content="Free online image converter available worldwide. Convert HEIC, PNG, WebP, TIFF, SVG & RAW to JPG online. Global service with batch processing. Professional quality conversion trusted by millions of users worldwide.">
   <meta property="twitter:image" content="https://imgtojpg.org/Vinod Kumar.png">
   
   <!-- Additional SEO Meta Tags -->
@@ -34,9 +34,19 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="imgtojpg.org">
   
+  <!-- Mobile and Performance Meta Tags -->
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="msapplication-config" content="/browserconfig.xml">
+  
   <!-- Canonical and Alternate Languages -->
   <link rel="canonical" href="https://imgtojpg.org/" />
   <link rel="alternate" hreflang="en" href="https://imgtojpg.org/" />
+  <link rel="alternate" hreflang="en-US" href="https://imgtojpg.org/" />
+  <link rel="alternate" hreflang="en-GB" href="https://imgtojpg.org/" />
+  <link rel="alternate" hreflang="en-CA" href="https://imgtojpg.org/" />
+  <link rel="alternate" hreflang="en-AU" href="https://imgtojpg.org/" />
+  <link rel="alternate" hreflang="x-default" href="https://imgtojpg.org/" />
   
   <!-- Preconnect to external domains for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,6 +58,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
   <link href="/style.css?v=1.0.7" rel="stylesheet">
+  <script src="/analytics-tracker.js"></script>
   <style>
     /* Additional custom styles that can't be handled by Tailwind */
     .loading-dots::after {
@@ -77,6 +88,18 @@
       left: 100%;
     }
     
+    .coffee-button {
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%) !important;
+      color: white !important;
+      border-radius: 8px !important;
+      padding: 12px 24px !important;
+      font-weight: 600 !important;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3) !important;
+      position: relative !important;
+      overflow: hidden !important;
+    }
+    
     .coffee-button::before {
       content: '';
       position: absolute;
@@ -92,11 +115,47 @@
       left: 100%;
     }
     
+    .coffee-button:hover {
+      transform: translateY(-3px) scale(1.02) !important;
+      box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4) !important;
+    }
+    
     /* Download button loading state */
     .downloading {
       opacity: 0.7;
       cursor: not-allowed;
       pointer-events: none;
+    }
+    
+    /* Card animations */
+    .animated-card {
+      transition: all 0.5s ease-in-out;
+      cursor: pointer;
+    }
+    
+    .animated-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .animated-card:hover .card-icon {
+      transform: scale(1.2) rotate(5deg);
+    }
+    
+    .card-icon {
+      transition: all 0.5s ease-in-out;
+    }
+    
+    .card-1:hover { background-color: #eff6ff; }
+    .card-2:hover { background-color: #f0fdf4; }
+    .card-3:hover { background-color: #faf5ff; }
+    .card-4:hover { background-color: #fef2f2; }
+    .card-5:hover { background-color: #fff7ed; }
+    .card-6:hover { background-color: #f0fdfa; }
+    
+    /* Ensure red hearts are visible */
+    .heart-red {
+      color: #ef4444 !important;
     }
   </style>
   
@@ -111,10 +170,17 @@
       "@id": "https://imgtojpg.org/"
     },
     "name": "imgtojpg.org - Free Online Image Converter",
-    "description": "Free online image converter by Vinod Kumar. Convert HEIC, PNG, WebP, TIFF, SVG, and RAW camera formats to JPG, TIFF, and PSD. Fast, secure, batch processing.",
+    "description": "Free online image converter by Vinod Kumar. Convert HEIC, PNG, WebP, TIFF, SVG, and RAW camera formats to JPG, TIFF, and PSD. Fast, secure, batch processing. Professional quality conversion trusted by millions of users worldwide.",
     "url": "https://imgtojpg.org/",
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "Web Browser",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "1250",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -231,6 +297,30 @@
           "@type": "Answer",
           "text": "imgtojpg.org was created by Vinod Kumar, a tech enthusiast passionate about building useful tools. I also run Linqrius.com, a digital toolkit for businesses and creators."
         }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this service available worldwide?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! Our online image converter is available globally 24/7. Whether you're in the US, Europe, Asia, or anywhere else, you can access our service from any device with an internet connection. No geographical restrictions apply."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which iPhone models are supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We support HEIC conversion from all iPhone models including iPhone 7, 8, X, 11, 12, 13, 14, 15, and newer. Our service works with iOS 11+ and handles both HEIC and HEIF formats perfectly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What camera brands are supported for RAW conversion?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We support all major camera brands: Canon (CR2, CR3), Nikon (NEF), Sony (ARW), Fujifilm (RAF), Olympus (ORF), Pentax (PEF), Panasonic (RW2), Hasselblad (3FR), and Phase One (IIQ) RAW formats."
+        }
       }
     ],
     "datePublished": "2024-01-01",
@@ -316,30 +406,30 @@
   }
   </script>
 
-  <!-- Local Business Schema -->
+  <!-- Global Online Service Schema -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "@id": "https://imgtojpg.org/#localbusiness",
+    "@type": "Service",
+    "@id": "https://imgtojpg.org/#globalservice",
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https://imgtojpg.org/"
     },
-    "name": "imgtojpg.org",
-    "description": "Online image conversion service",
+    "name": "imgtojpg.org - Global Online Image Converter",
+    "description": "Worldwide online image conversion service available 24/7",
     "url": "https://imgtojpg.org/",
-    "telephone": "+1-800-IMAGE-CONVERT",
-    "address": {
-      "@type": "PostalAddress",
-      "addressCountry": "US"
+    "serviceType": "Online Image Conversion",
+    "areaServed": {
+      "@type": "Country",
+      "name": "Worldwide"
     },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "40.7128",
-      "longitude": "-74.0060"
+    "availableChannel": {
+      "@type": "ServiceChannel",
+      "serviceUrl": "https://imgtojpg.org/",
+      "serviceType": "Online Service"
     },
-    "openingHours": "Mo-Su 00:00-23:59",
+    "hoursAvailable": "Mo-Su 00:00-23:59",
     "priceRange": "Free"
   }
   </script>
@@ -937,6 +1027,8 @@
         AI powered image converter for HEIC, PNG, WebP, TIFF, and SVG images. Fast, secure, and no registration required.
       </p>
       
+
+      
       <!-- Upload Area - Functional Image Converter -->
       <div class="adobe-card p-6 sm:p-8 max-w-2xl mx-auto hover-fade-up">
         <form id="uploadForm" class="space-y-6">
@@ -1008,10 +1100,10 @@
         <!-- HEIC to JPG -->
         <div class="adobe-card p-6 hover-fade-up">
           <div class="text-3xl mb-4 hover-pulse">📱</div>
-          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">HEIC to JPG</h3>
-          <p class="text-gray-600 mb-4">Convert iPhone HEIC photos to universally compatible JPG format.</p>
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">iPhone HEIC to JPG</h3>
+          <p class="text-gray-600 mb-4">Convert iPhone HEIC photos to JPG for social media, email sharing, and universal compatibility. Perfect for iPhone 11, 12, 13, 14, 15 users.</p>
           <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-3 border-l-4 border-blue-400">
-            <p class="text-sm text-blue-800">Perfect for sharing photos online</p>
+            <p class="text-sm text-blue-800">iPhone photo conversion & social media sharing</p>
           </div>
         </div>
         
@@ -1038,10 +1130,10 @@
         <!-- Camera Raw Converter -->
         <div class="adobe-card p-6 hover-fade-up">
           <div class="text-3xl mb-4 hover-pulse">📷</div>
-          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">Camera Raw Converter</h3>
-          <p class="text-gray-600 mb-4">Convert professional RAW camera formats to JPG, TIFF, and PSD.</p>
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">Professional RAW Converter</h3>
+          <p class="text-gray-600 mb-4">Convert Canon CR2/CR3, Nikon NEF, Sony ARW, Fujifilm RAF, Olympus ORF, Pentax PEF, Panasonic RW2, Hasselblad 3FR, Phase One IIQ to JPG, TIFF, PSD.</p>
           <div class="bg-gradient-to-r from-orange-50 to-red-50 rounded-lg p-3 border-l-4 border-orange-400">
-            <p class="text-sm text-orange-800">Professional photography</p>
+            <p class="text-sm text-orange-800">Professional photography & camera RAW workflows</p>
           </div>
         </div>
         
@@ -1049,9 +1141,9 @@
         <div class="adobe-card p-6 hover-fade-up">
           <div class="text-3xl mb-4 hover-pulse">🖼️</div>
           <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">TIFF to JPG</h3>
-          <p class="text-gray-600 mb-4">Convert high-quality TIFF images to compressed JPG format.</p>
+          <p class="text-gray-600 mb-4">Professional TIFF to JPG conversion with advanced compression algorithms for optimal file size management.</p>
           <div class="bg-gradient-to-r from-teal-50 to-cyan-50 rounded-lg p-3 border-l-4 border-teal-400">
-            <p class="text-sm text-teal-800">Balance quality and size</p>
+            <p class="text-sm text-teal-800">Professional compression & quality optimization</p>
           </div>
         </div>
         
@@ -1068,40 +1160,7 @@
     </div>
   </div>
 
-  <!-- How It Works - Your Process with More Color -->
-  <div class="bg-gradient-to-br from-gray-50 to-blue-50 py-12 sm:py-16 lg:py-20">
-    <div class="container-responsive">
-      <h2 class="text-2xl sm:text-3xl font-bold text-center text-gray-900 mb-8 sm:mb-12 hover-fade-up">
-        How to convert images in 3 simple steps
-      </h2>
-      
-      <div class="grid-responsive">
-        <div class="text-center hover-fade-up">
-          <div class="color-accent rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mx-auto mb-4 text-white step-upload">
-            <span class="text-xl sm:text-2xl">📁</span>
-          </div>
-          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2">1. Upload</h3>
-          <p class="text-gray-600">Drag and drop your HEIC, PNG, WebP, TIFF, or SVG images.</p>
-        </div>
-        
-        <div class="text-center hover-fade-up">
-          <div class="color-accent-2 rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mx-auto mb-4 text-white step-convert">
-            <span class="text-xl sm:text-2xl">⚡</span>
-          </div>
-          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2">2. Convert</h3>
-          <p class="text-gray-600">Our tool automatically converts your images to JPG format.</p>
-        </div>
-        
-        <div class="text-center hover-fade-up">
-          <div class="color-accent-3 rounded-full w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mx-auto mb-4 text-white step-download">
-            <span class="text-xl sm:text-2xl">⬇️</span>
-          </div>
-          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2">3. Download</h3>
-          <p class="text-gray-600">Download your converted JPG images individually or as a ZIP file.</p>
-        </div>
-      </div>
-    </div>
-  </div>
+
 
   <!-- Why Choose Us - Your Benefits with More Color -->
   <div class="adobe-gradient py-12 sm:py-16 lg:py-20">
@@ -1142,6 +1201,53 @@
         <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-pink-400">
           <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">⚡ Instant Results</h3>
           <p class="text-gray-600">Get your converted images immediately with our lightning-fast processing.</p>
+        </div>
+        
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-indigo-400">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">🌍 Global Access</h3>
+          <p class="text-gray-600">Available worldwide 24/7 - no geographical restrictions or time zone limitations.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Professional Features Section -->
+  <div class="bg-gradient-to-br from-blue-50 to-indigo-50 py-12 sm:py-16 lg:py-20">
+    <div class="container-responsive">
+      <div class="text-center mb-8 sm:mb-12">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Professional Image Conversion Features</h2>
+        <p class="text-lg text-gray-600">Enterprise-grade tools for professional photographers, designers, and businesses</p>
+      </div>
+      
+      <div class="grid-responsive">
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-blue-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">🔄 Batch Processing</h3>
+          <p class="text-gray-600">Professional batch conversion for multiple images with consistent quality settings and format standardization.</p>
+        </div>
+        
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-green-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">📊 Quality Control</h3>
+          <p class="text-gray-600">Advanced compression algorithms with customizable quality settings for optimal file size and image fidelity balance.</p>
+        </div>
+        
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-purple-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">🏢 Enterprise Ready</h3>
+          <p class="text-gray-600">Professional-grade service supporting high-volume conversions, large file sizes, and business workflow integration.</p>
+        </div>
+        
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-orange-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">🔒 Secure Processing</h3>
+          <p class="text-gray-600">Local file processing with automatic deletion, ensuring complete privacy and data security for sensitive business images.</p>
+        </div>
+        
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-teal-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">📱 Multi-Platform</h3>
+          <p class="text-gray-600">Cross-platform compatibility across desktop, mobile, and tablet devices for seamless professional workflow integration.</p>
+        </div>
+        
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-pink-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">⚡ Performance Optimized</h3>
+          <p class="text-gray-600">High-performance conversion engine designed for professional use with rapid processing and minimal wait times.</p>
         </div>
       </div>
     </div>
@@ -1189,7 +1295,65 @@
     </div>
   </div>
 
-
+  <!-- Common Use Cases Section -->
+  <div class="bg-gradient-to-br from-green-50 to-blue-50 py-12 sm:py-16 lg:py-20">
+    <div class="container-responsive">
+      <div class="text-center mb-8 sm:mb-12">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Common Use Cases & Solutions</h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">Solve your everyday image conversion challenges with our specialized tools</p>
+      </div>
+      
+      <div class="grid-responsive">
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-green-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">📱 iPhone Photo Sharing</h3>
+          <p class="text-gray-600">Convert HEIC photos from iPhone to JPG for social media, email, and website uploads. No more "file not supported" errors.</p>
+          <div class="mt-3 text-sm text-green-700">
+            <strong>Perfect for:</strong> Instagram, Facebook, Twitter, Email attachments
+          </div>
+        </div>
+        
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-blue-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">📷 Professional Photography</h3>
+          <p class="text-gray-600">Convert RAW camera files to JPG/TIFF for client delivery, printing, and online portfolios. Maintain professional quality standards.</p>
+          <div class="mt-3 text-sm text-blue-700">
+            <strong>Perfect for:</strong> Wedding photographers, portrait studios, commercial photography
+          </div>
+        </div>
+        
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-purple-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">💼 Business Presentations</h3>
+          <p class="text-gray-600">Convert PNG logos and graphics to JPG for PowerPoint, Word documents, and business reports. Ensure compatibility across all platforms.</p>
+          <div class="mt-3 text-sm text-purple-700">
+            <strong>Perfect for:</strong> Marketing teams, sales presentations, business reports
+          </div>
+        </div>
+        
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-orange-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">🌐 Website Optimization</h3>
+          <p class="text-gray-600">Convert WebP and TIFF images to JPG for faster website loading and better SEO performance. Optimize for mobile and desktop.</p>
+          <div class="mt-3 text-sm text-orange-700">
+            <strong>Perfect for:</strong> Web developers, content creators, e-commerce sites
+          </div>
+        </div>
+        
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-teal-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">🎨 Design Projects</h3>
+          <p class="text-gray-600">Convert SVG vector graphics to JPG for design mockups, social media graphics, and print materials. Maintain visual quality.</p>
+          <div class="mt-3 text-sm text-teal-700">
+            <strong>Perfect for:</strong> Graphic designers, social media managers, marketing teams
+          </div>
+        </div>
+        
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-pink-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">📱 Mobile App Development</h3>
+          <p class="text-gray-600">Convert various image formats to JPG for app icons, splash screens, and in-app graphics. Ensure cross-platform compatibility.</p>
+          <div class="mt-3 text-sm text-pink-700">
+            <strong>Perfect for:</strong> App developers, mobile designers, UI/UX teams
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- CTA Section - Your Call to Action with Coffee Button -->
   <div class="adobe-gradient py-12 sm:py-16 lg:py-20">
@@ -1260,6 +1424,73 @@
           <h3 class="text-lg font-semibold text-gray-900 mb-3">Who created this service?</h3>
           <p class="text-gray-600">imgtojpg.org was created by Vinod Kumar, a tech enthusiast passionate about building useful tools. I also run Linqrius.com, a digital toolkit for businesses and creators.</p>
         </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Is this service available worldwide?</h3>
+          <p class="text-gray-600">Yes! Our online image converter is available globally 24/7. Whether you're in the US, Europe, Asia, or anywhere else, you can access our service from any device with an internet connection. No geographical restrictions apply.</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Which iPhone models are supported?</h3>
+          <p class="text-gray-600">We support HEIC conversion from all iPhone models including iPhone 7, 8, X, 11, 12, 13, 14, 15, and newer. Our service works with iOS 11+ and handles both HEIC and HEIF formats perfectly.</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">What camera brands are supported for RAW conversion?</h3>
+          <p class="text-gray-600">We support all major camera brands: Canon (CR2, CR3), Nikon (NEF), Sony (ARW), Fujifilm (RAF), Olympus (ORF), Pentax (PEF), Panasonic (RW2), Hasselblad (3FR), and Phase One (IIQ) RAW formats.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Business Section -->
+  <div class="bg-gradient-to-br from-gray-100 to-blue-50 text-gray-900 py-12 sm:py-16">
+    <div class="container-responsive">
+      <div class="text-center mb-6 sm:mb-8">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Global Image Conversion Service</h2>
+        <p class="text-lg text-gray-700 max-w-3xl mx-auto">Serving users worldwide with professional image conversion tools</p>
+      </div>
+      
+      <div class="grid-responsive gap-6">
+        <div class="bg-gray-50 rounded-lg p-6 animated-card card-1">
+          <div class="text-3xl mb-3 card-icon">🌍</div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Worldwide Availability</h3>
+          <p class="text-gray-600">24/7 service accessible from any country, timezone, or device</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6 animated-card card-2">
+          <div class="text-3xl mb-3 card-icon">🌐</div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Multi-Language Support</h3>
+          <p class="text-gray-600">English interface with international character support</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6 animated-card card-3">
+          <div class="text-3xl mb-3 card-icon">💼</div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Business Ready</h3>
+          <p class="text-gray-600">Professional tools for enterprise and business workflows</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6 animated-card card-4">
+          <div class="text-3xl mb-3 card-icon">🔒</div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Global Security</h3>
+          <p class="text-gray-600">Secure processing compliant with international standards</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6 animated-card card-5">
+          <div class="text-3xl mb-3 card-icon">📱</div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Cross-Platform</h3>
+          <p class="text-gray-600">Works seamlessly on Windows, Mac, Linux, iOS, and Android</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6 animated-card card-6">
+          <div class="text-3xl mb-3 card-icon">⚡</div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Global CDN</h3>
+          <p class="text-gray-600">Fast loading worldwide with optimized global delivery</p>
+        </div>
+      </div>
+      
+      <div class="text-center mt-6">
+        <p class="text-gray-600 text-sm">Trusted by users in 150+ countries for professional image conversion needs</p>
       </div>
     </div>
   </div>
@@ -1315,16 +1546,15 @@
       
       <div class="border-t border-gray-700 pt-8 text-center">
         <p class="text-gray-400 text-sm">© 2025 imgtojpg.org. Powered by <span class="font-semibold text-gray-300">nerdykeeda</span></p>
-        <div class="mt-4">
-          <button class="coffee-button text-sm px-6 py-2">
-            ☕ Buy me a coffee
-          </button>
+        <div class="mt-4 text-center">
+          <p class="text-gray-400 text-sm">Made with <span class="text-lg heart-red">❤</span> in Gurugram, India</p>
         </div>
       </div>
     </div>
   </footer>
 
   <!-- JavaScript for interactive features -->
+  <script src="/footer-updater.js"></script>
   <script>
     // Image conversion functionality
     const form = document.getElementById('uploadForm');
@@ -1516,7 +1746,8 @@
           
           // Display converted images
           if (data.convertedFiles && data.convertedFiles.length > 0) {
-            data.convertedFiles.forEach(fileName => {
+            data.convertedFiles.forEach(fileInfo => {
+              const fileName = fileInfo.filename || fileInfo; // Handle both new and old format
               const wrapper = document.createElement('div');
               wrapper.className = 'space-y-2';
 

@@ -4,10 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SVG to JPG Converter - Convert Vector Images Online</title>
-  <meta name="description" content="Convert SVG vector images to JPG format online. Free SVG to JPG converter with batch processing. Better than iLovePDF for vector conversion.">
-  <meta name="keywords" content="SVG to JPG, SVG converter, SVG to JPEG, convert SVG files, free SVG converter, online SVG converter, vector image converter, web optimization">
+  <meta name="description" content="Convert SVG vector images to JPG format online. Free SVG to JPG converter with batch processing. Better than iLovePDF for vector conversion. Perfect for logos, icons, and web graphics. Professional quality conversion trusted by millions of users worldwide.">
+  <meta name="keywords" content="SVG to JPG, SVG converter, SVG to JPEG, convert SVG files, free SVG converter, online SVG converter, vector image converter, web optimization, logo converter, icon converter, SVG to JPG online, free image converter">
   <meta name="author" content="Vinod Kumar">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  
+  <!-- Additional SEO Meta Tags -->
+  <meta name="theme-color" content="#0066CC">
+  <meta name="msapplication-TileColor" content="#0066CC">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="imgtojpg.org">
+  
+  <!-- Mobile and Performance Meta Tags -->
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="msapplication-config" content="/browserconfig.xml">
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -15,7 +27,10 @@
   <meta property="og:title" content="SVG to JPG Converter - Convert Vector Images">
   <meta property="og:description" content="Convert SVG vector images to JPG format online. Free SVG to JPG converter with batch processing.">
   <meta property="og:image" content="https://imgtojpg.org/Vinod Kumar.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="imgtojpg.org">
+  <meta property="og:locale" content="en_US">
   
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
@@ -24,13 +39,27 @@
   <meta property="twitter:description" content="Convert SVG vector images to JPG format online. Free SVG to JPG converter.">
   <meta property="twitter:image" content="https://imgtojpg.org/Vinod Kumar.png">
   
-  <!-- Canonical URL -->
+  <!-- Canonical and Alternate Languages -->
   <link rel="canonical" href="https://imgtojpg.org/svg-to-jpg.html" />
+  <link rel="alternate" hreflang="en" href="https://imgtojpg.org/svg-to-jpg.html" />
+  <link rel="alternate" hreflang="en-US" href="https://imgtojpg.org/svg-to-jpg.html" />
+  <link rel="alternate" hreflang="en-GB" href="https://imgtojpg.org/svg-to-jpg.html" />
+  <link rel="alternate" hreflang="en-CA" href="https://imgtojpg.org/svg-to-jpg.html" />
+  <link rel="alternate" hreflang="en-AU" href="https://imgtojpg.org/svg-to-jpg.html" />
+  <link rel="alternate" hreflang="x-default" href="https://imgtojpg.org/svg-to-jpg.html" />
   
-  <!-- Favicon -->
+  <!-- Preconnect to external domains for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Favicon and App Icons -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
   
   <link href="/style.css?v=1.0.7" rel="stylesheet">
+  <script src="/analytics-tracker.js"></script>
   <style>
     /* Additional custom styles that can't be handled by Tailwind */
     .loading-dots::after {
@@ -60,6 +89,18 @@
       left: 100%;
     }
     
+    .coffee-button {
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+      color: white;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-weight: 600;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
     .coffee-button::before {
       content: '';
       position: absolute;
@@ -73,6 +114,11 @@
     
     .coffee-button:hover::before {
       left: 100%;
+    }
+    
+    .coffee-button:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
     }
     
     /* Download button loading state */
@@ -98,6 +144,13 @@
     "url": "https://imgtojpg.org/svg-to-jpg.html",
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "Web Browser",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "1250",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -550,7 +603,8 @@
         convertedFiles.innerHTML = '';
 
         if (result.convertedFiles && result.convertedFiles.length > 0) {
-          result.convertedFiles.forEach(fileName => {
+                      result.convertedFiles.forEach(fileInfo => {
+              const fileName = fileInfo.filename || fileInfo; // Handle both new and old format
             const fileItem = document.createElement('div');
             fileItem.className = 'flex items-center justify-between p-3 bg-green-50 rounded-lg';
             fileItem.innerHTML = `

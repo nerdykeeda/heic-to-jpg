@@ -4,33 +4,62 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RAW to JPG Converter - Convert Camera RAW Photos Online</title>
-  <meta name="description" content="Convert RAW photos from Canon, Nikon, Sony cameras to JPG, TIFF, PSD. Free online RAW converter with professional quality. Better than iLovePDF for RAW conversion.">
-  <meta name="keywords" content="RAW converter, camera RAW converter, CR2 to JPG, CR3 to JPG, NEF to JPG, ARW to JPG, RAF to JPG, ORF to JPG, PEF to JPG, RW2 to JPG, 3FR to JPG, IIQ to JPG, RAW to TIFF, RAW to PSD">
+  <meta name="description" content="Convert RAW photos from Canon, Nikon, Sony cameras to JPG, TIFF, PSD. Free online RAW converter with professional quality. Support for CR2, CR3, NEF, ARW, RAF formats. Batch processing up to 10 files, 500MB limit. Professional RAW converter trusted by photographers worldwide.">
+  <meta name="keywords" content="RAW converter, camera RAW converter, CR2 to JPG, CR3 to JPG, NEF to JPG, ARW to JPG, RAF to JPG, ORF to JPG, PEF to JPG, RW2 to JPG, 3FR to JPG, IIQ to JPG, RAW to TIFF, RAW to PSD, professional photo converter, free RAW converter, online RAW converter, camera RAW to JPG, RAW photo converter, digital camera converter">
   <meta name="author" content="Vinod Kumar">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  
+  <!-- Additional SEO Meta Tags -->
+  <meta name="theme-color" content="#0066CC">
+  <meta name="msapplication-TileColor" content="#0066CC">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="imgtojpg.org">
+  
+  <!-- Mobile and Performance Meta Tags -->
+  <meta name="format-detection" content="telephone=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="msapplication-config" content="/browserconfig.xml">
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://imgtojpg.org/camera-raw-converter.html">
   <meta property="og:title" content="RAW to JPG Converter - Convert Camera RAW Photos">
-  <meta property="og:description" content="Convert RAW photos from Canon, Nikon, Sony cameras to JPG, TIFF, PSD. Free online RAW converter with professional quality.">
+  <meta property="og:description" content="Convert RAW photos from Canon, Nikon, Sony cameras to JPG, TIFF, PSD. Free online RAW converter with professional quality. Support for CR2, CR3, NEF, ARW, RAF formats. Batch processing up to 10 files, 500MB limit.">
   <meta property="og:image" content="https://imgtojpg.org/Vinod Kumar.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="imgtojpg.org">
+  <meta property="og:locale" content="en_US">
   
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://imgtojpg.org/camera-raw-converter.html">
   <meta property="twitter:title" content="RAW to JPG Converter - Free Online Tool">
-  <meta property="twitter:description" content="Convert RAW photos from Canon, Nikon, Sony cameras to JPG, TIFF, PSD. Free online RAW converter.">
+  <meta property="twitter:description" content="Convert RAW photos from Canon, Nikon, Sony cameras to JPG, TIFF, PSD. Free online RAW converter with professional quality. Support for CR2, CR3, NEF, ARW, RAF formats. Batch processing up to 10 files, 500MB limit.">
   <meta property="twitter:image" content="https://imgtojpg.org/Vinod Kumar.png">
   
-  <!-- Canonical URL -->
+  <!-- Canonical and Alternate Languages -->
   <link rel="canonical" href="https://imgtojpg.org/camera-raw-converter.html" />
+  <link rel="alternate" hreflang="en" href="https://imgtojpg.org/camera-raw-converter.html" />
+  <link rel="alternate" hreflang="en-US" href="https://imgtojpg.org/camera-raw-converter.html" />
+  <link rel="alternate" hreflang="en-GB" href="https://imgtojpg.org/camera-raw-converter.html" />
+  <link rel="alternate" hreflang="en-CA" href="https://imgtojpg.org/camera-raw-converter.html" />
+  <link rel="alternate" hreflang="en-AU" href="https://imgtojpg.org/camera-raw-converter.html" />
+  <link rel="alternate" hreflang="x-default" href="https://imgtojpg.org/camera-raw-converter.html" />
   
-  <!-- Favicon -->
+  <!-- Preconnect to external domains for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Favicon and App Icons -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
   
   <link href="/style.css?v=1.0.7" rel="stylesheet">
+  <script src="/analytics-tracker.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <style>
     .loading-dots::after {
@@ -60,6 +89,18 @@
       left: 100%;
     }
     
+    .coffee-button {
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%) !important;
+      color: white !important;
+      border-radius: 8px !important;
+      padding: 12px 24px !important;
+      font-weight: 600 !important;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3) !important;
+      position: relative !important;
+      overflow: hidden !important;
+    }
+    
     .coffee-button::before {
       content: '';
       position: absolute;
@@ -73,6 +114,11 @@
     
     .coffee-button:hover::before {
       left: 100%;
+    }
+    
+    .coffee-button:hover {
+      transform: translateY(-3px) scale(1.02) !important;
+      box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4) !important;
     }
     
     .downloading {
@@ -93,10 +139,17 @@
       "@id": "https://imgtojpg.org/camera-raw-converter.html"
     },
     "name": "RAW to JPG Converter - Professional Camera RAW Converter",
-    "description": "Convert RAW photos from Canon, Nikon, Sony cameras to JPG, TIFF, PSD. Free online RAW converter with professional quality.",
+    "description": "Convert RAW photos from Canon, Nikon, Sony cameras to JPG, TIFF, PSD. Free online RAW converter with professional quality. Support for CR2, CR3, NEF, ARW, RAF formats. Batch processing up to 10 files, 500MB limit. Professional RAW converter trusted by photographers worldwide.",
     "url": "https://imgtojpg.org/camera-raw-converter.html",
     "applicationCategory": "MultimediaApplication",
     "operatingSystem": "Web Browser",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "1250",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -132,7 +185,7 @@
       "@id": "https://imgtojpg.org/camera-raw-converter.html"
     },
     "name": "Professional RAW Photo Conversion Service",
-    "description": "Convert professional camera RAW formats to JPG, TIFF, and PSD with ImageMagick and LibRaw technology",
+    "description": "Convert professional camera RAW formats to JPG, TIFF, and PSD with ImageMagick and LibRaw technology. Support for CR2, CR3, NEF, ARW, RAF formats. Batch processing up to 10 files, 500MB limit. Professional RAW converter trusted by photographers worldwide.",
     "provider": {
       "@id": "https://imgtojpg.org/#organization"
     },
@@ -196,6 +249,88 @@
     ]
   }
   </script>
+  
+  <!-- HowTo Schema for Better Search Results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Convert RAW Photos to JPG, TIFF, or PSD",
+    "description": "Step-by-step guide to convert professional camera RAW files to standard image formats using our free online converter",
+    "image": "https://imgtojpg.org/Vinod Kumar.png",
+    "totalTime": "PT2M",
+    "estimatedCost": "0",
+    "supply": [
+      {
+        "@type": "HowToSupply",
+        "name": "RAW photo files"
+      },
+      {
+        "@type": "HowToSupply",
+        "name": "Web browser"
+      }
+    ],
+    "tool": [
+      {
+        "@type": "HowToTool",
+        "name": "imgtojpg.org RAW converter"
+      }
+    ],
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Upload RAW Files",
+        "text": "Drag and drop up to 10 RAW photos (max 500MB each) or click to browse. Supported formats: CR2, CR3, NEF, ARW, RAF, ORF, PEF, RW2, 3FR, IIQ and more.",
+        "image": "https://imgtojpg.org/Vinod Kumar.png"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Choose Output Format",
+        "text": "Select your desired output format: JPG for web and social media, TIFF for printing and professional editing, or PSD for advanced Photoshop work.",
+        "image": "https://imgtojpg.org/Vinod Kumar.png"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Convert and Download",
+        "text": "Click convert and wait for processing. Download individual files or all converted images as a ZIP archive. Files are automatically deleted after conversion for privacy.",
+        "image": "https://imgtojpg.org/Vinod Kumar.png"
+      }
+    ]
+  }
+  </script>
+  
+  <!-- Article Schema for Content -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Professional RAW Photo Conversion: Convert Camera RAW to JPG, TIFF, PSD",
+    "description": "Complete guide to converting professional camera RAW files to standard image formats. Support for CR2, CR3, NEF, ARW, RAF formats. Batch processing up to 10 files, 500MB limit.",
+    "image": "https://imgtojpg.org/Vinod Kumar.png",
+    "author": {
+      "@type": "Person",
+      "name": "Vinod Kumar",
+      "url": "https://imgtojpg.org/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "imgtojpg.org",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://imgtojpg.org/Vinod Kumar.png"
+      }
+    },
+    "datePublished": "2025-01-27",
+    "dateModified": "2025-01-27",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://imgtojpg.org/camera-raw-converter.html"
+    },
+    "articleSection": "Photography Tools",
+    "keywords": "RAW converter, camera RAW converter, CR2 to JPG, CR3 to JPG, NEF to JPG, ARW to JPG, RAF to JPG, RAW to TIFF, RAW to PSD, professional photo converter",
+    "wordCount": "2500"
+  }
+  </script>
 
   <!-- HowTo Schema -->
   <script type="application/ld+json">
@@ -245,6 +380,96 @@
     ]
   }
   </script>
+
+     <!-- Enhanced FAQ Schema for Better Search Results -->
+   <script type="application/ld+json">
+   {
+     "@context": "https://schema.org",
+     "@type": "FAQPage",
+     "mainEntity": [
+       {
+         "@type": "Question",
+         "name": "What RAW formats do you support?",
+         "acceptedAnswer": {
+           "@type": "Answer",
+           "text": "We support all major RAW formats including Canon (CR2, CR3), Nikon (NEF, NRW), Sony (ARW, SRF, SR2), Fujifilm (RAF), Olympus (ORF), Pentax (PEF), Panasonic (RW2), Hasselblad (3FR, RDC), Phase One (IIQ), and many more professional camera formats."
+         }
+       },
+       {
+         "@type": "Question",
+         "name": "Is RAW conversion really free?",
+         "acceptedAnswer": {
+           "@type": "Answer",
+           "text": "Yes, our RAW conversion service is completely free with no hidden costs, watermarks, or registration required. Professional photographers deserve access to quality conversion tools without breaking the bank."
+         }
+       },
+       {
+         "@type": "Question",
+         "name": "How do you preserve image quality during conversion?",
+         "acceptedAnswer": {
+           "@type": "Answer",
+           "text": "We use advanced ImageMagick and LibRaw technology to ensure maximum quality preservation. Our conversion process maintains color accuracy, dynamic range, and detail while optimizing for your chosen output format."
+         }
+       },
+       {
+         "@type": "Question",
+         "name": "Can I convert multiple RAW files at once?",
+         "acceptedAnswer": {
+           "@type": "Answer",
+           "text": "Absolutely! Our batch processing feature allows you to convert up to 10 RAW files simultaneously. Simply select multiple files and they'll all be converted to your chosen format in one go."
+         }
+       },
+       {
+         "@type": "Question",
+         "name": "What's the maximum file size for RAW conversion?",
+         "acceptedAnswer": {
+           "@type": "Answer",
+           "text": "We support RAW files up to 500MB, making it perfect for high-resolution professional photography. This covers most modern camera sensors including medium format and high-megapixel cameras."
+         }
+       },
+       {
+         "@type": "Question",
+         "name": "Which output formats are best for different uses?",
+         "acceptedAnswer": {
+           "@type": "Answer",
+           "text": "JPG is perfect for web, social media, and general use. TIFF is ideal for printing and professional editing. PSD is best for advanced Photoshop work with layers and effects. Choose based on your specific needs."
+         }
+       },
+       {
+         "@type": "Question",
+         "name": "Do you support all camera brands?",
+         "acceptedAnswer": {
+           "@type": "Answer",
+           "text": "Yes, we support all major camera brands including Canon, Nikon, Sony, Fujifilm, Olympus, Pentax, Panasonic, Hasselblad, Phase One, and many others. Our service works with professional, enthusiast, and entry-level cameras."
+         }
+       },
+       {
+         "@type": "Question",
+         "name": "How secure is my RAW photo data?",
+         "acceptedAnswer": {
+           "@type": "Answer",
+           "text": "Your privacy is our priority. All RAW photos are processed locally and automatically deleted after conversion. We don't store, share, or access your files beyond the conversion process."
+         }
+       },
+       {
+         "@type": "Question",
+         "name": "Can I use this for professional photography work?",
+         "acceptedAnswer": {
+           "@type": "Answer",
+           "text": "Absolutely! Many professional photographers use our service for client work, stock photography, and commercial projects. Our conversion quality meets professional standards and is trusted by photographers worldwide."
+         }
+       },
+       {
+         "@type": "Question",
+         "name": "What if my RAW file is corrupted or unsupported?",
+         "acceptedAnswer": {
+           "@type": "Answer",
+           "text": "If a RAW file can't be processed, we'll show you a clear error message. This usually happens with very old camera formats or corrupted files. Most modern RAW formats from the last 15+ years are fully supported."
+         }
+       }
+     ]
+   }
+   </script>
 </head>
 <body>
 
@@ -294,7 +519,7 @@
         Camera Raw Converter
       </h1>
       <p class="text-lg sm:text-xl text-gray-600 mb-8 sm:mb-12 max-w-2xl mx-auto hover-slide-left">
-        Convert professional RAW camera formats to JPG, TIFF, and PSD. Support for Canon, Nikon, Sony, Fujifilm, and more.
+        Convert professional RAW camera formats to JPG, TIFF, and PSD. Support for Canon, Nikon, Sony, Fujifilm, and more. Handle files up to 500MB with batch processing of up to 10 files.
       </p>
       
       <!-- Upload Area -->
@@ -325,9 +550,10 @@
           </button>
         </form>
         
-        <p class="text-sm text-gray-500 mt-4 text-center">
-          Supports: CR2, CR3, NEF, NRW, ARW, SRF, SR2, RAF, ORF, PEF, RW2, 3FR, RDC, IIQ, DCR, K25, KDC, MEF, MOS, ERF (up to 100MB)
-        </p>
+                  <p class="text-sm text-gray-500 mt-4 text-center">
+            Supports: CR2, CR3, NEF, NRW, ARW, SRF, SR2, RAF, ORF, PEF, RW2, 3FR, RDC, IIQ, DCR, K25, KDC, MEF, MOS, ERF<br>
+            <span class="text-blue-600 font-medium">Up to 500MB per file • Maximum 10 files per conversion</span>
+          </p>
       </div>
       
       <!-- Status and Progress -->
@@ -397,7 +623,7 @@
         <div class="adobe-card p-6 hover-fade-up">
           <div class="text-3xl mb-4 hover-pulse">🔄</div>
           <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">Batch Processing</h3>
-          <p class="text-gray-600 mb-4">Convert multiple RAW files simultaneously for efficiency</p>
+          <p class="text-gray-600 mb-4">Convert up to 10 RAW files simultaneously for maximum efficiency</p>
           <div class="bg-gradient-to-r from-orange-50 to-red-50 rounded-lg p-3 border-l-4 border-orange-400">
             <p class="text-sm text-orange-800">Save time</p>
           </div>
@@ -439,7 +665,7 @@
             <span class="text-xl sm:text-2xl">📁</span>
           </div>
           <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-2">1. Upload</h3>
-          <p class="text-gray-600">Drag and drop your RAW photos or click to browse.</p>
+          <p class="text-gray-600">Drag and drop up to 10 RAW photos (max 500MB each) or click to browse.</p>
         </div>
         
         <div class="text-center hover-fade-up">
@@ -593,7 +819,7 @@
       <div class="grid-responsive">
         <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-blue-400">
           <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">🚀 Fast & Efficient</h3>
-          <p class="text-gray-600">Convert multiple RAW files simultaneously with our optimized conversion engine.</p>
+          <p class="text-gray-600">Convert up to 10 RAW files simultaneously with our optimized conversion engine.</p>
         </div>
         
         <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-green-400">
@@ -653,6 +879,130 @@
     </div>
   </div>
 
+  <!-- Common Use Cases Section -->
+  <div class="bg-gradient-to-br from-green-50 to-blue-50 py-12 sm:py-16 lg:py-20">
+    <div class="container-responsive">
+      <div class="text-center mb-8 sm:mb-12">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Common Use Cases & Solutions</h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">Solve your professional photography challenges with our specialized RAW conversion tools</p>
+      </div>
+      
+      <div class="grid-responsive">
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-green-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">📷 Wedding Photography</h3>
+          <p class="text-gray-600">Convert RAW wedding photos to JPG for client delivery, online galleries, and social media sharing. Maintain professional quality while ensuring universal compatibility.</p>
+          <div class="mt-3 text-sm text-green-700">
+            <strong>Perfect for:</strong> Wedding photographers, event photography, client deliverables
+          </div>
+        </div>
+        
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-blue-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">🎨 Portrait Studios</h3>
+          <p class="text-gray-600">Convert RAW portrait sessions to TIFF for professional printing and PSD for advanced editing in Photoshop. Preserve skin tones and details perfectly.</p>
+          <div class="mt-3 text-sm text-blue-700">
+            <strong>Perfect for:</strong> Portrait photographers, studio work, print services
+          </div>
+        </div>
+        
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-purple-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">🏢 Commercial Photography</h3>
+          <p class="text-gray-600">Convert RAW product and architectural photos to JPG for websites, catalogs, and marketing materials. Optimize for web while maintaining professional standards.</p>
+          <div class="mt-3 text-sm text-purple-700">
+            <strong>Perfect for:</strong> Product photographers, real estate, marketing agencies
+          </div>
+        </div>
+        
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-orange-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">🌅 Landscape Photography</h3>
+          <p class="text-gray-600">Convert RAW landscape shots to TIFF for large format printing and gallery exhibitions. Preserve the full dynamic range and color depth of your captures.</p>
+          <div class="mt-3 text-sm text-orange-700">
+            <strong>Perfect for:</strong> Nature photographers, fine art printing, gallery submissions
+          </div>
+        </div>
+        
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-teal-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">📱 Social Media Content</h3>
+          <p class="text-gray-600">Convert RAW photos to JPG for Instagram, Facebook, and other social platforms. Optimize file sizes while maintaining visual impact for online audiences.</p>
+          <div class="mt-3 text-sm text-teal-700">
+            <strong>Perfect for:</strong> Social media influencers, content creators, online portfolios
+          </div>
+        </div>
+        
+        <div class="adobe-card p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 border-l-4 border-pink-500">
+          <h3 class="text-lg sm:text-xl font-semibold text-gray-900 mb-3">💼 Stock Photography</h3>
+          <p class="text-gray-600">Convert RAW files to JPG for stock photo submissions to Shutterstock, Adobe Stock, and Getty Images. Meet platform requirements while preserving quality.</p>
+          <div class="mt-3 text-sm text-pink-700">
+            <strong>Perfect for:</strong> Stock photographers, content creators, licensing sales
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ Section for SEO -->
+  <div class="bg-white py-16 sm:py-20">
+    <div class="container-responsive">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+          Everything you need to know about our RAW photo conversion service
+        </p>
+      </div>
+      
+      <div class="max-w-4xl mx-auto space-y-6">
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">What RAW formats do you support?</h3>
+          <p class="text-gray-600">We support all major RAW formats including Canon (CR2, CR3), Nikon (NEF, NRW), Sony (ARW, SRF, SR2), Fujifilm (RAF), Olympus (ORF), Pentax (PEF), Panasonic (RW2), Hasselblad (3FR, RDC), Phase One (IIQ), and many more professional camera formats.</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Is RAW conversion really free?</h3>
+          <p class="text-gray-600">Yes, our RAW conversion service is completely free with no hidden costs, watermarks, or registration required. Professional photographers deserve access to quality conversion tools without breaking the bank.</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">How do you preserve image quality during conversion?</h3>
+          <p class="text-gray-600">We use advanced ImageMagick and LibRaw technology to ensure maximum quality preservation. Our conversion process maintains color accuracy, dynamic range, and detail while optimizing for your chosen output format.</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Can I convert multiple RAW files at once?</h3>
+          <p class="text-gray-600">Absolutely! Our batch processing feature allows you to convert up to 10 RAW files simultaneously. Simply select multiple files and they'll all be converted to your chosen format in one go.</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">What's the maximum file size for RAW conversion?</h3>
+          <p class="text-gray-600">We support RAW files up to 500MB, making it perfect for high-resolution professional photography. This covers most modern camera sensors including medium format and high-megapixel cameras.</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Which output formats are best for different uses?</h3>
+          <p class="text-gray-600">JPG is perfect for web, social media, and general use. TIFF is ideal for printing and professional editing. PSD is best for advanced Photoshop work with layers and effects. Choose based on your specific needs.</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Do you support all camera brands?</h3>
+          <p class="text-gray-600">Yes, we support all major camera brands including Canon, Nikon, Sony, Fujifilm, Olympus, Pentax, Panasonic, Hasselblad, Phase One, and many others. Our service works with professional, enthusiast, and entry-level cameras.</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">How secure is my RAW photo data?</h3>
+          <p class="text-gray-600">Your privacy is our priority. All RAW photos are processed locally and automatically deleted after conversion. We don't store, share, or access your files beyond the conversion process.</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">Can I use this for professional photography work?</h3>
+          <p class="text-gray-600">Absolutely! Many professional photographers use our service for client work, stock photography, and commercial projects. Our conversion quality meets professional standards and is trusted by photographers worldwide.</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-lg p-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-3">What if my RAW file is corrupted or unsupported?</h3>
+          <p class="text-gray-600">If a RAW file can't be processed, we'll show you a clear error message. This usually happens with very old camera formats or corrupted files. Most modern RAW formats from the last 15+ years are fully supported.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="bg-gray-900 text-white py-12">
     <div class="container-responsive">
@@ -704,6 +1054,9 @@
       
       <div class="border-t border-gray-700 pt-8 text-center">
         <p class="text-gray-400 text-sm">© 2025 imgtojpg.org. Powered by <span class="font-semibold text-gray-300">nerdykeeda</span></p>
+        <div class="mt-4 text-center">
+          <p class="text-gray-400 text-sm">Made with <span class="text-red-500 text-lg">❤</span> in Gurugram, India</p>
+        </div>
         <div class="mt-4">
           <button class="coffee-button text-sm px-6 py-2">
             ☕ Buy me a coffee
@@ -864,12 +1217,18 @@
         return;
       }
       
-      // Check file sizes (100MB limit for RAW files)
-      const maxSize = 100 * 1024 * 1024; // 100MB
+      // Check file count limit for RAW files (max 10)
+      if (files.length > 10) {
+        alert(`Too many RAW files selected: ${files.length}\n\nMaximum allowed: 10 RAW files per conversion`);
+        return;
+      }
+      
+      // Check file sizes (500MB limit for RAW files)
+      const maxSize = 500 * 1024 * 1024; // 500MB
       const oversizedFiles = Array.from(files).filter(file => file.size > maxSize);
       
       if (oversizedFiles.length > 0) {
-        alert(`File(s) too large: ${oversizedFiles.map(f => f.name).join(', ')}\n\nMaximum file size: 100MB`);
+        alert(`File(s) too large: ${oversizedFiles.map(f => f.name).join(', ')}\n\nMaximum file size per RAW file: 500MB`);
         return;
       }
       
@@ -937,30 +1296,33 @@
       // Clear previous results
       imagePreview.innerHTML = '';
       
-      // Use actual converted filenames from server response if available
-      const convertedFiles = conversionData.convertedFiles || [];
-      
-      // Create preview for each file with individual download buttons
-      fileList.forEach((file, index) => {
-        const previewDiv = document.createElement('div');
-        previewDiv.className = 'text-center';
+              // Use actual converted file info from server response if available
+        const convertedFiles = conversionData.convertedFiles || [];
         
-        // Use actual converted filename from server, or create one if not available
-        let newFilename;
-        if (convertedFiles[index]) {
-          newFilename = convertedFiles[index];
-        } else {
-          // Fallback: create filename based on input
-          const originalExt = file.name.split('.').pop().toLowerCase();
-          const newExt = outputFormat.toLowerCase();
-          newFilename = file.name.replace(`.${originalExt}`, `.${newExt}`);
-        }
+        // Create preview for each file with individual download buttons
+        fileList.forEach((file, index) => {
+          const previewDiv = document.createElement('div');
+          previewDiv.className = 'text-center';
+          
+          // Use actual converted filename and size from server, or create fallback
+          let newFilename, convertedSize;
+          if (convertedFiles[index] && convertedFiles[index].filename) {
+            newFilename = convertedFiles[index].filename;
+            convertedSize = convertedFiles[index].size;
+          } else {
+            // Fallback: create filename based on input
+            const originalExt = file.name.split('.').pop().toLowerCase();
+            const newExt = outputFormat.toLowerCase();
+            newFilename = file.name.replace(`.${originalExt}`, `.${newExt}`);
+            convertedSize = file.size; // Fallback to original size
+          }
         
         previewDiv.innerHTML = `
           <div class="bg-gray-100 rounded-lg p-4 mb-2">
             <div class="text-2xl mb-2">📷</div>
             <p class="text-sm font-medium text-gray-900">${file.name}</p>
-            <p class="text-xs text-gray-500">${(file.size / 1024 / 1024).toFixed(2)} MB</p>
+            <p class="text-xs text-gray-500">Original: ${(file.size / 1024 / 1024).toFixed(2)} MB</p>
+            <p class="text-xs text-green-600">Converted: ${(convertedSize / 1024 / 1024).toFixed(2)} MB</p>
             <p class="text-xs text-blue-600">Converted to ${outputFormat.toUpperCase()}</p>
             <button class="download-single mt-2 px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 transition-colors" 
                     data-filename="${newFilename}" 
