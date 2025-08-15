@@ -20,6 +20,12 @@ const port = process.env.PORT || 3000;
 const emailUser = process.env.EMAIL_USER;
 const emailPass = process.env.EMAIL_PASS;
 
+// Debug: Log environment variable values (without showing passwords)
+console.log('Environment variables loaded:');
+console.log('EMAIL_USER:', emailUser ? 'SET' : 'NOT SET');
+console.log('EMAIL_PASS:', emailPass ? 'SET' : 'NOT SET');
+console.log('NODE_ENV:', process.env.NODE_ENV);
+
 // Only create transporter if email credentials are provided
 let transporter = null;
 if (emailUser && emailPass) {
@@ -30,8 +36,9 @@ if (emailUser && emailPass) {
       pass: emailPass
     }
   });
+  console.log('✅ Email transporter created successfully');
 } else {
-  console.log('Email credentials not configured. Contact form will be disabled.');
+  console.log('❌ Email credentials not configured. Contact form will be disabled.');
 }
 
 app.use(express.static('public'));
