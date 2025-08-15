@@ -144,36 +144,29 @@ const archiver = require('archiver');
           
           try {
             if (outputFormat.toLowerCase() === 'jpg' || outputFormat.toLowerCase() === 'jpeg') {
-              // Use VIPS + Sharp for JPG (we know this works perfectly)
-              console.log(`Using VIPS + Sharp for JPG conversion: ${originalName}`);
+              // Use ImageMagick + LibRaw for JPG (reliable and professional)
+              console.log(`Using ImageMagick + LibRaw for JPG conversion: ${originalName}`);
               
-              const tempPngPath = path.join(sessionPath, `temp_${fileNameWithoutExt}.png`);
-              const vipsCommand = `vips copy "${inputPath}" "${tempPngPath}" --rotate auto`;
-              console.log(`Executing VIPS command: ${vipsCommand}`);
+              const outputPath = path.join(sessionPath, outputFileName);
+              const magickCommand = `magick "${inputPath}" -auto-orient -quality 90 "${outputPath}"`;
+              console.log(`Executing ImageMagick command: ${magickCommand}`);
               
-              execSync(vipsCommand, { cwd: sessionPath, stdio: 'pipe' });
+              execSync(magickCommand, { cwd: sessionPath, stdio: 'pipe' });
               
-              // Check if VIPS created the temporary PNG file
-              if (!fs.existsSync(tempPngPath)) {
-                throw new Error(`VIPS failed to create temporary PNG file at ${tempPngPath}`);
+              // Check if ImageMagick created the output file
+              if (!fs.existsSync(outputPath)) {
+                throw new Error(`ImageMagick failed to create output file at ${outputPath}`);
               }
               
-              console.log(`VIPS successfully converted RAW to temporary PNG: ${tempPngPath}`);
+              // Read the converted file
+              outputBuffer = fs.readFileSync(outputPath);
+              console.log(`ImageMagick successfully converted RAW file: ${outputFileName} (${outputBuffer.length} bytes)`);
               
-              // Use Sharp to convert PNG to JPEG
-              const sharpInstance = sharp(tempPngPath);
-              outputBuffer = await sharpInstance
-                .jpeg({ quality: 90, progressive: true })
-                .toBuffer();
-              
-              console.log(`Sharp converted PNG to JPEG: ${outputBuffer.length} bytes`);
-              
-              // Clean up the temporary PNG file
+              // Clean up the temporary ImageMagick output file
               try {
-                fs.unlinkSync(tempPngPath);
-                console.log(`Cleaned up temporary PNG file: ${tempPngPath}`);
+                fs.unlinkSync(outputPath);
               } catch (cleanupError) {
-                console.log(`Warning: Could not clean up temp PNG file ${tempPngPath}:`, cleanupError.message);
+                console.log(`Warning: Could not clean up ImageMagick output file ${outputPath}:`, cleanupError.message);
               }
               
             } else if (outputFormat.toLowerCase() === 'tiff') {
