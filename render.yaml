@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: heic-to-jpg
+    env: node
+    buildCommand: |
+      # Install system dependencies via buildpacks
+      apt-get update && apt-get install -y \
+        imagemagick \
+        libraw-bin \
+        libvips-dev \
+        libvips-tools \
+        && rm -rf /var/lib/apt/lists/*
+      
+      # Install Node.js dependencies
+      npm ci --only=production
+      
+      # Build CSS
+      npm run build:css:prod
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
