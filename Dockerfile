@@ -1,12 +1,19 @@
-FROM node:18-slim
+FROM ubuntu:22.04
 
 # Install system dependencies for image conversion
 RUN apt-get update && apt-get install -y \
     imagemagick \
     libraw-bin \
+    dcraw \
     libvips-dev \
     libvips-tools \
+    curl \
+    gnupg \
     && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js 18.x
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs
 
 # Set working directory
 WORKDIR /app

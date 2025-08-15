@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  heic-to-jpg:
+    build: .
+    ports:
+      - "10000:10000"
+    environment:
+      - NODE_ENV=production
+      - PORT=10000
+    volumes:
+      - ./uploads:/app/uploads
+      - ./public/converted:/app/public/converted
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:10000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
