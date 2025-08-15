@@ -1,4 +1,9 @@
 // server.js
+// Load environment variables from .env file (for local development)
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
@@ -11,15 +16,23 @@ const nodemailer = require('nodemailer');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Email configuration
-const emailConfig = require('./email-config');
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: emailConfig.email.user,
-    pass: emailConfig.email.pass
-  }
-});
+// Email configuration - using environment variables
+const emailUser = process.env.EMAIL_USER;
+const emailPass = process.env.EMAIL_PASS;
+
+// Only create transporter if email credentials are provided
+let transporter = null;
+if (emailUser && emailPass) {
+  transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: emailUser,
+      pass: emailPass
+    }
+  });
+} else {
+  console.log('Email credentials not configured. Contact form will be disabled.');
+}
 
 app.use(express.static('public'));
 app.use(express.json()); // Add this line for parsing JSON requests
@@ -372,9 +385,17 @@ app.post('/api/contact', async (req, res) => {
       });
     }
     
+    // Check if email is configured
+    if (!transporter) {
+      return res.status(503).json({
+        success: false,
+        message: 'Contact form is temporarily unavailable. Please try again later or contact us directly.'
+      });
+    }
+
     // Email content
     const mailOptions = {
-      from: emailConfig.email.user,
+      from: emailUser,
       to: 'neerdykeeda@gmail.com',
       subject: `Contact Form: ${subject}`,
       html: `

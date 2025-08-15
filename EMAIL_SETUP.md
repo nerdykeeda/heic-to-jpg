@@ -22,16 +22,24 @@ This document explains how to set up the email functionality for the contact for
 
 ### 2. Configure Email Settings
 
-1. Open `email-config.js` in your project root
-2. Replace the placeholder values:
-   ```javascript
-   module.exports = {
-     email: {
-       user: 'your-actual-gmail@gmail.com',  // Your Gmail address
-       pass: 'your-16-char-app-password'    // The app password you generated
-     }
-   };
+**For Production Deployment (Render):**
+
+1. Go to your Render service dashboard
+2. Navigate to **Environment Variables**
+3. Add these variables:
+   - `EMAIL_USER`: your-actual-gmail@gmail.com
+   - `EMAIL_PASS`: your-16-char-app-password
+
+**For Local Development:**
+
+1. Create a `.env` file in your project root (make sure it's in `.gitignore`)
+2. Add these variables:
    ```
+   EMAIL_USER=your-actual-gmail@gmail.com
+   EMAIL_PASS=your-16-char-app-password
+   ```
+
+**Note:** The server now uses environment variables instead of a config file for better security and deployment compatibility.
 
 ### 3. Test the Setup
 
@@ -47,6 +55,31 @@ This document explains how to set up the email functionality for the contact for
 - The `email-config.js` file should be added to `.gitignore`
 - App passwords are more secure than using your regular Gmail password
 - Each app password is unique and can be revoked individually
+
+## Environment Variables
+
+The application now uses environment variables for email configuration, which is more secure and deployment-friendly:
+
+### Required Variables
+
+- `EMAIL_USER`: Your Gmail address
+- `EMAIL_PASS`: Your Gmail app password
+
+### Benefits of Environment Variables
+
+1. **Security**: Credentials are not stored in code files
+2. **Deployment**: Easy to configure in different environments
+3. **Team Development**: Each developer can use their own credentials
+4. **CI/CD**: Can be set in deployment pipelines
+
+### Setting Environment Variables
+
+**Render:**
+- Service Dashboard → Environment Variables → Add Variable
+
+**Local Development:**
+- Create `.env` file (ensure it's in `.gitignore`)
+- Use a package like `dotenv` to load them
 
 ## Troubleshooting
 
@@ -87,8 +120,9 @@ const transporter = nodemailer.createTransport({
 
 ```
 heic-to-jpg/
-├── server.js              # Main server with email endpoint
-├── email-config.js        # Email configuration (update with your credentials)
+├── server.js              # Main server with email endpoint (uses environment variables)
+├── email-config.example.js # Example configuration (for reference only)
+├── .env                   # Local environment variables (not committed to git)
 ├── public/
 │   └── contact.html      # Contact form (already updated)
 └── package.json           # Dependencies (nodemailer added)
