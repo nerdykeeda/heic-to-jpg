@@ -44,19 +44,39 @@ if (emailUser && emailPass) {
 app.use(express.static('public'));
 app.use(express.json()); // Add this line for parsing JSON requests
 
+// Security headers middleware
+app.use((req, res, next) => {
+  // Strict Transport Security (HSTS) - Force HTTPS
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  
+  // Content Security Policy
+  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://kit.fontawesome.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com;");
+  
+  // X-Frame-Options - Prevent clickjacking
+  res.setHeader('X-Frame-Options', 'DENY');
+  
+  // X-Content-Type-Options - Prevent MIME type sniffing
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  
+  // Referrer Policy
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  
+  next();
+});
+
 // Canonicalization redirects - Handle URL variations and redirects
 app.use((req, res, next) => {
   const host = req.get('host');
   const protocol = req.protocol;
   const url = req.url;
   
-  // Force HTTPS
-  if (protocol === 'http') {
+  // Force HTTPS (but not on localhost for development)
+  if (protocol === 'http' && !host.includes('localhost') && !host.includes('127.0.0.1')) {
     return res.redirect(301, `https://${host}${url}`);
   }
   
-  // Force non-www (imgtojpg.org instead of www.imgtojpg.org)
-  if (host.startsWith('www.')) {
+  // Force non-www (imgtojpg.org instead of www.imgtojpg.org) - but not on localhost
+  if (host.startsWith('www.') && !host.includes('localhost') && !host.includes('127.0.0.1')) {
     const newHost = host.replace('www.', '');
     return res.redirect(301, `https://${newHost}${url}`);
   }
