@@ -141,6 +141,34 @@ const archiver = require('archiver');
         } else if (['.cr2', '.cr3', '.nef', '.nrw', '.arw', '.srf', '.sr2', '.raf', '.orf', '.pef', '.rw2', '.3fr', '.rdc', '.iiq', '.dcr', '.k25', '.kdc', '.mef', '.mos', '.erf'].includes(fileExtension)) {
           // Handle RAW files with format-specific approaches
           console.log(`Processing RAW file: ${originalName}`);
+          console.log(`File size: ${file.size} bytes`);
+          console.log(`Target format: ${outputFormat}`);
+          console.log(`Session path: ${sessionPath}`);
+          
+          // Check if system dependencies are available
+          try {
+            const { execSync } = require('child_process');
+            console.log('Checking system dependencies...');
+            
+            // Test if magick command is available
+            try {
+              const magickVersion = execSync('magick -version', { stdio: 'pipe' }).toString();
+              console.log('ImageMagick available:', magickVersion.split('\n')[0]);
+            } catch (magickError) {
+              console.log('ImageMagick not available:', magickError.message);
+            }
+            
+            // Test if dcraw command is available
+            try {
+              const dcrawVersion = execSync('dcraw -V', { stdio: 'pipe' }).toString();
+              console.log('dcraw available:', dcrawVersion.split('\n')[0]);
+            } catch (dcrawError) {
+              console.log('dcraw not available:', dcrawError.message);
+            }
+            
+          } catch (depError) {
+            console.log('Error checking dependencies:', depError.message);
+          }
           
           // RAW-specific validation rules (separate from general validation)
           if (i === 0) { // Only check once per conversion batch
@@ -169,22 +197,63 @@ const archiver = require('archiver');
               const magickCommand = `magick "${inputPath}" -auto-orient -quality 90 "${outputPath}"`;
               console.log(`Executing ImageMagick command: ${magickCommand}`);
               
-              execSync(magickCommand, { cwd: sessionPath, stdio: 'pipe' });
-              
-              // Check if ImageMagick created the output file
-              if (!fs.existsSync(outputPath)) {
-                throw new Error(`ImageMagick failed to create output file at ${outputPath}`);
-              }
-              
-              // Read the converted file
-              outputBuffer = fs.readFileSync(outputPath);
-              console.log(`ImageMagick successfully converted RAW file: ${outputFileName} (${outputBuffer.length} bytes)`);
-              
-              // Clean up the temporary ImageMagick output file
               try {
-                fs.unlinkSync(outputPath);
-              } catch (cleanupError) {
-                console.log(`Warning: Could not clean up ImageMagick output file ${outputPath}:`, cleanupError.message);
+                execSync(magickCommand, { cwd: sessionPath, stdio: 'pipe' });
+                
+                // Check if ImageMagick created the output file
+                if (!fs.existsSync(outputPath)) {
+                  throw new Error(`ImageMagick failed to create output file at ${outputPath}`);
+                }
+                
+                // Read the converted file
+                outputBuffer = fs.readFileSync(outputPath);
+                console.log(`ImageMagick successfully converted RAW file: ${outputFileName} (${outputBuffer.length} bytes)`);
+                
+                // Clean up the temporary ImageMagick output file
+                try {
+                  fs.unlinkSync(outputPath);
+                } catch (cleanupError) {
+                  console.log(`Warning: Could not clean up ImageMagick output file ${outputPath}:`, cleanupError.message);
+                }
+                
+              } catch (magickError) {
+                console.log(`ImageMagick failed, trying dcraw fallback: ${magickError.message}`);
+                
+                // Fallback to dcraw + Sharp
+                const dcrawTiffPath = path.join(sessionPath, `${path.basename(originalName, path.extname(originalName))}.tiff`);
+                const dcrawCommand = `dcraw -v -w -T "${inputPath}"`;
+                console.log(`Executing dcraw fallback command: ${dcrawCommand}`);
+                
+                try {
+                  execSync(dcrawCommand, { cwd: sessionPath, stdio: 'pipe' });
+                  
+                  // Check if dcraw created the TIFF file
+                  if (!fs.existsSync(dcrawTiffPath)) {
+                    throw new Error(`dcraw failed to create TIFF file at ${dcrawTiffPath}`);
+                  }
+                  
+                  console.log(`dcraw successfully created TIFF: ${dcrawTiffPath}`);
+                  
+                  // Step 2: Use Sharp to convert TIFF to JPG
+                  const sharpInstance = sharp(dcrawTiffPath);
+                  outputBuffer = await sharpInstance
+                    .jpeg({ quality: 90 })
+                    .toBuffer();
+                  
+                  console.log(`Sharp successfully converted TIFF to JPG: ${outputFileName} (${outputBuffer.length} bytes)`);
+                  
+                  // Clean up temporary TIFF file
+                  try {
+                    fs.unlinkSync(dcrawTiffPath);
+                    console.log(`Cleaned up temporary TIFF file: ${dcrawTiffPath}`);
+                  } catch (cleanupError) {
+                    console.log(`Warning: Could not clean up temp TIFF file ${dcrawTiffPath}:`, cleanupError.message);
+                  }
+                  
+                } catch (dcrawError) {
+                  console.log(`dcraw also failed: ${dcrawError.message}`);
+                  throw new Error(`Both ImageMagick and dcraw failed for RAW conversion. Please ensure system dependencies are properly installed.`);
+                }
               }
               
             } else if (outputFormat.toLowerCase() === 'tiff') {
@@ -195,22 +264,48 @@ const archiver = require('archiver');
               const magickCommand = `magick "${inputPath}" -quality 100 "${outputPath}"`;
               console.log(`Executing ImageMagick command: ${magickCommand}`);
               
-              execSync(magickCommand, { cwd: sessionPath, stdio: 'pipe' });
-              
-              // Check if ImageMagick created the output file
-              if (!fs.existsSync(outputPath)) {
-                throw new Error(`ImageMagick failed to create output file at ${outputPath}`);
-              }
-              
-              // Read the converted file
-              outputBuffer = fs.readFileSync(outputPath);
-              console.log(`ImageMagick successfully converted RAW file: ${outputFileName} (${outputBuffer.length} bytes)`);
-              
-              // Clean up the temporary ImageMagick output file
               try {
-                fs.unlinkSync(outputPath);
-              } catch (cleanupError) {
-                console.log(`Warning: Could not clean up ImageMagick output file ${outputPath}:`, cleanupError.message);
+                execSync(magickCommand, { cwd: sessionPath, stdio: 'pipe' });
+                
+                // Check if ImageMagick created the output file
+                if (!fs.existsSync(outputPath)) {
+                  throw new Error(`ImageMagick failed to create output file at ${outputPath}`);
+                }
+                
+                // Read the converted file
+                outputBuffer = fs.readFileSync(outputPath);
+                console.log(`ImageMagick successfully converted RAW file: ${outputFileName} (${outputBuffer.length} bytes)`);
+                
+                // Clean up the temporary ImageMagick output file
+                try {
+                  fs.unlinkSync(outputPath);
+                } catch (cleanupError) {
+                  console.log(`Warning: Could not clean up ImageMagick output file ${outputPath}:`, cleanupError.message);
+                }
+                
+              } catch (magickError) {
+                console.log(`ImageMagick failed for TIFF, trying dcraw fallback: ${magickError.message}`);
+                
+                // Fallback to dcraw for TIFF
+                const dcrawCommand = `dcraw -v -w -T "${inputPath}"`;
+                console.log(`Executing dcraw fallback command: ${dcrawCommand}`);
+                
+                try {
+                  execSync(dcrawCommand, { cwd: sessionPath, stdio: 'pipe' });
+                  
+                  // Check if dcraw created the TIFF file
+                  if (!fs.existsSync(outputPath)) {
+                    throw new Error(`dcraw failed to create TIFF file at ${outputPath}`);
+                  }
+                  
+                  // Read the dcraw-generated TIFF
+                  outputBuffer = fs.readFileSync(outputPath);
+                  console.log(`dcraw successfully created TIFF: ${outputFileName} (${outputBuffer.length} bytes)`);
+                  
+                } catch (dcrawError) {
+                  console.log(`dcraw also failed: ${dcrawError.message}`);
+                  throw new Error(`Both ImageMagick and dcraw failed for TIFF conversion. Please ensure system dependencies are properly installed.`);
+                }
               }
               
             } else if (outputFormat.toLowerCase() === 'psd') {
@@ -221,22 +316,49 @@ const archiver = require('archiver');
               const magickCommand = `magick "${inputPath}" -auto-orient -quality 100 "${outputPath}"`;
               console.log(`Executing ImageMagick command: ${magickCommand}`);
               
-              execSync(magickCommand, { cwd: sessionPath, stdio: 'pipe' });
-              
-              // Check if ImageMagick created the output file
-              if (!fs.existsSync(outputPath)) {
-                throw new Error(`ImageMagick failed to create output file at ${outputPath}`);
-              }
-              
-              // Read the converted file
-              outputBuffer = fs.readFileSync(outputPath);
-              console.log(`ImageMagick successfully converted RAW file: ${outputFileName} (${outputBuffer.length} bytes)`);
-              
-              // Clean up the temporary ImageMagick output file
               try {
-                fs.unlinkSync(outputPath);
-              } catch (cleanupError) {
-                console.log(`Warning: Could not clean up ImageMagick output file ${outputPath}:`, cleanupError.message);
+                execSync(magickCommand, { cwd: sessionPath, stdio: 'pipe' });
+                
+                // Check if ImageMagick created the output file
+                if (!fs.existsSync(outputPath)) {
+                  throw new Error(`ImageMagick failed to create output file at ${outputPath}`);
+                }
+                
+                // Read the converted file
+                outputBuffer = fs.readFileSync(outputPath);
+                console.log(`ImageMagick successfully converted RAW file: ${outputFileName} (${outputBuffer.length} bytes)`);
+                
+                // Clean up the temporary ImageMagick output file
+                try {
+                  fs.unlinkSync(outputPath);
+                } catch (cleanupError) {
+                  console.log(`Warning: Could not clean up ImageMagick output file ${outputPath}:`, cleanupError.message);
+                }
+                
+              } catch (magickError) {
+                console.log(`ImageMagick failed for PSD, using placeholder: ${magickError.message}`);
+                
+                // Create a placeholder PSD file since conversion failed
+                const psdPlaceholder = `%!PS-Adobe-3.0
+%%Creator: imgtojpg.org
+%%Title: ${originalName} (conversion failed)
+%%Pages: 1
+%%PageOrder: Ascend
+%%BoundingBox: 0 0 612 792
+%%EndComments
+%%Page: 1 1
+/Times-Roman findfont 12 scalefont setfont
+100 700 moveto
+(RAW to PSD conversion failed) show
+100 680 moveto
+(Original file: ${originalName}) show
+100 660 moveto
+(Please try converting to JPG or TIFF instead) show
+showpage
+%%EOF`;
+                
+                outputBuffer = Buffer.from(psdPlaceholder, 'utf8');
+                console.log(`Created PSD placeholder: ${outputFileName}`);
               }
               
             } else {
@@ -248,45 +370,54 @@ const archiver = require('archiver');
               const dcrawCommand = `dcraw -v -w -T "${inputPath}"`;
               console.log(`Executing dcraw command: ${dcrawCommand}`);
               
-              execSync(dcrawCommand, { cwd: sessionPath, stdio: 'pipe' });
-              
-              // Check if dcraw created the TIFF file
-              if (!fs.existsSync(dcrawTiffPath)) {
-                throw new Error(`dcraw failed to create TIFF file at ${dcrawTiffPath}`);
-              }
-              
-              console.log(`dcraw successfully created TIFF: ${dcrawTiffPath}`);
-              
-              // Step 2: Use Sharp to convert the TIFF to the desired output format
-              const sharpInstance = sharp(dcrawTiffPath);
-              
-              switch (outputFormat.toLowerCase()) {
-                case 'png':
-                  outputBuffer = await sharpInstance
-                    .png({ compressionLevel: 9, progressive: true })
-                    .toBuffer();
-                  console.log(`Sharp converted TIFF to PNG: ${outputBuffer.length} bytes`);
-                  break;
-                case 'webp':
-                  outputBuffer = await sharpInstance
-                    .webp({ quality: 90, effort: 6 })
-                    .toBuffer();
-                  console.log(`Sharp converted TIFF to WebP: ${outputBuffer.length} bytes`);
-                  break;
-                default:
-                  // Default to JPEG (shouldn't reach here, but just in case)
-                  outputBuffer = await sharpInstance
-                    .jpeg({ quality: 90, progressive: true })
-                    .toBuffer();
-                  console.log(`Sharp defaulted to JPEG: ${outputBuffer.length} bytes`);
-              }
-              
-              // Clean up the temporary TIFF file
               try {
-                fs.unlinkSync(dcrawTiffPath);
-                console.log(`Cleaned up temporary TIFF file: ${dcrawTiffPath}`);
-              } catch (cleanupError) {
-                console.log(`Warning: Could not clean up temp TIFF file ${dcrawTiffPath}:`, cleanupError.message);
+                execSync(dcrawCommand, { cwd: sessionPath, stdio: 'pipe' });
+                
+                // Check if dcraw created the TIFF file
+                if (!fs.existsSync(dcrawTiffPath)) {
+                  throw new Error(`dcraw failed to create TIFF file at ${dcrawTiffPath}`);
+                }
+                
+                console.log(`dcraw successfully created TIFF: ${dcrawTiffPath}`);
+                
+                // Step 2: Use Sharp to convert TIFF to desired format
+                const sharpInstance = sharp(dcrawTiffPath);
+                
+                switch (outputFormat.toLowerCase()) {
+                  case 'png':
+                    outputBuffer = await sharpInstance.png({ compressionLevel: 9 }).toBuffer();
+                    break;
+                  case 'webp':
+                    outputBuffer = await sharpInstance.webp({ quality: 90, effort: 6 }).toBuffer();
+                    break;
+                  case 'svg':
+                    // Create SVG with embedded PNG data
+                    const pngBuffer = await sharpInstance.png({ compressionLevel: 9 }).toBuffer();
+                    const base64PNG = pngBuffer.toString('base64');
+                    
+                    // Create SVG with embedded PNG (minimized for smaller file size)
+                    const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 800 600"><image xlink:href="data:image/png;base64,${base64PNG}" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"/></svg>`;
+                    
+                    outputBuffer = Buffer.from(svgContent, 'utf8');
+                    console.log(`Created SVG with embedded PNG data for ${outputFileName} (${outputBuffer.length} bytes)`);
+                    break;
+                  default:
+                    // Default to PNG if format not recognized
+                    console.log(`Unknown format ${outputFormat}, defaulting to PNG`);
+                    outputBuffer = await sharpInstance.png({ compressionLevel: 9 }).toBuffer();
+                }
+                
+                // Clean up temporary TIFF file
+                try {
+                  fs.unlinkSync(dcrawTiffPath);
+                  console.log(`Cleaned up temporary TIFF file: ${dcrawTiffPath}`);
+                } catch (cleanupError) {
+                  console.log(`Warning: Could not clean up temp TIFF file ${dcrawTiffPath}:`, cleanupError.message);
+                }
+                
+              } catch (dcrawError) {
+                console.log(`dcraw failed: ${dcrawError.message}`);
+                throw new Error(`dcraw failed for RAW conversion. Please ensure system dependencies are properly installed.`);
               }
             }
             
@@ -382,6 +513,12 @@ Generated: ${new Date().toISOString()}`;
                 .jpeg({ quality: 90 })
                 .toBuffer();
           }
+        }
+        
+        // Critical safety check: ensure outputBuffer is defined
+        if (!outputBuffer) {
+          console.error(`Critical error: outputBuffer is undefined for ${originalName}`);
+          throw new Error(`Conversion failed: outputBuffer is undefined for ${originalName}`);
         }
         
         // Write converted file

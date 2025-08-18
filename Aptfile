@@ -1,12 +1,7 @@
+# ImageMagick and related libraries
 imagemagick
-libraw-bin
-libvips-dev
-libvips-tools
-dcraw
 libmagickwand-dev
 libmagickcore-dev
-libraw-dev
-libraw-tools
 libmagick++-dev
 libmagickcore-6.q16-dev
 libmagickwand-6.q16-dev
@@ -19,8 +14,17 @@ libmagickcore-6.q16-3-extra
 libmagickwand-6.q16-3
 libmagickcore-6.q16-3
 libmagick++-6.q16-3
-libraw-r
-libraw-tools
+
+# LibRaw for RAW image support
+libraw-bin
 libraw-dev
+libraw-tools
+libraw-r
+
+# dcraw for additional RAW support
 dcraw
 dcraw-bin
+
+# VIPS for high-performance image processing
+libvips-dev
+libvips-tools
