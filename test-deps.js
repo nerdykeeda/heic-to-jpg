@@ -29,7 +29,12 @@ try {
       const dcrawVersion3 = execSync('dcraw -h', { stdio: 'pipe' }).toString();
       console.log('✅ dcraw available (help output):', dcrawVersion3.split('\n')[0]);
     } catch (error3) {
-      console.log('❌ dcraw not available:', error3.message);
+      try {
+        const dcrawVersion4 = execSync('dcraw', { stdio: 'pipe' }).toString();
+        console.log('✅ dcraw available (usage output):', dcrawVersion4.split('\n')[0]);
+      } catch (error4) {
+        console.log('❌ dcraw not available:', error4.message);
+      }
     }
   }
 }
