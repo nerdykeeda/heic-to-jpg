@@ -1,48 +1,34 @@
-# Multi-stage build for better optimization
-FROM node:20-bullseye AS builder
+# Simple and reliable Dockerfile for Railway
+FROM node:20-bullseye
 
 # Set working directory
 WORKDIR /app
 
 # Install system dependencies for image processing
 RUN apt-get update && apt-get install -y \
-    # ImageMagick and related libraries
+    # ImageMagick (main package includes all needed libraries)
     imagemagick \
-    imagemagick-6.q16 \
-    libmagickwand-dev \
-    libmagickcore-dev \
-    libmagick++-dev \
-    libmagickcore-6.q16-dev \
-    libmagickwand-6.q16-dev \
-    libmagickcore-6.q16-6-extra \
-    libmagickwand-6.q16-6 \
-    libmagickcore-6.q16-6 \
-    libmagick++-6.q16-dev \
-    libmagick++-6.q16-8 \
-    libmagickcore-6.q16-3-extra \
-    libmagickwand-6.q16-3 \
-    libmagickcore-6.q16-3 \
-    libmagick++-6.q16-3 \
     # LibRaw for RAW image support
     libraw-bin \
-    libraw-dev \
     libraw-tools \
-    libraw-r \
     # dcraw for additional RAW support
     dcraw \
-    dcraw-bin \
     # VIPS for high-performance image processing
-    libvips-dev \
     libvips-tools \
-    # Additional dependencies for better compatibility
-    libjpeg-dev \
-    libpng-dev \
-    libtiff-dev \
-    libwebp-dev \
-    libheif-dev \
+    # Additional image format support
+    libjpeg-turbo-progs \
+    libpng-tools \
+    libtiff-tools \
+    webp \
     # Clean up package lists to reduce image size
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
+
+# Verify critical installations
+RUN echo "=== Verifying installations ===" && \
+    magick -version && \
+    dcraw -V && \
+    echo "=== All dependencies installed successfully ==="
 
 # Copy package files
 COPY package*.json ./
@@ -56,47 +42,14 @@ COPY . .
 # Build the application (CSS and JS)
 RUN npm run build
 
-# Production stage
-FROM node:20-bullseye AS production
-
-# Set working directory
-WORKDIR /app
-
-# Install only runtime system dependencies
-RUN apt-get update && apt-get install -y \
-    # ImageMagick runtime libraries
-    imagemagick \
-    libmagickwand-6.q16-6 \
-    libmagickcore-6.q16-6 \
-    libmagick++-6.q16-8 \
-    # LibRaw runtime libraries
-    libraw-bin \
-    libraw-tools \
-    # dcraw runtime
-    dcraw \
-    # VIPS runtime
-    libvips-tools \
-    # Clean up
-    && rm -rf /var/lib/apt/lists/* \
-    && apt-get clean
-
-# Copy package files
-COPY package*.json ./
-
-# Install only production dependencies
-RUN npm ci --only=production
-
-# Copy built application from builder stage
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/server.js ./
-COPY --from=builder /app/middleware ./middleware
-COPY --from=builder /app/jobs ./jobs
+# Remove dev dependencies to reduce image size
+RUN npm prune --production
 
 # Create necessary directories
-RUN mkdir -p uploads converted
+RUN mkdir -p uploads converted public
 
 # Set proper permissions
-RUN chmod 755 uploads converted
+RUN chmod 755 uploads converted public
 
 # Expose port
 EXPOSE 3000
