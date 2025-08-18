@@ -10,16 +10,10 @@ RUN apt-get update && apt-get install -y \
     imagemagick \
     # LibRaw for RAW image support
     libraw-bin \
-    libraw-tools \
     # dcraw for additional RAW support
     dcraw \
     # VIPS for high-performance image processing
     libvips-tools \
-    # Additional image format support
-    libjpeg-turbo-progs \
-    libpng-tools \
-    libtiff-tools \
-    webp \
     # Clean up package lists to reduce image size
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
