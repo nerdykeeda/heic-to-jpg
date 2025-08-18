@@ -39,8 +39,8 @@ RUN echo "=== Verifying installations ===" && \
 # Copy package files
 COPY package*.json ./
 
-# Install ALL dependencies (including dev dependencies for build)
-RUN npm ci
+# Install dependencies using npm install instead of npm ci for better compatibility
+RUN npm install
 
 # Copy application code
 COPY . .
