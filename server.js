@@ -16,6 +16,10 @@ const nodemailer = require('nodemailer');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Import middleware
+const redirectMiddleware = require('./middleware/redirects');
+const securityHeaders = require('./middleware/security');
+
 // Email configuration - using environment variables
 const emailUser = process.env.EMAIL_USER;
 const emailPass = process.env.EMAIL_PASS;
@@ -44,81 +48,11 @@ if (emailUser && emailPass) {
 app.use(express.static('public'));
 app.use(express.json()); // Add this line for parsing JSON requests
 
-// Security headers middleware
-app.use((req, res, next) => {
-  // Strict Transport Security (HSTS) - Force HTTPS
-  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-  
-  // Content Security Policy
-  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://kit.fontawesome.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com;");
-  
-  // X-Frame-Options - Prevent clickjacking
-  res.setHeader('X-Frame-Options', 'DENY');
-  
-  // X-Content-Type-Options - Prevent MIME type sniffing
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  
-  // Referrer Policy
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  
-  next();
-});
+// Use security headers middleware
+app.use(securityHeaders);
 
-// Canonicalization redirects - Handle URL variations and redirects
-app.use((req, res, next) => {
-  const host = req.get('host');
-  const protocol = req.protocol;
-  const url = req.url;
-  
-  // Force HTTPS (but not on localhost for development)
-  if (protocol === 'http' && !host.includes('localhost') && !host.includes('127.0.0.1')) {
-    return res.redirect(301, `https://${host}${url}`);
-  }
-  
-  // Force non-www (imgtojpg.org instead of www.imgtojpg.org) - but not on localhost
-  if (host.startsWith('www.') && !host.includes('localhost') && !host.includes('127.0.0.1')) {
-    const newHost = host.replace('www.', '');
-    return res.redirect(301, `https://${newHost}${url}`);
-  }
-  
-  // Handle .html extensions and clean URLs
-  if (url.endsWith('.html') && url !== '/index.html') {
-    const cleanUrl = url.replace('.html', '');
-    return res.redirect(301, cleanUrl);
-  }
-  
-  // Handle index.html redirects
-  if (url === '/index.html') {
-    return res.redirect(301, '/');
-  }
-  
-  // Handle common URL variations
-  const urlVariations = {
-    '/home': '/',
-    '/homepage': '/',
-    '/heic-to-jpg': '/heic-to-jpg.html',
-    '/png-to-jpg': '/png-to-jpg.html',
-    '/webp-to-jpg': '/webp-to-jpg.html',
-    '/tiff-to-jpg': '/tiff-to-jpg.html',
-    '/svg-to-jpg': '/svg-to-jpg.html',
-    '/camera-raw-converter': '/camera-raw-converter.html',
-    '/blog': '/blog.html',
-    '/about': '/about.html',
-    '/contact': '/contact.html',
-    '/help': '/help-center.html',
-    '/help-center': '/help-center.html',
-    '/privacy': '/privacy-policy.html',
-    '/privacy-policy': '/privacy-policy.html',
-    '/terms': '/terms-of-use.html',
-    '/terms-of-use': '/terms-of-use.html'
-  };
-  
-  if (urlVariations[url]) {
-    return res.redirect(301, urlVariations[url]);
-  }
-  
-  next();
-});
+// Use redirect middleware
+app.use(redirectMiddleware);
 
 // Admin authentication middleware
 const adminAuth = (req, res, next) => {
