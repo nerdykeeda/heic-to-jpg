@@ -1,5 +1,6 @@
 # ImageMagick and related libraries
 imagemagick
+imagemagick-6.q16
 libmagickwand-dev
 libmagickcore-dev
 libmagick++-dev
