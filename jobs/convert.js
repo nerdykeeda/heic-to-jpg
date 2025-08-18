@@ -342,11 +342,11 @@ const archiver = require('archiver');
               
               // Use different variable name for temporary file to avoid shadowing
               const tempOutputPath = path.join(sessionPath, `temp_${outputFileName}`);
-              const magickCommand = `magick "${inputPath}" -auto-orient -quality 100 "${tempOutputPath}"`;
-              console.log(`Executing ImageMagick command: ${magickCommand}`);
+              const convertCommand = `convert "${inputPath}" -auto-orient -quality 100 "${tempOutputPath}"`;
+              console.log(`Executing ImageMagick command: ${convertCommand}`);
               
               try {
-                execSync(magickCommand, { cwd: sessionPath, stdio: 'pipe' });
+                execSync(convertCommand, { cwd: sessionPath, stdio: 'pipe' });
                 
                 // Check if ImageMagick created the temporary output file
                 if (!fs.existsSync(tempOutputPath)) {
@@ -557,6 +557,8 @@ Generated: ${new Date().toISOString()}`;
           console.log(`🔍 RAW Debug: Final outputPath: ${outputPath}`);
           console.log(`🔍 RAW Debug: Session path exists: ${fs.existsSync(sessionPath)}`);
           console.log(`🔍 RAW Debug: Session path writable: ${fs.accessSync(sessionPath, fs.constants.W_OK) ? 'Yes' : 'No'}`);
+          console.log(`🔍 RAW Debug: outputBuffer type: ${typeof outputBuffer}`);
+          console.log(`🔍 RAW Debug: outputBuffer is Buffer: ${Buffer.isBuffer(outputBuffer)}`);
         }
         
         // Write converted file
