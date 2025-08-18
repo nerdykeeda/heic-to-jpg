@@ -54,6 +54,85 @@ app.use(securityHeaders);
 // Use redirect middleware
 app.use(redirectMiddleware);
 
+// Diagnostic endpoint to check Render environment
+app.get('/debug-env', (req, res) => {
+  try {
+    const { execSync } = require('child_process');
+    
+    const diagnostics = {
+      timestamp: new Date().toISOString(),
+      nodeEnv: process.env.NODE_ENV,
+      platform: process.platform,
+      arch: process.arch,
+      cwd: process.cwd(),
+      uid: process.getuid(),
+      gid: process.getgid()
+    };
+    
+    // Check system dependencies
+    const tools = ['magick', 'convert', 'dcraw'];
+    diagnostics.tools = {};
+    
+    for (const tool of tools) {
+      try {
+        const version = execSync(`${tool} -version`, { stdio: 'pipe', timeout: 5000 }).toString().split('\n')[0];
+        diagnostics.tools[tool] = { available: true, version };
+      } catch (error) {
+        try {
+          // Try alternative commands
+          if (tool === 'magick') {
+            const convertVersion = execSync('convert -version', { stdio: 'pipe', timeout: 5000 }).toString().split('\n')[0];
+            diagnostics.tools[tool] = { available: true, version: convertVersion, fallback: 'convert' };
+          } else {
+            diagnostics.tools[tool] = { available: false, error: error.message };
+          }
+        } catch (fallbackError) {
+          diagnostics.tools[tool] = { available: false, error: error.message };
+        }
+      }
+    }
+    
+    // Check file permissions
+    try {
+      const testDir = './debug-test';
+      if (!fs.existsSync(testDir)) {
+        fs.mkdirSync(testDir, { recursive: true });
+      }
+      
+      const testFile = path.join(testDir, 'test.txt');
+      fs.writeFileSync(testFile, 'test');
+      const stats = fs.statSync(testFile);
+      
+      diagnostics.fileSystem = {
+        writable: true,
+        permissions: stats.mode.toString(8),
+        uid: stats.uid,
+        gid: stats.gid
+      };
+      
+      // Cleanup
+      fs.unlinkSync(testFile);
+      fs.rmdirSync(testDir);
+    } catch (error) {
+      diagnostics.fileSystem = {
+        writable: false,
+        error: error.message
+      };
+    }
+    
+    res.json({
+      success: true,
+      diagnostics
+    });
+    
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 // Admin authentication middleware
 const adminAuth = (req, res, next) => {
   const adminToken = req.headers['admin-token'] || req.query.adminToken;
