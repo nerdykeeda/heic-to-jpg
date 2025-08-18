@@ -21,7 +21,17 @@ try {
   const dcrawVersion = execSync('dcraw -V', { stdio: 'pipe' }).toString();
   console.log('✅ dcraw available:', dcrawVersion.split('\n')[0]);
 } catch (error) {
-  console.log('❌ dcraw not available:', error.message);
+  try {
+    const dcrawVersion2 = execSync('dcraw --version', { stdio: 'pipe' }).toString();
+    console.log('✅ dcraw available:', dcrawVersion2.split('\n')[0]);
+  } catch (error2) {
+    try {
+      const dcrawVersion3 = execSync('dcraw -h', { stdio: 'pipe' }).toString();
+      console.log('✅ dcraw available (help output):', dcrawVersion3.split('\n')[0]);
+    } catch (error3) {
+      console.log('❌ dcraw not available:', error3.message);
+    }
+  }
 }
 
 // Test libraw
