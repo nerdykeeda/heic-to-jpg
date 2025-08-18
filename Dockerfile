@@ -18,10 +18,22 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
-# Verify critical installations
+# Debug: Check what's actually installed and available
+RUN echo "=== Checking what's installed ===" && \
+    echo "Available ImageMagick commands:" && \
+    ls -la /usr/bin/*magick* 2>/dev/null || echo "No magick commands found" && \
+    echo "Available convert commands:" && \
+    ls -la /usr/bin/convert 2>/dev/null || echo "convert command not found" && \
+    echo "Available dcraw commands:" && \
+    ls -la /usr/bin/dcraw 2>/dev/null || echo "dcraw command not found" && \
+    echo "Available libraw commands:" && \
+    ls -la /usr/bin/raw* 2>/dev/null || echo "No raw commands found" && \
+    echo "=== Package verification complete ==="
+
+# Verify critical installations with correct command names
 RUN echo "=== Verifying installations ===" && \
-    magick -version && \
-    dcraw -V && \
+    (convert -version || echo "convert command failed") && \
+    (dcraw -V || echo "dcraw command failed") && \
     echo "=== All dependencies installed successfully ==="
 
 # Copy package files

@@ -150,12 +150,12 @@ const archiver = require('archiver');
             const { execSync } = require('child_process');
             console.log('Checking system dependencies...');
             
-            // Test if magick command is available
+            // Test if ImageMagick commands are available
             try {
-              const magickVersion = execSync('magick -version', { stdio: 'pipe' }).toString();
-              console.log('ImageMagick available:', magickVersion.split('\n')[0]);
-            } catch (magickError) {
-              console.log('ImageMagick not available:', magickError.message);
+              const convertVersion = execSync('convert -version', { stdio: 'pipe' }).toString();
+              console.log('ImageMagick (convert) available:', convertVersion.split('\n')[0]);
+            } catch (convertError) {
+              console.log('ImageMagick (convert) not available:', convertError.message);
             }
             
             // Test if dcraw command is available
@@ -195,11 +195,11 @@ const archiver = require('archiver');
               
               // Use different variable name for temporary file to avoid shadowing
               const tempOutputPath = path.join(sessionPath, `temp_${outputFileName}`);
-              const magickCommand = `magick "${inputPath}" -auto-orient -quality 90 "${tempOutputPath}"`;
-              console.log(`Executing ImageMagick command: ${magickCommand}`);
+              const convertCommand = `convert "${inputPath}" -auto-orient -quality 90 "${tempOutputPath}"`;
+              console.log(`Executing ImageMagick command: ${convertCommand}`);
               
               try {
-                execSync(magickCommand, { cwd: sessionPath, stdio: 'pipe' });
+                execSync(convertCommand, { cwd: sessionPath, stdio: 'pipe' });
                 
                 // Check if ImageMagick created the temporary output file
                 if (!fs.existsSync(tempOutputPath)) {
@@ -218,13 +218,13 @@ const archiver = require('archiver');
                 }
                 
               } catch (magickError) {
-                console.log(`magick command failed, trying convert command: ${magickError.message}`);
+                console.log(`convert command failed, trying dcraw fallback: ${magickError.message}`);
                 
-                // Try convert command as fallback
+                // Try dcraw fallback
                 try {
-                  const convertCommand = `convert "${inputPath}" -auto-orient -quality 90 "${tempOutputPath}"`;
-                  console.log(`Trying convert command: ${convertCommand}`);
-                  execSync(convertCommand, { cwd: sessionPath, stdio: 'pipe' });
+                  const dcrawCommand = `dcraw -v -w -T "${inputPath}"`;
+                  console.log(`Trying dcraw fallback: ${dcrawCommand}`);
+                  execSync(dcrawCommand, { cwd: sessionPath, stdio: 'pipe' });
                   
                   // Check if convert created the temporary output file
                   if (!fs.existsSync(tempOutputPath)) {
@@ -289,11 +289,11 @@ const archiver = require('archiver');
               
               // Use different variable name for temporary file to avoid shadowing
               const tempOutputPath = path.join(sessionPath, `temp_${outputFileName}`);
-              const magickCommand = `magick "${inputPath}" -quality 100 "${tempOutputPath}"`;
-              console.log(`Executing ImageMagick command: ${magickCommand}`);
+              const convertCommand = `convert "${inputPath}" -quality 100 "${tempOutputPath}"`;
+              console.log(`Executing ImageMagick command: ${convertCommand}`);
               
               try {
-                execSync(magickCommand, { cwd: sessionPath, stdio: 'pipe' });
+                execSync(convertCommand, { cwd: sessionPath, stdio: 'pipe' });
                 
                 // Check if ImageMagick created the temporary output file
                 if (!fs.existsSync(tempOutputPath)) {
