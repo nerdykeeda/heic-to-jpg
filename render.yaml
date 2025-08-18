@@ -14,8 +14,9 @@ services:
       # Install Node.js dependencies
       npm ci --only=production
       
-      # Build CSS
+      # Build CSS and JavaScript for production
       npm run build:css:prod
+      npm run build:js:individual
     startCommand: npm start
     envVars:
       - key: NODE_ENV

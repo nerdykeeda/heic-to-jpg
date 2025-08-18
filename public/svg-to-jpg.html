@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SVG to JPG Converter - Convert Vector Images Online</title>
-  <meta name="description" content="Convert SVG vector images to JPG format online. Free SVG to JPG converter with batch processing. Better than iLovePDF for vector conversion. Perfect for logos, icons, and web graphics. Professional quality conversion trusted by millions of users worldwide.">
+  <meta name="description" content="Convert SVG vector images to JPG format online. Free SVG to JPG converter with batch processing. Perfect for logos, icons, and web graphics.">
   <meta name="keywords" content="SVG to JPG, SVG converter, SVG to JPEG, convert SVG files, free SVG converter, online SVG converter, vector image converter, web optimization, logo converter, icon converter, SVG to JPG online, free image converter">
   <meta name="author" content="Vinod Kumar">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -59,7 +59,18 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
   
   <link href="/style.css?v=1.0.7" rel="stylesheet">
-  <script src="/analytics-tracker.js"></script>
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VJZQ84RXVL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-VJZQ84RXVL');
+  </script>
+  
+  <script src="/analytics-tracker.min.js"></script>
   <style>
     /* Additional custom styles that can't be handled by Tailwind */
     .loading-dots::after {
@@ -356,7 +367,7 @@
             <span id="progress-text" class="text-sm text-gray-500">0%</span>
           </div>
           <div class="w-full bg-gray-200 rounded-full h-2">
-            <div id="progress-bar" class="bg-adobe-blue h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            <div id="progress-bar" class="bg-adobe-blue h-2 rounded-full transition-all duration-300 progress-bar-converter"></div>
           </div>
         </div>
 
@@ -496,7 +507,7 @@
     </div>
   </footer>
 
-  <script src="/script.js"></script>
+  <script src="/script.min.js"></script>
   <script>
     // SVG to JPG specific functionality
     document.addEventListener('DOMContentLoaded', function() {

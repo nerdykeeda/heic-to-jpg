@@ -44,6 +44,62 @@ if (emailUser && emailPass) {
 app.use(express.static('public'));
 app.use(express.json()); // Add this line for parsing JSON requests
 
+// Canonicalization redirects - Handle URL variations and redirects
+app.use((req, res, next) => {
+  const host = req.get('host');
+  const protocol = req.protocol;
+  const url = req.url;
+  
+  // Force HTTPS
+  if (protocol === 'http') {
+    return res.redirect(301, `https://${host}${url}`);
+  }
+  
+  // Force non-www (imgtojpg.org instead of www.imgtojpg.org)
+  if (host.startsWith('www.')) {
+    const newHost = host.replace('www.', '');
+    return res.redirect(301, `https://${newHost}${url}`);
+  }
+  
+  // Handle .html extensions and clean URLs
+  if (url.endsWith('.html') && url !== '/index.html') {
+    const cleanUrl = url.replace('.html', '');
+    return res.redirect(301, cleanUrl);
+  }
+  
+  // Handle index.html redirects
+  if (url === '/index.html') {
+    return res.redirect(301, '/');
+  }
+  
+  // Handle common URL variations
+  const urlVariations = {
+    '/home': '/',
+    '/homepage': '/',
+    '/heic-to-jpg': '/heic-to-jpg.html',
+    '/png-to-jpg': '/png-to-jpg.html',
+    '/webp-to-jpg': '/webp-to-jpg.html',
+    '/tiff-to-jpg': '/tiff-to-jpg.html',
+    '/svg-to-jpg': '/svg-to-jpg.html',
+    '/camera-raw-converter': '/camera-raw-converter.html',
+    '/blog': '/blog.html',
+    '/about': '/about.html',
+    '/contact': '/contact.html',
+    '/help': '/help-center.html',
+    '/help-center': '/help-center.html',
+    '/privacy': '/privacy-policy.html',
+    '/privacy-policy': '/privacy-policy.html',
+    '/terms': '/terms-of-use.html',
+    '/terms-of-use': '/terms-of-use.html'
+  };
+  
+  if (urlVariations[url]) {
+    return res.redirect(301, urlVariations[url]);
+  }
+  
+  next();
+});
+
 // Admin authentication middleware
 const adminAuth = (req, res, next) => {
   const adminToken = req.headers['admin-token'] || req.query.adminToken;
@@ -471,6 +527,17 @@ setInterval(() => {
     });
   });
 }, CLEANUP_INTERVAL);
+
+// 404 Error Handler - Must be placed after all other routes
+app.use((req, res) => {
+  // Log 404 errors for debugging
+  console.log(`404 Error - Page not found: ${req.method} ${req.url}`);
+  console.log(`Referrer: ${req.get('Referrer') || 'Direct access'}`);
+  console.log(`User Agent: ${req.get('User-Agent')}`);
+  
+  // Serve custom 404 page
+  res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+});
 
 app.listen(port, () => {
   console.log(`🚀 Server running at http://localhost:${port}`);

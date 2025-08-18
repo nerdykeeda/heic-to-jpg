@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HEIC to JPG Converter - Free iPhone Photo Converter</title>
-  <meta name="description" content="Free HEIC to JPG converter. Convert iPhone HEIC photos to JPG format online. Fast, secure, no registration required. Perfect for iPhone users, social media sharing, and email attachments. Support for iOS 11+ devices. Professional quality conversion trusted by millions of users worldwide.">
+  <meta name="description" content="Free HEIC to JPG converter. Convert iPhone HEIC photos to JPG format online. Fast, secure, no registration required. Perfect for iPhone users and social media.">
   <meta name="keywords" content="HEIC to JPG, iPhone photo converter, HEIC converter, HEIC to JPEG, convert HEIC files, free HEIC converter, online HEIC converter, iPhone photo format, iOS photo converter, HEIC to JPG online, free image converter">
   <meta name="author" content="Vinod Kumar">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -59,7 +59,18 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
   
   <link href="/style.css?v=1.0.7" rel="stylesheet">
-  <script src="/analytics-tracker.js"></script>
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VJZQ84RXVL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-VJZQ84RXVL');
+  </script>
+  
+  <script src="/analytics-tracker.min.js"></script>
   <style>
     /* Additional custom styles that can't be handled by Tailwind */
     .loading-dots::after {
@@ -420,7 +431,7 @@
         <div class="adobe-card p-6">
           <p id="statusText" class="text-blue-700 font-medium mb-4 text-center"></p>
           <div class="w-full bg-blue-100 rounded-full h-3">
-            <div id="progressBar" class="bg-blue-500 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            <div id="progressBar" class="bg-blue-500 h-3 rounded-full transition-all duration-300 progress-bar-converter"></div>
           </div>
         </div>
       </div>

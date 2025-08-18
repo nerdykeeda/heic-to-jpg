@@ -39,6 +39,10 @@ Disallow: /.DS_Store
 # Sitemap location
 Sitemap: https://imgtojpg.org/sitemap.xml
 
+# Canonical URLs - Help search engines understand preferred URLs
+# Primary domain: https://imgtojpg.org
+# Avoid: www.imgtojpg.org, http://imgtojpg.org
+
 # Crawl delay to prevent overwhelming the server
 Crawl-delay: 1
 

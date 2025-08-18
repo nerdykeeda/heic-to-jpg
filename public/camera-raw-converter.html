@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RAW to JPG Converter - Convert Camera RAW Photos Online</title>
-  <meta name="description" content="Convert RAW photos from Canon, Nikon, Sony cameras to JPG, TIFF, PSD. Free online RAW converter with professional quality. Support for CR2, CR3, NEF, ARW, RAF formats. Batch processing up to 10 files, 500MB limit. Professional RAW converter trusted by photographers worldwide.">
+  <meta name="description" content="Convert RAW photos from Canon, Nikon, Sony cameras to JPG, TIFF, PSD. Free online RAW converter with professional quality and batch processing.">
   <meta name="keywords" content="RAW converter, camera RAW converter, CR2 to JPG, CR3 to JPG, NEF to JPG, ARW to JPG, RAF to JPG, ORF to JPG, PEF to JPG, RW2 to JPG, 3FR to JPG, IIQ to JPG, RAW to TIFF, RAW to PSD, professional photo converter, free RAW converter, online RAW converter, camera RAW to JPG, RAW photo converter, digital camera converter">
   <meta name="author" content="Vinod Kumar">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -59,7 +59,18 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
   
   <link href="/style.css?v=1.0.7" rel="stylesheet">
-  <script src="/analytics-tracker.js"></script>
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VJZQ84RXVL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-VJZQ84RXVL');
+  </script>
+  
+  <script src="/analytics-tracker.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <style>
     .loading-dots::after {
@@ -561,7 +572,7 @@
         <div class="adobe-card p-6">
           <p id="statusText" class="text-blue-700 font-medium mb-4 text-center"></p>
           <div class="w-full bg-blue-100 rounded-full h-3">
-            <div id="progressBar" class="bg-blue-500 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            <div id="progressBar" class="bg-blue-500 h-3 rounded-full transition-all duration-300 progress-bar-converter"></div>
           </div>
         </div>
       </div>

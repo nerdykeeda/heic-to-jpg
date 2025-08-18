@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Free Image Converter - HEIC to JPG, PNG to JPG Online</title>
-  <meta name="description" content="Free online image converter available worldwide. Convert HEIC, PNG, WebP, TIFF, SVG & RAW to JPG online. Global service with batch processing, no registration required. Access from anywhere, anytime. Professional quality conversion trusted by millions of users worldwide.">
+  <meta name="description" content="Free online image converter. Convert HEIC, PNG, WebP, TIFF, SVG & RAW to JPG online. Global service with batch processing, no registration required.">
   <meta name="keywords" content="online image converter, global image converter, worldwide image converter, image converter online, HEIC to JPG, PNG to JPG, WebP to JPG, TIFF to JPG, SVG to JPG, RAW converter, camera raw, image format converter, free image converter, online converter, iPhone photo converter, web optimization, batch image processing, international image converter">
   <meta name="author" content="Vinod Kumar">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
@@ -48,6 +48,10 @@
   <link rel="alternate" hreflang="en-AU" href="https://imgtojpg.org/" />
   <link rel="alternate" hreflang="x-default" href="https://imgtojpg.org/" />
   
+  <!-- Additional canonical variations -->
+  <link rel="canonical" href="https://imgtojpg.org/index.html" />
+  <link rel="canonical" href="https://imgtojpg.org/home" />
+  
   <!-- Preconnect to external domains for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,7 +62,17 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
   <link href="/style.css?v=1.0.7" rel="stylesheet">
-  <script src="/analytics-tracker.js"></script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VJZQ84RXVL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-VJZQ84RXVL');
+  </script>
+  
+  <script src="/analytics-tracker.min.js"></script>
   <style>
     /* Additional custom styles that can't be handled by Tailwind */
     .loading-dots::after {
@@ -1071,7 +1085,7 @@
         <div class="adobe-card p-6">
           <p id="statusText" class="text-blue-700 font-medium mb-4 text-center"></p>
           <div class="w-full bg-blue-100 rounded-full h-3">
-            <div id="progressBar" class="bg-blue-500 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                            <div id="progressBar" class="bg-blue-500 h-3 rounded-full transition-all duration-300 progress-bar-converter"></div>
           </div>
         </div>
       </div>
@@ -1554,7 +1568,7 @@
   </footer>
 
   <!-- JavaScript for interactive features -->
-  <script src="/footer-updater.js"></script>
+  <script src="/footer-updater.min.js"></script>
   <script>
     // Image conversion functionality
     const form = document.getElementById('uploadForm');
