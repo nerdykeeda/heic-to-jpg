@@ -45,6 +45,9 @@ RUN npm install
 # Copy application code
 COPY . .
 
+# Build the application (CSS and JS) - this is needed for the app to work
+RUN npm run build
+
 # Create necessary directories
 RUN mkdir -p uploads converted public
 

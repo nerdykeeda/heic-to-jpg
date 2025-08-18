@@ -16,6 +16,7 @@
     "minify:footer": "npx uglify-js public/footer-updater.js -o public/footer-updater.min.js --compress --mangle",
     "minify:blog-manager": "npx uglify-js public/blog-manager.js -o public/blog-manager.min.js --compress --mangle",
     "build": "npm run build:css:prod && npm run build:js:individual",
+    "postinstall": "npm run build || echo 'Build failed, continuing...'",
     "test-deps": "node test-deps.js"
   },
   "dependencies": {
