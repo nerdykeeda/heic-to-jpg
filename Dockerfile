@@ -45,12 +45,6 @@ RUN npm ci
 # Copy application code
 COPY . .
 
-# Build the application (CSS and JS)
-RUN npm run build
-
-# Remove dev dependencies to reduce image size
-RUN npm prune --production
-
 # Create necessary directories
 RUN mkdir -p uploads converted public
 
